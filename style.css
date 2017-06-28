@@ -5,3 +5,39 @@ Author URI: http://www.wpjake.com
 Description: 나의 첫 테마입니다!!!
 Version: 1.0.0
 */
+body{
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+p{
+  line-height: 1.65em;
+}
+a{
+  color: #006ec3;
+}
+
+/* 일반 레이아웃 */
+div.container{
+  max-width: 920px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+article.post{
+  border-bottom: 2px dotted #bbb;
+}
+article.post:last-of-type{
+  border-bottom: 0;
+}
+
+/* 헤더 */
+.site-header{
+  border-bottom: 2px solid #999;
+}
+
+/* 푸터 */
+.site-footer{
+  margin-top: 30px;
+  border-top: 2px solid #999;
+}
