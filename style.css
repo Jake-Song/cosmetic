@@ -15,6 +15,7 @@ p{
 }
 a{
   color: #006ec3;
+  text-decoration: none;
 }
 
 /* 일반 레이아웃 */
@@ -40,4 +41,50 @@ article.post:last-of-type{
 .site-footer{
   margin-top: 30px;
   border-top: 2px solid #999;
+}
+
+/* 메뉴 */
+.site-nav ul{
+  margin: 0;
+  padding: 0;
+}
+.site-nav ul li{
+  float: left;
+  list-style: none;
+}
+.site-nav ul::before, .site-nav ul::after{
+  content: '';
+  display: table;
+}
+.site-nav ul:after{
+  clear: both;
+}
+
+/* 주 메뉴 */
+.site-header nav ul li{
+  margin-right: 5px;
+}
+.site-header nav ul li a{
+  display: block;
+  padding: 10px 18px;
+  border: 1px solid #bbb;
+  border-bottom: 0;
+  text-decoration: none;
+}
+.site-header nav ul li a:hover{
+  background-color: #ececec;
+}
+.site-header nav ul li.current-menu-item a{
+  background-color: #006ec3;
+  color: white;
+}
+
+/* 하단 메뉴*/
+.site-footer nav ul li{
+  margin-right: 10px;
+  padding-right: 10px;
+  border-right: 1px dotted #bbb;
+}
+.site-footer nav ul li:last-of-type{
+  border-right: 0;
 }
