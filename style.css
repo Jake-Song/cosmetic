@@ -162,3 +162,16 @@ article.page h2{
 .info-box p{
   font-size: 0.75rem;
 }
+
+/* 포스트 */
+.post h2{
+  margin-bottom: 0;
+}
+p.post-info{
+  font-size: 0.8rem;
+  color: #808080;
+}
+p.post-info a{
+  color: #808080;
+  border-bottom: 1px solid #808080;
+}
