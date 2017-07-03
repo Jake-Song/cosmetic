@@ -34,7 +34,10 @@ a{
   color: #006ec3;
   text-decoration: none;
 }
-
+img{
+  max-width: 100%;
+  height: auto;
+}
 /* 일반 레이아웃 */
 div.container{
   max-width: 920px;
@@ -175,7 +178,7 @@ p.post-info a{
   color: #808080;
   border-bottom: 1px solid #808080;
 }
-img.attachment-custom, img.not-found{
+div.post-image{
   float: left;
   margin-top: 20px;
   margin-right: 20px;
@@ -186,4 +189,38 @@ img.not-found{
 }
 article.post{
   padding-bottom: 20px;
+}
+
+/* 싱글 포스트 */
+div.single-post-image{
+  margin-top: 20px;
+}
+div.single-post-image img.not-found{
+  width: 440px;
+  height: auto;
+}
+.author-name{
+  margin-bottom: 20px;
+}
+.author-name h2{
+  display: inline-block;
+  width: 29%;
+}
+.sep-double{
+  display: inline-block;
+  width: 70%;
+  height: 6px;
+  border-top: 1px solid #e0dede;
+  border-bottom: 1px solid #e0dede;
+}
+.avatar{
+  float: left;
+  margin: 0 20px 20px 0;
+}
+.description{
+  line-height: 1.65em;
+  color: #747474;
+}
+.site-footer{
+  clear: both;
 }

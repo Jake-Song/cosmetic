@@ -5,17 +5,17 @@
 
               <article class="post clearfix">
 
-                  <div class="post-image">
+                  <div class="single-post-image">
 
                       <?php if( has_post_thumbnail() ) : ?>
-                          <?php the_post_thumbnail( 'custom' ); ?>
+                          <?php the_post_thumbnail( 'single' ); ?>
                       <?php else : ?>
-                          <img class="not-found" src="./wp-content/uploads/2017/07/image-not-found.png" alt="">
+                          <img class="not-found" src="../wp-content/uploads/2017/07/image-not-found.png" alt="">
                       <?php endif; ?>
 
                   </div>
 
-                  <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                  <h2><?php the_title(); ?></h2>
 
                   <p class="post-info"><?php the_time('Y년 n월 j일 a g:i'); ?> | 글쓴이
                     <a href="<?php echo get_author_posts_url( get_the_author_meta('ID') ); ?>"><?php the_author(); ?></a> | 카테고리
@@ -34,8 +34,23 @@
                      ?>
                   </p>
 
-                  <?php the_excerpt(); ?>
+                  <?php the_content(); ?>
               </article>
+
+              <div class="author-info">
+                  <div class="author-name">
+                      <h2>About the Author: <?php the_author_meta( 'display_name' ); ?></h2><div class="sep-double"></div>
+                  </div>
+                  <div class="author-desc">
+                      <div class="avatar">
+                          <?php echo get_avatar( get_the_author_meta( 'ID' ) ); ?>
+                      </div>
+                      <div class="description">
+                          <?php echo wpautop( the_author_meta( 'description' ) ); ?>
+                      </div>
+                  </div>
+              </div>
+
     <?php endwhile;
       else :
           echo '포스트가 존재하지 않습니다.';

@@ -26,6 +26,6 @@ function my_theme_setup(){
     // 포스트 썸네일 등록하기
     add_theme_support( 'post-thumbnails' );
     add_image_size( 'custom', 320, 200, true );
-
+    add_image_size( 'single', 880, 400, true );
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
