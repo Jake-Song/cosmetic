@@ -19,3 +19,13 @@ function get_top_parent_id(){
     }
     return $post->ID;
 }
+
+// 테마 셋업
+function my_theme_setup(){
+
+    // 포스트 썸네일 등록하기
+    add_theme_support( 'post-thumbnails' );
+    add_image_size( 'custom', 320, 200, true );
+
+}
+add_action( 'after_setup_theme', 'my_theme_setup' );

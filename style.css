@@ -175,3 +175,15 @@ p.post-info a{
   color: #808080;
   border-bottom: 1px solid #808080;
 }
+img.attachment-custom, img.not-found{
+  float: left;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+img.not-found{
+  width: 320px;
+  height: 200px;
+}
+article.post{
+  padding-bottom: 20px;
+}

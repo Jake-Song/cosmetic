@@ -2,7 +2,14 @@
     <?php
       if(have_posts()) :
           while(have_posts()) : the_post(); ?>
-              <article class="post">
+
+              <article class="post clearfix">
+                  <?php if( has_post_thumbnail() ) : ?>
+                      <?php the_post_thumbnail( 'custom' ); ?>
+                  <?php else : ?>
+                      <img class="not-found" src="./wp-content/uploads/2017/07/image-not-found.png" alt="">
+                  <?php endif; ?>
+
                   <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
                   <p class="post-info"><?php the_time('Y년 n월 j일 a g:i'); ?> | 글쓴이
@@ -22,7 +29,7 @@
                      ?>
                   </p>
 
-                  <?php the_content(); ?>
+                  <?php the_excerpt(); ?>
               </article>
     <?php endwhile;
       else :
