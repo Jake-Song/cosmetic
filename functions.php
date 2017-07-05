@@ -1,6 +1,9 @@
 <?php
 function dev_enqueue_scripts(){
     wp_enqueue_style( 'style', get_stylesheet_uri() );
+    wp_enqueue_style( 'bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css' );
+    wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), true );
+    wp_enqueue_script( 'custom', get_template_directory_uri() . '/js/custom.js', array('jquery') );
 }
 add_action('wp_enqueue_scripts', 'dev_enqueue_scripts');
 
@@ -29,3 +32,6 @@ function my_theme_setup(){
     add_image_size( 'single', 880, 400, true );
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
+
+// 부트스트랩 메뉴 적용
+require_once('wp_bootstrap_navwalker.php');

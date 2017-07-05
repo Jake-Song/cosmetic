@@ -7,7 +7,8 @@ Version: 1.0.0
 */
 
 /* 폰트 */
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-js.css);
 
 /* Clearfix */
 .clearfix::before, .clearfix::after{
@@ -19,96 +20,124 @@ Version: 1.0.0
 }
 
 /* 전역 설정 */
-*{
-  box-sizing: border-box;
+html{
+  font-size: 14px !important;
 }
 body{
-  font-family: "Nanum Gothic", sans-serif;
-  font-size: 14px;
-  color: #333;
+  font-family: "Spoqa Han Sans", "Spoqa Han Sans JP", 'Sans-serif' !important;
+  letter-spacing: -1px;
 }
 p{
+  letter-spacing: 0px;
   line-height: 1.65em;
 }
 a{
   color: #006ec3;
   text-decoration: none;
 }
+a:hover, a:focus{
+  text-decoration: none !important;
+}
 img{
   max-width: 100%;
   height: auto;
 }
+
+/* 아이콘 */
+.glyphicon-home{
+  color: #ffbc00;
+}
+
 /* 일반 레이아웃 */
 div.container{
-  max-width: 920px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0;
+  width: 100%;
+
 }
 article.post{
   border-bottom: 2px dotted #bbb;
+  padding: 0 20px;
 }
 article.post:last-of-type{
   border-bottom: 0;
 }
 
 /* 헤더 */
+.site-header img{
+  width: 100%;
+  height: 500px;
+}
+/* 헤더 메뉴 */
 .site-header{
-  border-bottom: 2px solid #999;
+  position: relative;
+}
+.site-header nav{
+    position: absolute;
+    top: 5%;
+    width: 100%;
+    background-color: rgba(255,255,255,0.01);
+    padding-left: 25px;
+}
+.site-header .navbar-default{
+  border: 0;
+}
+.site-header .navbar-brand{
+  padding: 15px 0px 15px 30px;
+}
+.site-header nav ul li{
+  padding: 15px 0;
+}
+.site-header .navbar-default .navbar-nav > li > a{
+  position: relative;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 400;
+  padding: 0 75px;
+  border-right: 1px solid #999;
+}
+.site-header .navbar-default .navbar-nav > li > a::before{
+  content: "";
+  position: absolute;
+  width: 64px;
+  height: 5px;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX( -50% );
+  box-shadow: inset 0 0 0 0 #ffbc00;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+.site-header .navbar-default .navbar-nav > li > a:hover::before{
+  box-shadow: inset 64px 0 0 #ffbc00;
 }
 
+.site-header .navbar-default .navbar-nav > li > a:hover{
+  color: white;
+}
+.site-header nav ul li:last-of-type a{
+  border-right: 0;
+}
 /* 푸터 */
 .site-footer{
   margin-top: 30px;
   border-top: 2px solid #999;
 }
-
-/* 메뉴 */
-.site-nav ul{
-  margin: 0;
+.site-footer .site-nav ul{
   padding: 0;
 }
-.site-nav ul li{
-  float: left;
+.site-footer .site-nav ul li{
   list-style: none;
+  float: left;
+  padding-right: 5px;
+  margin: 5px 5px 5px 0;
+  border-right: 1px dotted #999;
 }
-.site-nav ul::before, .site-nav ul::after{
-  content: '';
-  display: table;
-}
-.site-nav ul:after{
-  clear: both;
-}
-
-/* 헤더 메뉴 */
-.site-header nav ul li{
-  margin-right: 5px;
-}
-.site-header nav ul li a{
-  display: block;
-  padding: 10px 18px;
-  border: 1px solid #bbb;
-  border-bottom: 0;
-  text-decoration: none;
-}
-.site-header nav ul li a:hover{
-  background-color: #ececec;
-}
-.site-header nav ul li.current-menu-item a{
-  background-color: #006ec3;
-  color: white;
-}
-
-/* 하단 메뉴*/
-.site-footer nav ul li{
-  margin-right: 10px;
-  padding-right: 10px;
-  border-right: 1px dotted #bbb;
-}
-.site-footer nav ul li:last-of-type{
+.site-footer .site-nav ul li:last-of-type{
   border-right: 0;
 }
-
+.site-footer p{
+  clear: both;
+}
 /* 페이지 */
 article.page h2{
   font-size: 2rem;
@@ -118,10 +147,10 @@ article.page h2{
 }
 
 /* 페이지 서브 메뉴 */
-.site-nav.sub-nav{
+.site-nav.sub-nav ul{
   display: table;
   width: 100%;
-  margin: 0;
+  padding: 0;
 }
 .site-nav.sub-nav ul li{
   display: table-cell;
@@ -150,8 +179,8 @@ article.page h2{
   background-color: #FDD043;
 }
 .site-header nav ul li.current-page-ancestor a{
-  background-color: #006ec3;
-  color: white;
+  color: #555;
+  background-color: #e7e7e7;
 }
 
 /* 푸터 페이지 */
@@ -168,7 +197,7 @@ article.page h2{
 
 /* 포스트 */
 .post h2{
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 p.post-info{
   font-size: 0.8rem;
@@ -205,6 +234,8 @@ div.single-post-image img.not-found{
 .author-name h2{
   display: inline-block;
   width: 29%;
+  font-size: 1.7rem;
+  font-weight: 300;
 }
 .sep-double{
   display: inline-block;
