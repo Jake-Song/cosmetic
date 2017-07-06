@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> class="my-theme">
     <head>
         <meta name="viewport" content="width=device-width">
         <meta charset="<?php bloginfo('charset'); ?>">
