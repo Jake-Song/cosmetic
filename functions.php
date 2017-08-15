@@ -99,37 +99,44 @@ add_action( 'init', 'cosmetic_register_post_type' );
 
 // 화장품 카테고리 등록하기
 function cosmetic_register_taxonomy(){
-  $name = 'Category';
+  $names = [
+    '상품 카테고리' => 'cosmetic category',
+    '브랜드명' => 'cosmetic brand',
+  ];
 
-  $slug = str_replace( ' ', '_', strtolower( $name ) );
-  $labels = array(
-    'name' => $name,
-    'name_name' => $name,
-    'search_items' => 'Search ' . $name,
-    'popular_items' => 'Popular ' . $name,
-    'all_items' => 'All ' . $name,
-    'parent_item' => null,
-    'parent_item_colon' => null,
-    'edit_item' => 'Edit ' . $name,
-    'update_item' => 'Update ' . $name,
-    'add_new_item' => 'Add New ' . $name,
-    'new_item_name' => 'New ' . $name . ' Name',
-    'separate_items_with_commas' => 'Separate ' . $name . ' with commas',
-    'add_or_remove_items' => 'Add or remove ' . $name,
-    'choose_from_most_used' => 'Choose from the most used ' . $name,
-    'not_found' => 'No ' . $name . ' found.',
-    'menu_name' => $name,
-  );
-  $args = array(
-    'hierarchical' => true,
-    'labels' => $labels,
-    'show_ui' => true,
-    'show_admin_column' => true,
-    'update_count_callback' => '_update_post_term_count',
-    'query_var' => true,
-    'rewrite' => array( 'slug' => $slug ),
-  );
-  register_taxonomy( $slug, 'cosmetic', $args );
+  foreach ($names as $name=>$slug_name) :
+
+      $slug = str_replace( ' ', '_', strtolower( $slug_name ) );
+      $labels = array(
+        'name' => $name,
+        'name_name' => $name,
+        'search_items' => 'Search ' . $name,
+        'popular_items' => 'Popular ' . $name,
+        'all_items' => 'All ' . $name,
+        'parent_item' => null,
+        'parent_item_colon' => null,
+        'edit_item' => 'Edit ' . $name,
+        'update_item' => 'Update ' . $name,
+        'add_new_item' => 'Add New ' . $name,
+        'new_item_name' => 'New ' . $name . ' Name',
+        'separate_items_with_commas' => 'Separate ' . $name . ' with commas',
+        'add_or_remove_items' => 'Add or remove ' . $name,
+        'choose_from_most_used' => 'Choose from the most used ' . $name,
+        'not_found' => 'No ' . $name . ' found.',
+        'menu_name' => $name,
+      );
+      $args = array(
+        'hierarchical' => true,
+        'labels' => $labels,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'update_count_callback' => '_update_post_term_count',
+        'query_var' => true,
+        'rewrite' => array( 'slug' => $slug ),
+      );
+      register_taxonomy( $slug, 'cosmetic', $args );
+
+  endforeach;
 }
 add_action( 'init', 'cosmetic_register_taxonomy' );
 
@@ -184,6 +191,13 @@ function product_ranking_order_content( $post ){
 }
 
 function product_rank_box_save( $post_id ){
+  $test = 0;
+  $post_type = get_post_type( $post_id );
+
+  if( $post_type !== 'cosmetic' ) return;
+
+  if( !isset( $_POST['post_author'] ) ) return;
+
   if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
   return;
 
@@ -198,10 +212,10 @@ function product_rank_box_save( $post_id ){
     return;
   }
 
-  $product_ranking_order = $_POST['product_ranking_order'];
-  $product_featured = $_POST['product_featured'];
-  $product_featured_order = $_POST['product_featured_order'];
-  $product_price = $_POST['product_price'];
+  $product_ranking_order = (!empty($_POST['product_ranking_order'])) ? $_POST['product_ranking_order'] : '';
+  $product_featured = (!empty($_POST['product_featured'])) ? $_POST['product_featured'] : '';
+  $product_featured_order = (!empty($_POST['product_featured_order'])) ? $_POST['product_featured_order'] : '';
+  $product_price = (!empty($_POST['product_price'])) ? $_POST['product_price'] : '';
 
   update_post_meta( $post_id, 'product_ranking_order', $product_ranking_order );
   update_post_meta( $post_id, 'product_featured', $product_featured );
