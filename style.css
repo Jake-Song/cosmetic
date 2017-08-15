@@ -1,14 +1,13 @@
 /*
-Theme Name: My Theme
+Theme Name: Cosmetic
 Author: Jake Song
 Author URI: http://www.wpjake.com
-Description: 나의 첫 테마입니다!!!
+Description: Client - Cosmetic
 Version: 1.0.0
 */
 
 /* 폰트 */
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-js.css);
 
 /* Clearfix */
 .clearfix::before, .clearfix::after{
@@ -74,14 +73,12 @@ article.post:last-of-type{
   position: relative;
 }
 .site-header nav{
-    position: absolute;
-    top: 5%;
+    position: relative;
     width: 100%;
     background-color: rgba(255,255,255,0.01);
     padding-left: 25px;
     border: 0;
 }
-
 .site-header .navbar-brand{
   padding: 15px 0px 15px 30px;
 }
@@ -91,7 +88,7 @@ article.post:last-of-type{
 .site-header .navbar-default .navbar-nav > li > a{
   position: relative;
   font-size: 1.2rem;
-  color: white;
+  color: #333;
   font-weight: 400;
   padding: 0 75px;
   border-right: 1px solid #999;

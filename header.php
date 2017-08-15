@@ -11,6 +11,11 @@
         <div class="container">
             <header class="site-header">
 
+                <div class="title">
+                  <h2>This Is What She Got.</h2>
+                  <h4>Real Korean Cosmetic</h4>
+                </div>
+                
                 <nav class="navbar navbar-default">
 
                       <div class="navbar-header">
@@ -39,7 +44,5 @@
                             <?php wp_nav_menu( $args ); ?>
 
                 </nav>
-
-                <img src="http://localhost/wordpress10/wp-content/uploads/2017/07/home-image.jpg" alt="">
 
             </header>
