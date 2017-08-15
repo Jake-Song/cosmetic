@@ -1,39 +1,45 @@
 <?php
 /*
-Template Name: Archive Top 30
+Template Name: Archive Brand
 */
 ?>
 <?php get_header(); ?>
     <?php
-          $args = array(
+
+      $terms = get_terms(
+        array(
+          'taxonomy' => 'cosmetic_brand',
+          'hide_empty' => 0,
+          'orderby' => 'ID',
+        ));
+
+      foreach( $terms as $key => $term ) :
+
+          $args[$key] = array(
             'post_type' => 'cosmetic',
-            'meta_query' => array(
+            'tax_query' => array(
               array(
-                'key' => 'product_featured',
-                'value' => 'featured',
-              ),
-              array(
-                'key' => 'product_featured_order',
-                'value_num' => '30',
-                'compare' => '=<',
+                'taxonomy' => 'cosmetic_brand',
+                'field' => 'slug',
+                'terms' => $term->slug,
               ),
             ),
             'orderby'   => 'meta_value_num',
-            'meta_key'  => 'product_featured_order',
+    	      'meta_key'  => 'product_ranking_order',
             'order' => 'ASC',
           );
-          $query = new WP_Query( $args );
+          $query[$key] = new WP_Query( $args[$key] );
 
         ?>
         <article class="post clearfix">
 
-          <h2>Top 30</h2>
+          <h2><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h2>
 
           <?php
 
-          if( $query->have_posts() ) :
+          if( $query[$key]->have_posts() ) :
 
-              while( $query->have_posts()) : $query->the_post(); ?>
+              while( $query[$key]->have_posts()) : $query[$key]->the_post(); ?>
 
                   <div class="col-sm-12 col-md-2 col-lg-2">
                     <div class="thumbnail">
@@ -71,5 +77,7 @@ Template Name: Archive Top 30
           endif;
        ?>
        </article>
+
+    <?php endforeach; ?>
 
 <?php get_footer(); ?>

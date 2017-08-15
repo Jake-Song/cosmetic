@@ -15,7 +15,7 @@
                   <h2>This Is What She Got.</h2>
                   <h4>Real Korean Cosmetic</h4>
                 </div>
-                
+
                 <nav class="navbar navbar-default">
 
                       <div class="navbar-header">
@@ -31,7 +31,7 @@
                             <?php
                               $args = array(
                                 'theme_location' => 'primary',
-                                'depth' => 0,
+                                'depth' => 3,
                                 'container' => 'div',
                                 'container_class'   => 'collapse navbar-collapse',
                                 'container_id'      => 'primary-menu',

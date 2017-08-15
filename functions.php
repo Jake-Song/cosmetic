@@ -7,12 +7,6 @@ function dev_enqueue_scripts(){
 }
 add_action('wp_enqueue_scripts', 'dev_enqueue_scripts');
 
-// 메뉴 등록하기
-register_nav_menus(array(
-  'primary' => __( 'Primary Menu' ),
-  'footer' => __( 'Footer Menu' )
-));
-
 // 상위 페이지 아이디 가져오기
 function get_top_parent_id(){
     global $post;
@@ -30,6 +24,12 @@ function my_theme_setup(){
     add_theme_support( 'post-thumbnails' );
     add_image_size( 'custom', 300, 250, true );
     add_image_size( 'single', 880, 400, true );
+
+    // 메뉴 등록하기
+    register_nav_menus(array(
+      'primary' => __( 'Primary Menu' ),
+      'footer' => __( 'Footer Menu' ),
+    ));
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
 
@@ -156,6 +156,7 @@ add_action( 'add_meta_boxes', 'product_ranking_order' );
 function product_ranking_order_content( $post ){
   wp_nonce_field( basename( __FILE__ ), 'product_ranking_order_content_nonce' );
   $content = '';
+  
   $product_ranking_order = get_post_meta( get_the_ID(), 'product_ranking_order', true );
   $product_featured = get_post_meta( get_the_ID(), 'product_featured', true );
   $product_featured_order = get_post_meta( get_the_ID(), 'product_featured_order', true );

@@ -73,13 +73,17 @@ article.post:last-of-type{
 /* 헤더 메뉴 */
 .site-header{
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .site-header nav{
-    position: relative;
-    width: 100%;
-    background-color: rgba(255,255,255,0.01);
-    padding-left: 25px;
-    border: 0;
+  position: relative;
+  align-self: center;
+  display: flex;
+  background-color: rgba(255,255,255,0.01);
+  margin-bottom: 0;
+  padding-left: 25px;
+  border: 0;
 }
 .site-header .navbar-brand{
   padding: 15px 0px 15px 30px;
@@ -102,33 +106,6 @@ article.post:last-of-type{
 .site-header .navbar-default .navbar-nav > li.active > a{
   background-color: transparent;
 }
-.site-header .navbar-default .navbar-nav > li > a:active,
-.site-header .navbar-default .navbar-nav > li > a:focus{
-  color: white;
-}
-.site-header .navbar-default .navbar-nav > li.current-menu-item > a::before{
-  box-shadow: inset 64px 0 0 0 #ffbc00;
-}
-
-.site-header .navbar-default .navbar-nav > li > a::before{
-  content: "";
-  position: absolute;
-  width: 64px;
-  height: 5px;
-  bottom: -25px;
-  left: 50%;
-  transform: translateX( -50% );
-  box-shadow: inset 0 0 0 0 #ffbc00;
-  -webkit-transition: all 0.3s ease-in-out 0s;
-  transition: all 0.3s ease-in-out 0s;
-}
-.site-header .navbar-default .navbar-nav > li > a:hover::before{
-  box-shadow: inset 64px 0 0 #ffbc00;
-}
-
-.site-header .navbar-default .navbar-nav > li > a:hover{
-  color: white;
-}
 .site-header nav ul li:last-of-type a{
   border-right: 0;
 }
@@ -136,8 +113,28 @@ article.post:last-of-type{
   width: 600px;
   position: relative;
 }
-
-
+/* 전면페이지 */
+.product{
+  display: flex;
+  justify-content: center;
+}
+.product > ul{
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #adadad;
+}
+.product > ul > li{
+  padding: 1em;
+}
+.product > ul > li > a{
+  color: #333;
+}
+.ranking{
+  display: inline;
+  float: left;
+}
 /* 푸터 */
 .site-footer{
   margin-top: 30px;

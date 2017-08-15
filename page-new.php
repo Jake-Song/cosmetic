@@ -1,33 +1,23 @@
 <?php
 /*
-Template Name: Archive Top 30
+Template Name: Archive New Arrival
 */
-?>
+ ?>
+
 <?php get_header(); ?>
     <?php
-          $args = array(
+
+        $args = array(
             'post_type' => 'cosmetic',
-            'meta_query' => array(
-              array(
-                'key' => 'product_featured',
-                'value' => 'featured',
-              ),
-              array(
-                'key' => 'product_featured_order',
-                'value_num' => '30',
-                'compare' => '=<',
-              ),
-            ),
-            'orderby'   => 'meta_value_num',
-            'meta_key'  => 'product_featured_order',
-            'order' => 'ASC',
+            'orderby' => 'ID',
+            'posts_per_page' => -1,
           );
           $query = new WP_Query( $args );
 
         ?>
         <article class="post clearfix">
 
-          <h2>Top 30</h2>
+          <h2>New Arrival.</h2>
 
           <?php
 
@@ -71,5 +61,7 @@ Template Name: Archive Top 30
           endif;
        ?>
        </article>
+
+
 
 <?php get_footer(); ?>

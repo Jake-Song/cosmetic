@@ -1,13 +1,39 @@
 <?php get_header(); ?>
-    <?php
 
+    <?php
       $terms = get_terms(
         array(
           'taxonomy' => 'cosmetic_category',
           'hide_empty' => 0,
           'orderby' => 'ID',
         ));
+    ?>
 
+    <div class="product">
+      <ul>
+        <?php foreach ($terms as $key => $term) : ?>
+
+            <li>
+              <a href="<?php echo esc_url( home_url( '/' ) . $term->taxonomy . '/' . $term->slug); ?>">
+                <?php echo $term->name; ?>
+              </a>
+            </li>
+
+        <?php endforeach; ?>
+      </ul>
+    </div>
+
+    <div class="filter">
+      <ul>
+        <li><a href="./top-30">Top 30</a></li>
+        <li><a href="./sort-by-brand">Sort By Brand</a></li>
+        <li><a href="./new-arrival">New Arrival</a></li>
+      </ul>
+    </div>
+
+  <div class="ajax-container">
+    
+    <?php
       foreach( $terms as $key => $term ) :
 
           $args[$key] = array(
@@ -25,7 +51,7 @@
           );
           $query[$key] = new WP_Query( $args[$key] );
 
-        ?>
+    ?>
         <article class="post clearfix">
 
           <h2><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h2>
@@ -34,8 +60,10 @@
 
           if( $query[$key]->have_posts() ) :
 
-              while( $query[$key]->have_posts()) : $query[$key]->the_post(); ?>
+              $ranking_count = 1;
 
+              while( $query[$key]->have_posts()) : $query[$key]->the_post(); ?>
+                  <div class="ranking"><?php echo $ranking_count; ?></div>
                   <div class="col-sm-12 col-md-2 col-lg-2">
                     <div class="thumbnail">
                       <?php if( has_post_thumbnail() ) : ?>
@@ -63,7 +91,11 @@
                     </div>
                   </div>
 
-        <?php endwhile;
+      <?php
+
+                $ranking_count++;
+
+              endwhile;
 
           wp_reset_postdata();
 
@@ -74,5 +106,5 @@
        </article>
 
     <?php endforeach; ?>
-
+  </div>
 <?php get_footer(); ?>
