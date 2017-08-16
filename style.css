@@ -83,7 +83,10 @@ article.post:last-of-type{
   background-color: rgba(255,255,255,0.01);
   margin-bottom: 0;
   padding-left: 25px;
-  border: 0;
+  border-radius: 0;
+  -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
 }
 .site-header .navbar-brand{
   padding: 15px 0px 15px 30px;
@@ -113,6 +116,25 @@ article.post:last-of-type{
   width: 600px;
   position: relative;
 }
+.search-form-container{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.search-form-container .screen-reader-text{
+  display: none;
+}
+.search-form-container fieldset.search-box{
+  position: relative;
+}
+.search-form-container fieldset.search-box .glyphicon{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+.search-form-container fieldset.search-box .search-field{
+  width: 150px;
+}
 /* 전면페이지 */
 .product{
   display: flex;
@@ -128,12 +150,24 @@ article.post:last-of-type{
 .product > ul > li{
   padding: 1em;
 }
+.product > ul > li > a > .product-image{
+  width: 50px;
+}
 .product > ul > li > a{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: #333;
 }
 .ranking{
   display: inline;
   float: left;
+}
+.filter ul{
+  list-style: none;
+  display: flex;
+  padding: 0;
+  justify-content: space-around;
 }
 /* 푸터 */
 .site-footer{
@@ -162,7 +196,7 @@ article.page h2{
   font-size: 2rem;
 }
 .content-box{
-  padding: 30px 30px;
+  padding: 30px 100px;
 }
 
 /* 페이지 서브 메뉴 */

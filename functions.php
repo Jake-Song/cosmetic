@@ -30,6 +30,9 @@ function my_theme_setup(){
       'primary' => __( 'Primary Menu' ),
       'footer' => __( 'Footer Menu' ),
     ));
+
+    add_theme_support( 'html5', array( 'search-form' ) );
+
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
 
@@ -156,7 +159,7 @@ add_action( 'add_meta_boxes', 'product_ranking_order' );
 function product_ranking_order_content( $post ){
   wp_nonce_field( basename( __FILE__ ), 'product_ranking_order_content_nonce' );
   $content = '';
-  
+
   $product_ranking_order = get_post_meta( get_the_ID(), 'product_ranking_order', true );
   $product_featured = get_post_meta( get_the_ID(), 'product_featured', true );
   $product_featured_order = get_post_meta( get_the_ID(), 'product_featured_order', true );
@@ -167,6 +170,14 @@ function product_ranking_order_content( $post ){
   $product_featured_order_val = (!empty( $product_featured ) && !empty( $product_featured_order ))
   ? $product_featured_order : '';
   $product_price_val = !empty( $product_price ) ? $product_price : '';
+
+  $old_product_ranking_order_val = $product_ranking_order_val;
+  $old_product_featured_order_val = $product_featured_order_val;
+
+  $content .= "<input type='hidden' id='old_product_ranking_order'
+              name='old_product_ranking_order' value='{$old_product_ranking_order_val}' />";
+  $content .= "<input type='hidden' id='old_product_featured_order'
+              name='old_product_featured_order' value='{$old_product_featured_order_val}' />";
 
   $content .= "<label for='product_price'>가격</label>";
   $content .= "<input type='text' id='product_price'
@@ -213,14 +224,23 @@ function product_rank_box_save( $post_id ){
     return;
   }
 
+  $old_product_ranking_order = (!empty($_POST['old_product_ranking_order'])) ? $_POST['old_product_ranking_order'] : '';
+  $old_product_featured_order = (!empty($_POST['old_product_featured_order'])) ? $_POST['old_product_featured_order'] : '';
+
   $product_ranking_order = (!empty($_POST['product_ranking_order'])) ? $_POST['product_ranking_order'] : '';
   $product_featured = (!empty($_POST['product_featured'])) ? $_POST['product_featured'] : '';
   $product_featured_order = (!empty($_POST['product_featured_order'])) ? $_POST['product_featured_order'] : '';
   $product_price = (!empty($_POST['product_price'])) ? $_POST['product_price'] : '';
 
+  $product_ranking_changed = $old_product_ranking_order - $product_ranking_order;
+  $featured_ranking_changed = $old_product_featured_order - $product_featured_order;
+
   update_post_meta( $post_id, 'product_ranking_order', $product_ranking_order );
   update_post_meta( $post_id, 'product_featured', $product_featured );
   update_post_meta( $post_id, 'product_featured_order', $product_featured_order );
   update_post_meta( $post_id, 'product_price', $product_price );
+
+  update_post_meta( $post_id, 'product_ranking_changed', $product_ranking_changed );
+  update_post_meta( $post_id, 'featured_ranking_changed', $featured_ranking_changed );
 }
 add_action( 'save_post', 'product_rank_box_save' );
