@@ -4,6 +4,11 @@ function dev_enqueue_scripts(){
     wp_enqueue_style( 'bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css' );
     wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), true );
     wp_enqueue_script( 'custom', get_template_directory_uri() . '/js/custom.js', array('jquery') );
+
+    wp_localize_script( 'custom', 'ajaxHandler', array(
+      'adminAjax' => admin_url( 'admin-ajax.php' ),
+      'security' => wp_create_nonce( 'user-favorite' ),
+    ) );
 }
 add_action('wp_enqueue_scripts', 'dev_enqueue_scripts');
 
@@ -38,10 +43,6 @@ add_action( 'after_setup_theme', 'my_theme_setup' );
 
 // 부트스트랩 메뉴 적용
 require_once('wp_bootstrap_navwalker.php');
-
-add_theme_support( 'featured-content', array(
-  'featured_content_filter' => 'mytheme_get_featured_content',
-));
 
 // 화장품 포스트 타입 등록
 function cosmetic_register_post_type(){
@@ -244,3 +245,18 @@ function product_rank_box_save( $post_id ){
   update_post_meta( $post_id, 'featured_ranking_changed', $featured_ranking_changed );
 }
 add_action( 'save_post', 'product_rank_box_save' );
+
+// Favorite Ajax
+function process_favorite_callback(){
+  $test = 0;
+  if ( ! check_ajax_referer( 'user-favorite', 'security' ) ) {
+    wp_send_json_error( 'Security Check failed' );
+  }
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+  } else {
+    wp_send_json_error("정상적인 방법이 아닙니다.");
+  }
+}
+add_action('wp_ajax_process_favorite', 'process_favorite_callback');
+add_action('wp_ajax_nopriv_process_favorite', 'process_favorite_callback');

@@ -72,6 +72,10 @@
 
                   while( $query[$key]->have_posts()) : $query[$key]->the_post(); ?>
                       <div class="ranking"><?php echo $ranking_count; ?></div>
+
+                      <button type="button" name="favorite" id="favorite" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
+                      <div class="favorite-count"></div>
+
                       <div class="ranking-changed">
 
                         <?php

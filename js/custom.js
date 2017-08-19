@@ -55,4 +55,36 @@ jQuery( document ).ready( function($){
     });
   }
 
+  // registration
+  $(".tab_content_login").hide();
+		$("ul.tabs_login li:first").addClass("active_login").show();
+		$(".tab_content_login:first").show();
+		$("ul.tabs_login li").click(function() {
+			$("ul.tabs_login li").removeClass("active_login");
+			$(this).addClass("active_login");
+			$(".tab_content_login").hide();
+			var activeTab = $(this).find("a").attr("href");
+			if ($.browser.msie) {$(activeTab).show();}
+			else {$(activeTab).show();}
+			return false;
+		});
+
+  // Favorite Ajax
+  var favoritePostId = $('#favorite').attr("data-post-id");
+  $('#favorite').on('click', function(e){
+    e.preventDefault();
+    $.ajax({
+      url: ajaxHandler.adminAjax,
+      type: 'POST',
+      data: {
+        action: 'process_favorite',
+        favoritePostId: favoritePostId,
+        security: ajaxHandler.security,
+      },
+      success: function( data ){
+        $('.favorite-count').html( data );
+      }
+    });
+  })
+
 })
