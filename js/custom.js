@@ -72,18 +72,20 @@ jQuery( document ).ready( function($){
   // Favorite Ajax
   var favoritePostId = $('#favorite').attr("data-post-id");
   $('#favorite').on('click', function(e){
+
     e.preventDefault();
     $.ajax({
       url: ajaxHandler.adminAjax,
       type: 'POST',
+      dataType: 'json',
       data: {
         action: 'process_favorite',
         favoritePostId: favoritePostId,
         security: ajaxHandler.security,
       },
-      success: function( data ){
-        $('.favorite-count').html( data );
-      }
+      success: function( response ){
+        $('.favorite-count').text( response.data.favorite_count );
+      },
     });
   })
 

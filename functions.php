@@ -249,11 +249,23 @@ add_action( 'save_post', 'product_rank_box_save' );
 // Favorite Ajax
 function process_favorite_callback(){
   $test = 0;
+
+  global $current_user, $post;
+
   if ( ! check_ajax_referer( 'user-favorite', 'security' ) ) {
     wp_send_json_error( 'Security Check failed' );
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+    $favorite_post = sanitize_text_field($_POST['favoritePostId']);
+    update_user_meta( $current_user->ID, 'user-favorite', $favorite_post );
+
+    $favorite_count = 1;
+    update_post_meta( $post->ID, 'favorite_count', $favorite_count );
+
+    $response = array(
+      'favorite_count' => $favorite_count,
+    );
+    wp_send_json_success( $response );
   } else {
     wp_send_json_error("정상적인 방법이 아닙니다.");
   }
