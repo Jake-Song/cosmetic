@@ -100,7 +100,7 @@ article.post:last-of-type{
   font-size: 1.2rem;
   color: #333;
   font-weight: 400;
-  padding: 0 75px;
+  padding: 0 40px;
   border-right: 1px solid #999;
 }
 .site-header .navbar-default .navbar-nav > li:last-of-type > a{
@@ -139,6 +139,7 @@ article.post:last-of-type{
 .product{
   display: flex;
   justify-content: center;
+  margin-bottom: 1em;
 }
 .product > ul{
   list-style: none;
@@ -163,11 +164,19 @@ article.post:last-of-type{
   display: inline;
   float: left;
 }
+.filter{
+  padding-left: 1em;
+}
 .filter ul{
   list-style: none;
   display: flex;
   padding: 0;
-  justify-content: space-around;
+}
+.filter ul li a{
+  padding-right: 1em;
+  margin-right: 1em;
+  border-right: 1px dotted #333;
+  color: #333;
 }
 /* 푸터 */
 .site-footer{

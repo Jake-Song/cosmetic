@@ -62,7 +62,7 @@
         ?>
             <article class="post clearfix">
 
-              <h2><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h2>
+              <h4><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h4>
 
               <?php
 
@@ -72,31 +72,6 @@
 
                   while( $query[$key]->have_posts()) : $query[$key]->the_post(); ?>
                       <div class="ranking"><?php echo $ranking_count; ?></div>
-                      <?php
-
-                        if( is_user_logged_in() ) :
-
-                          $user_favorite = !empty(get_user_meta( $user_ID, 'user-favorite', true))
-                          ? get_user_meta( $user_ID, 'user-favorite', true) : array();
-
-                          if( (array_search( get_the_ID(), $user_favorite) !== false ) ) :
-                        ?>
-                            <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">SAVED</button>
-
-                        <?php else : ?>
-
-                            <button type="button" name="favorite" class="favorite-button" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
-
-                        <?php endif; ?>
-
-                      <?php else : ?>
-
-                        <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
-
-                      <?php endif; ?>
-
-                      <div class="favorite-count post-id-<?php the_ID(); ?>"><?php echo get_post_meta( $post->ID, 'favorite_count', true ) ?></div>
-
                       <div class="ranking-changed">
 
                         <?php
@@ -123,9 +98,35 @@
                            }
                          ?>
                       </div>
-                      <div class="col-sm-12 col-md-2 col-lg-2">
+                      <div class="col-sm-12 col-md-4 col-lg-4">
 
                         <div class="thumbnail">
+
+                          <?php
+
+                            if( is_user_logged_in() ) :
+
+                              $user_favorite = !empty(get_user_meta( $user_ID, 'user-favorite', true))
+                              ? get_user_meta( $user_ID, 'user-favorite', true) : array();
+
+                              if( (array_search( get_the_ID(), $user_favorite) !== false ) ) :
+                            ?>
+                                <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">SAVED</button>
+
+                            <?php else : ?>
+
+                                <button type="button" name="favorite" class="favorite-button" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
+
+                            <?php endif; ?>
+
+                          <?php else : ?>
+
+                            <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
+
+                          <?php endif; ?>
+
+                          <div class="favorite-count post-id-<?php the_ID(); ?>"><?php echo get_post_meta( $post->ID, 'favorite_count', true ) ?></div>
+
                           <?php if( has_post_thumbnail() ) : ?>
                             <div class="thumbnail-image">
                               <a href="<?php the_permalink(); ?>">
