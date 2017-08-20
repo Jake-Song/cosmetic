@@ -88,7 +88,7 @@ jQuery( document ).ready( function($){
         favorite: favorite,
       },
       success: function( response ){
-        $('.favorite-count.post-id-' + favoritePostId).text( response.data.favorite_count );
+        $('.favorite-count.post-id-' + favoritePostId).text( response.data.favorite_count +' Saves' );
         if( !$(".favorite-button[data-post-id='" + favoritePostId + "']").hasClass('saved') ){
           $(".favorite-button[data-post-id='" + favoritePostId +"']")
           .text('SAVED')

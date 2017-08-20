@@ -294,16 +294,57 @@ function process_favorite_callback(){
 add_action('wp_ajax_process_favorite', 'process_favorite_callback');
 add_action('wp_ajax_nopriv_process_favorite', 'process_favorite_callback');
 
-// 세션 사용하기
-add_action('init', 'myStartSession', 1);
-add_action('wp_logout', 'myEndSession');
-add_action('wp_login', 'myEndSession');
+// 랭킹 순위 변동 나타내기
+function cosmetic_ranking_index(){
 
-function myStartSession() {
-    if(!session_id()) {
-        session_start();
-    }
+     $product_ranking_changed = get_post_meta( get_the_ID(), 'product_ranking_changed', true );
+     $featured_ranking_changed = get_post_meta( get_the_ID(), 'featured_ranking_changed', true );
+
+     $content = '';
+
+     switch ( true ) {
+       case $featured_ranking_changed > 0:
+        $content = '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
+        . ' ' . $featured_ranking_changed;
+        echo $content;
+       break;
+
+       case $featured_ranking_changed < 0:
+        $content = '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
+         . ' ' . abs($featured_ranking_changed);
+        echo $content;
+       break;
+
+       case $featured_ranking_changed == 0:
+        $content = '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>';
+        echo $content;
+       break;
+     }
 }
-function myEndSession() {
-    session_destroy ();
+
+// 로그인 후 favorite 버튼 사용하기
+function cosmetic_favorite_save_button(){
+
+    global $current_user;
+
+    if( is_user_logged_in() ) :
+
+      $user_favorite = !empty(get_user_meta( $current_user->ID, 'user-favorite', true))
+      ? get_user_meta( $current_user->ID, 'user-favorite', true) : array();
+
+      if( (array_search( get_the_ID(), $user_favorite) !== false ) ) :
+    ?>
+        <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">SAVED</button>
+
+    <?php else : ?>
+
+        <button type="button" name="favorite" class="favorite-button" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
+
+    <?php endif; ?>
+
+  <?php else : ?>
+
+    <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
+
+  <?php endif;
 }

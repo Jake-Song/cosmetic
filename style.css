@@ -76,6 +76,24 @@ article.post:last-of-type{
   display: flex;
   flex-direction: column;
 }
+.site-header .title a{
+  color: #333;
+}
+.site-header nav.user-nav{
+  padding: 0;
+  position: absolute;
+  left: 105px;
+  top: 45px;
+  box-shadow: none;
+}
+.site-header nav.user-nav ul{
+  list-style: none;
+  padding: 0;
+}
+.site-header nav.user-nav ul li a{
+  padding: 1em;
+  color: #333;
+}
 .site-header nav{
   position: relative;
   align-self: center;
@@ -160,10 +178,6 @@ article.post:last-of-type{
   align-items: center;
   color: #333;
 }
-.ranking{
-  display: inline;
-  float: left;
-}
 .filter{
   padding-left: 1em;
 }
@@ -177,6 +191,65 @@ article.post:last-of-type{
   margin-right: 1em;
   border-right: 1px dotted #333;
   color: #333;
+}
+article.post .thumbnail{
+  border: 0;
+}
+.thumbnail-image{
+  border: 1px solid #adadad;
+  position: relative;
+}
+article.post .thumbnail .caption{
+  padding: 0;
+}
+.ranking-index{
+  padding: 0.5em 1.5em;
+}
+.ranking{
+  font-size: 2rem;
+}
+.bd{
+  width: 60px;
+  height: 5px;
+  background: #fe516f;
+  margin: 1em 0;
+}
+.ranking-changed .glyphicon-triangle-top{
+  color: #fe516f;
+}
+.ranking-changed .glyphicon-triangle-bottom{
+  color: #116F7E;
+}
+.ranking-changed .glyphicon-minus{
+  color: #adadad;
+}
+.thumbnail .favorite-button, .thumbnail .is-not-logged{
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-right: 1em;
+  margin-top: 1em;
+  border: 1px solid transparent;
+  color: white;
+  padding: 5px 10px;
+  background: #116F7E;
+}
+.favorite-count{
+  display: inline-block;
+}
+.favorite-icon img{
+  width: 15px;
+}
+.thumbnail-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.thumbnail-footer .product-price{
+  font-size: 1.2rem;
+}
+.thumbnail-footer .btn-primary{
+  border-radius: 0;
 }
 /* 푸터 */
 .site-footer{

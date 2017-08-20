@@ -12,10 +12,12 @@
             <header class="site-header">
 
                 <div class="title">
-                  <h2>This Is What She Got.</h2>
+                  <a href="<?php echo home_url(); ?>">
+                    <h2>This Is What She Got.</h2>
+                  </a>
                   <h4>Real Korean Cosmetic</h4>
                 </div>
-
+              
                 <nav class="navbar navbar-default">
 
                       <div class="navbar-header">

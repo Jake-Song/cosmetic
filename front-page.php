@@ -1,35 +1,6 @@
 <?php get_header(); ?>
 
-    <?php
-      $terms = get_terms(
-        array(
-          'taxonomy' => 'cosmetic_category',
-          'hide_empty' => 0,
-          'orderby' => 'ID',
-        ));
-    ?>
     <div class="content-box">
-
-        <div class="product">
-          <ul>
-            <?php foreach ($terms as $key => $term) : ?>
-            <?php $icon = $term->slug; ?>
-                <li>
-                  <a href="<?php echo esc_url( home_url( '/' ) . $term->taxonomy . '/' . $term->slug); ?>">
-                    <div class="product-image">
-                      <?php
-                        $product_image_html = "<img src='./wp-content/themes/cosmetic/img/{$term->slug}.svg'>";
-                        echo $product_image_html;
-                      ?>
-                    </div>
-                    <div class="product-name">
-                      <?php echo $term->name; ?>
-                    </div>
-                  </a>
-                </li>
-            <?php endforeach; ?>
-          </ul>
-        </div>
 
         <div class="filter">
           <ul>
@@ -42,117 +13,40 @@
       <div class="ajax-container">
 
         <?php
-          foreach( $terms as $key => $term ) :
-
-              $args[$key] = array(
+              $args = array(
                 'post_type' => 'cosmetic',
-                'tax_query' => array(
+                'meta_query' => array(
                   array(
-                    'taxonomy' => 'cosmetic_category',
-                    'field' => 'slug',
-                    'terms' => $term->slug,
+                    'key' => 'product_featured',
+                    'value' => 'featured',
+                  ),
+                  array(
+                    'key' => 'product_featured_order',
+                    'value_num' => '30',
+                    'compare' => '=<',
                   ),
                 ),
                 'orderby'   => 'meta_value_num',
-        	      'meta_key'  => 'product_ranking_order',
+                'meta_key'  => 'product_featured_order',
                 'order' => 'ASC',
               );
-              $query[$key] = new WP_Query( $args[$key] );
+              $query = new WP_Query( $args );
 
-        ?>
+            ?>
             <article class="post clearfix">
 
-              <h4><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h4>
+              <h2>Top 30</h2>
+              <div class="bd"></div>
 
-              <?php
+            <?php
 
-              if( $query[$key]->have_posts() ) :
+              if( $query->have_posts() ) :
 
                   $ranking_count = 1;
 
-                  while( $query[$key]->have_posts()) : $query[$key]->the_post(); ?>
-                      <div class="ranking"><?php echo $ranking_count; ?></div>
-                      <div class="ranking-changed">
+                  while( $query->have_posts()) : $query->the_post();
 
-                        <?php
-                           $product_ranking_changed = get_post_meta( get_the_ID(), 'product_ranking_changed', true );
-                           $featured_ranking_changed = get_post_meta( get_the_ID(), 'featured_ranking_changed', true );
-
-                           $content = '';
-
-                           switch ( true ) {
-                             case $product_ranking_changed > 0:
-                              $content .= '상승' . $product_ranking_changed;
-                              echo $content;
-                             break;
-
-                             case $product_ranking_changed < 0:
-                              $content .= '하락' . $product_ranking_changed;
-                              echo $content;
-                             break;
-
-                             case $product_ranking_changed == 0:
-                              $content .= '변동없음' . $product_ranking_changed;
-                              echo $content;
-                             break;
-                           }
-                         ?>
-                      </div>
-                      <div class="col-sm-12 col-md-4 col-lg-4">
-
-                        <div class="thumbnail">
-
-                          <?php
-
-                            if( is_user_logged_in() ) :
-
-                              $user_favorite = !empty(get_user_meta( $user_ID, 'user-favorite', true))
-                              ? get_user_meta( $user_ID, 'user-favorite', true) : array();
-
-                              if( (array_search( get_the_ID(), $user_favorite) !== false ) ) :
-                            ?>
-                                <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">SAVED</button>
-
-                            <?php else : ?>
-
-                                <button type="button" name="favorite" class="favorite-button" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
-
-                            <?php endif; ?>
-
-                          <?php else : ?>
-
-                            <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
-
-                          <?php endif; ?>
-
-                          <div class="favorite-count post-id-<?php the_ID(); ?>"><?php echo get_post_meta( $post->ID, 'favorite_count', true ) ?></div>
-
-                          <?php if( has_post_thumbnail() ) : ?>
-                            <div class="thumbnail-image">
-                              <a href="<?php the_permalink(); ?>">
-                                <?php the_post_thumbnail( 'custom' ); ?>
-                              </a>
-                            </div>
-                          <?php endif; ?>
-                            <div class="caption clearfix">
-                              <div class="thumbnail-content">
-                                <h3><?php the_title(); ?></h3>
-                                <?php the_excerpt(); ?>
-                              </div>
-                              <p class="thumbnail-footer">
-                                  <span class="product-price">
-                                    <?php
-                                      $product_price = get_post_meta( get_the_ID(), 'product_price', true );
-                                      if( !empty( $product_price ) ) echo '$' . $product_price;
-                                    ?>
-                                  </span>
-                                  <a href="#" target="_blank" class="btn btn-primary" role="button">Check Out</a>
-                              </p>
-                            </div>
-                        </div>
-                      </div>
-
-          <?php
+                    include( locate_template( '/module/grid.php', false, false ) );                
 
                     $ranking_count++;
 
@@ -166,7 +60,6 @@
            ?>
            </article>
 
-        <?php endforeach; ?>
       </div>
   </div>
 <?php get_footer(); ?>
