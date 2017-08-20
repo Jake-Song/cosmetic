@@ -248,7 +248,6 @@ add_action( 'save_post', 'product_rank_box_save' );
 
 // Favorite Ajax
 function process_favorite_callback(){
-  $test = 0;
 
   global $current_user, $post;
 
@@ -256,14 +255,36 @@ function process_favorite_callback(){
     wp_send_json_error( 'Security Check failed' );
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $favorite_post = sanitize_text_field($_POST['favoritePostId']);
-    update_user_meta( $current_user->ID, 'user-favorite', $favorite_post );
 
-    $favorite_count = 1;
-    update_post_meta( $post->ID, 'favorite_count', $favorite_count );
+    $test = 0;
+
+    $current_favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
+    $favorite_post = sanitize_text_field($_POST['favoritePostId']);
+
+    $current_favorite_count = get_post_meta( intval($favorite_post), 'favorite_count', true );
+
+    if( $_POST['favorite'] === 'remove' ){
+
+        if( ($key = array_search( $favorite_post, $current_favorite_posts )) !== false ){
+          unset( $current_favorite_posts[$key] );
+        }
+
+      update_user_meta( $current_user->ID, 'user-favorite', $current_favorite_posts );
+
+      $update_favorite_count = $current_favorite_count - 1;
+
+    } elseif( $_POST['favorite'] === 'add' ) {
+
+      $update_favorite_count = $current_favorite_count + 1;
+      $current_favorite_posts[] = $favorite_post;
+      $current_favorite_posts = array_unique( $current_favorite_posts );
+      update_user_meta( $current_user->ID, 'user-favorite', $current_favorite_posts );
+    }
+
+    update_post_meta( intval($favorite_post), 'favorite_count', $update_favorite_count );
 
     $response = array(
-      'favorite_count' => $favorite_count,
+      'favorite_count' => $update_favorite_count,
     );
     wp_send_json_success( $response );
   } else {
@@ -272,3 +293,17 @@ function process_favorite_callback(){
 }
 add_action('wp_ajax_process_favorite', 'process_favorite_callback');
 add_action('wp_ajax_nopriv_process_favorite', 'process_favorite_callback');
+
+// 세션 사용하기
+add_action('init', 'myStartSession', 1);
+add_action('wp_logout', 'myEndSession');
+add_action('wp_login', 'myEndSession');
+
+function myStartSession() {
+    if(!session_id()) {
+        session_start();
+    }
+}
+function myEndSession() {
+    session_destroy ();
+}

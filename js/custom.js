@@ -70,10 +70,13 @@ jQuery( document ).ready( function($){
 		});
 
   // Favorite Ajax
-  var favoritePostId = $('#favorite').attr("data-post-id");
-  $('#favorite').on('click', function(e){
 
+  $('.favorite-button').on('click', function(e){
     e.preventDefault();
+
+    var favoritePostId = $(this).attr("data-post-id");
+    var favorite = $(this).hasClass('saved') ? 'remove' : 'add';
+
     $.ajax({
       url: ajaxHandler.adminAjax,
       type: 'POST',
@@ -82,11 +85,25 @@ jQuery( document ).ready( function($){
         action: 'process_favorite',
         favoritePostId: favoritePostId,
         security: ajaxHandler.security,
+        favorite: favorite,
       },
       success: function( response ){
-        $('.favorite-count').text( response.data.favorite_count );
+        $('.favorite-count.post-id-' + favoritePostId).text( response.data.favorite_count );
+        if( !$(".favorite-button[data-post-id='" + favoritePostId + "']").hasClass('saved') ){
+          $(".favorite-button[data-post-id='" + favoritePostId +"']")
+          .text('SAVED')
+          .addClass('saved');
+        } else {
+          $(".favorite-button[data-post-id='" + favoritePostId +"']")
+          .text('SAVE')
+          .removeClass('saved');
+        }
+
       },
     });
+  })
+  $('.is-not-logged').on('click', function(){
+    $(this).addClass('onclick');
   })
 
 })
