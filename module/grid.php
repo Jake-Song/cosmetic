@@ -23,7 +23,7 @@
         </a>
       </div>
     <?php endif; ?>
-    
+
       <div class="caption clearfix">
         <div class="thumbnail-content">
           <h3><?php the_title(); ?></h3>
@@ -38,11 +38,9 @@
               ?>
             </div>
             <span class="favorite-icon">
-              <?php if( is_front_page() ) : ?>
-                <img src="./wp-content/themes/cosmetic/img/wishlist-icon.svg" alt="">
-              <?php else : ?>
-                <img src="../wp-content/themes/cosmetic/img/wishlist-icon.svg" alt="">
-              <?php endif; ?>
+
+                <img src="<?php echo site_url(); ?>/wp-content/themes/cosmetic/img/wishlist-icon.svg" alt="">
+
             </span>
             <span class="favorite-count post-id-<?php the_ID(); ?>">
               <?php

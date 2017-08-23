@@ -1,5 +1,6 @@
 <?php
-function dev_enqueue_scripts(){
+// 스타일 시트, 스크립트 로드
+function cosmetic_enqueue_scripts(){
     wp_enqueue_style( 'style', get_stylesheet_uri() );
     wp_enqueue_style( 'bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css' );
     wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), true );
@@ -10,17 +11,10 @@ function dev_enqueue_scripts(){
       'security' => wp_create_nonce( 'user-favorite' ),
     ) );
 }
-add_action('wp_enqueue_scripts', 'dev_enqueue_scripts');
+add_action('wp_enqueue_scripts', 'cosmetic_enqueue_scripts');
 
-// 상위 페이지 아이디 가져오기
-function get_top_parent_id(){
-    global $post;
-    if( $post->post_parent ){
-        $ancestors = array_reverse( get_post_ancestors( $post->ID ) );
-        return $ancestors[0];
-    }
-    return $post->ID;
-}
+// 부트스트랩 메뉴 적용
+require_once('inc/wp_bootstrap_navwalker.php');
 
 // 테마 셋업
 function my_theme_setup(){
@@ -40,9 +34,6 @@ function my_theme_setup(){
 
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
-
-// 부트스트랩 메뉴 적용
-require_once('wp_bootstrap_navwalker.php');
 
 // 화장품 포스트 타입 등록
 function cosmetic_register_post_type(){
@@ -75,6 +66,7 @@ function cosmetic_register_post_type(){
     'show_ui'             => true,
     'show_in_menu'        => true,
     'show_in_admin_bar'   => true,
+    'show_in_rest'        => true,
     'menu_position'       => 10,
     'menu_icon'           => 'dashicons-businessman',
     'can_export'          => true,
@@ -256,8 +248,6 @@ function process_favorite_callback(){
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $test = 0;
-
     $current_favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
     $favorite_post = sanitize_text_field($_POST['favoritePostId']);
 
@@ -293,6 +283,16 @@ function process_favorite_callback(){
 }
 add_action('wp_ajax_process_favorite', 'process_favorite_callback');
 add_action('wp_ajax_nopriv_process_favorite', 'process_favorite_callback');
+
+// 상위 페이지 아이디 가져오기
+function get_top_parent_id(){
+    global $post;
+    if( $post->post_parent ){
+        $ancestors = array_reverse( get_post_ancestors( $post->ID ) );
+        return $ancestors[0];
+    }
+    return $post->ID;
+}
 
 // 랭킹 순위 변동 나타내기
 function cosmetic_ranking_index(){

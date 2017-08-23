@@ -71,7 +71,7 @@ jQuery( document ).ready( function($){
 
   // Favorite Ajax
 
-  $('.favorite-button').on('click', function(e){
+  $('body').on('click', '.favorite-button', function(e){
     e.preventDefault();
 
     var favoritePostId = $(this).attr("data-post-id");
@@ -101,7 +101,8 @@ jQuery( document ).ready( function($){
 
       },
     });
-  })
+  });
+
   $('.is-not-logged').on('click', function(){
     $(this).addClass('onclick');
   })
