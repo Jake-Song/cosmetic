@@ -1,0 +1,105 @@
+<?php get_header(); ?>
+    <?php
+      $taxonomy_terms = get_terms(
+        array(
+          'taxonomy' => 'cosmetic_category',
+          'hide_empty' => 0,
+          'orderby' => 'ID',
+        ));
+    ?>
+     <div class="content-box">
+
+         <div class="product">
+           <ul>
+             <?php foreach ($taxonomy_terms as $key => $taxonomy_term) : ?>
+               <?php if($taxonomy_term->parent === 0) : ?>
+                 <li>
+                   <a href="<?php echo esc_url( home_url( '/' ) . $taxonomy_term->taxonomy . '/' . $taxonomy_term->slug); ?>">
+                     <div class="product-image">
+                       <img src="<?php echo esc_url( home_url( '/' ) . 'wp-content/themes/cosmetic/img/' . $taxonomy_term->slug . '.svg' ); ?>">
+                     </div>
+                     <div class="product-name">
+                       <?php echo $taxonomy_term->name; ?>
+                     </div>
+                   </a>
+                </li>
+              <?php endif; ?>
+             <?php endforeach; ?>
+           </ul>
+         </div>
+         <div class="sub-product">
+           <ul class="sub-product">
+
+             <?php
+             //$custom_term = get_term_by( 'slug', $term, $taxonomy );
+             $get_term_id = get_term_parent_id();
+
+             foreach( $taxonomy_terms as $taxonomy_term ) :
+
+              if( $taxonomy_term->parent !== 0 && $taxonomy_term->parent === $get_term_id ) : ?>
+
+               <li class="sub-product-list">
+                 <a href="<?php echo esc_url(get_term_link( $taxonomy_term )); ?>">
+                   <?php echo $taxonomy_term->name; ?>
+                 </a>
+               </li>
+             <?php
+              endif;
+
+             endforeach; ?>
+
+           </ul>
+         </div>
+         <div class="filter">
+           <ul>
+             <li><a href="./top-30">Top 30</a></li>
+             <li><a href="./sort-by-brand">Sort By Brand</a></li>
+             <li><a href="./new-arrival">New Arrival</a></li>
+           </ul>
+         </div>
+
+       <div class="ajax-container">
+
+          <article class="post clearfix">
+
+             <h4><?php echo 'TOP 3 - ' . str_replace( '-', ' ', strtoupper($term) ); ?></h4>
+
+             <?php
+
+             $args = array(
+               'post_type' => 'cosmetic',
+               'tax_query' => array(
+                 array(
+                   'taxonomy' => $taxonomy,
+                   'field' => 'slug',
+                   'terms' => $term,
+                 ),
+               ),
+               'orderby'   => 'meta_value_num',
+               'meta_key'  => 'product_ranking_order',
+               'order' => 'ASC',
+             );
+
+             $query = new WP_Query( $args );
+
+             if( $query->have_posts() ) :
+
+                 $ranking_count = 1;
+
+                 while( $query->have_posts()) : $query->the_post();
+
+                     include( locate_template( '/module/grid.php', false, false ) );
+
+                   $ranking_count++;
+
+                 endwhile;
+
+             else :
+                 echo '포스트가 존재하지 않습니다.';
+             endif;
+          ?>
+          </article>
+
+       </div>
+   </div>
+ <?php get_footer(); ?>

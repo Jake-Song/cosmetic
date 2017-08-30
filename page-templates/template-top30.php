@@ -5,6 +5,7 @@ Template Name: Archive Top 30
 ?>
 <?php get_header(); ?>
     <?php
+    
           $args = array(
             'post_type' => 'cosmetic',
             'meta_query' => array(
@@ -40,7 +41,7 @@ Template Name: Archive Top 30
                   include( locate_template( '/module/grid.php', false, false ) );
 
                 $ranking_count++;
-                                  
+
               endwhile;
 
           wp_reset_postdata();

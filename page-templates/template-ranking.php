@@ -59,7 +59,7 @@ Template Name: Ranking Page
                    ),
                  ),
                  'orderby'   => 'meta_value_num',
-         	      'meta_key'  => 'product_ranking_order',
+         	       'meta_key'  => 'product_ranking_order',
                  'order' => 'ASC',
                );
                $query[$key] = new WP_Query( $args[$key] );

@@ -136,108 +136,6 @@ function cosmetic_register_taxonomy(){
 }
 add_action( 'init', 'cosmetic_register_taxonomy' );
 
-// 화장품 커스텀 필드 추가
-function product_ranking_order() {
-    add_meta_box(
-        'product_ranking_order',
-        __( '부가 정보', 'cosmetic' ),
-        'product_ranking_order_content',
-        'cosmetic',
-        'normal',
-        'low'
-    );
-}
-add_action( 'add_meta_boxes', 'product_ranking_order' );
-
-function product_ranking_order_content( $post ){
-  wp_nonce_field( basename( __FILE__ ), 'product_ranking_order_content_nonce' );
-  $content = '';
-
-  $product_ranking_order = get_post_meta( get_the_ID(), 'product_ranking_order', true );
-  $product_featured = get_post_meta( get_the_ID(), 'product_featured', true );
-  $product_featured_order = get_post_meta( get_the_ID(), 'product_featured_order', true );
-  $product_price = get_post_meta( get_the_ID(), 'product_price', true );
-
-  $product_ranking_order_val = !empty( $product_ranking_order ) ? $product_ranking_order : '';
-  $product_featured_val = !empty( $product_featured ) ? 'checked' : '';
-  $product_featured_order_val = (!empty( $product_featured ) && !empty( $product_featured_order ))
-  ? $product_featured_order : '';
-  $product_price_val = !empty( $product_price ) ? $product_price : '';
-
-  $old_product_ranking_order_val = $product_ranking_order_val;
-  $old_product_featured_order_val = $product_featured_order_val;
-
-  $content .= "<input type='hidden' id='old_product_ranking_order'
-              name='old_product_ranking_order' value='{$old_product_ranking_order_val}' />";
-  $content .= "<input type='hidden' id='old_product_featured_order'
-              name='old_product_featured_order' value='{$old_product_featured_order_val}' />";
-
-  $content .= "<label for='product_price'>가격</label>";
-  $content .= "<input type='text' id='product_price'
-              name='product_price' placeholder='가격을 입력하세요.'
-              value='{$product_price_val}' /><br>";
-
-  $content .= "<label for='product_ranking_order'>카테고리별 순위</label>";
-
-  $content .= "<input type='text' id='product_ranking_order'
-              name='product_ranking_order' placeholder='순위를 입력하세요.'
-              value='{$product_ranking_order_val}' /><br>";
-
-  $content .= '<label for="product_featured">종합랭킹등록하기</label>';
-
-  $content .= "<input type='checkbox' id='product_featured' name='product_featured' value='featured'
-  {$product_featured_val} />Featured?<br>";
-
-  $content .= '<label for="product_featured_order"></label>';
-
-  $content .= "<input type='text' id='product_featured_order' name='product_featured_order' placeholder='순위를 입력하세요.' value='{$product_featured_order_val}' />";
-
-  echo $content;
-}
-
-function product_rank_box_save( $post_id ){
-  $test = 0;
-  $post_type = get_post_type( $post_id );
-
-  if( $post_type !== 'cosmetic' ) return;
-
-  if( !isset( $_POST['post_author'] ) ) return;
-
-  if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-  return;
-
-  if ( !wp_verify_nonce( $_POST['product_ranking_order_content_nonce'], basename( __FILE__ ) ) )
-  return;
-
-  if ( 'page' == $_POST['post_type'] ) {
-    if ( !current_user_can( 'edit_page', $post_id ) )
-    return;
-  } else {
-    if ( !current_user_can( 'edit_post', $post_id ) )
-    return;
-  }
-
-  $old_product_ranking_order = (!empty($_POST['old_product_ranking_order'])) ? $_POST['old_product_ranking_order'] : '';
-  $old_product_featured_order = (!empty($_POST['old_product_featured_order'])) ? $_POST['old_product_featured_order'] : '';
-
-  $product_ranking_order = (!empty($_POST['product_ranking_order'])) ? $_POST['product_ranking_order'] : '';
-  $product_featured = (!empty($_POST['product_featured'])) ? $_POST['product_featured'] : '';
-  $product_featured_order = (!empty($_POST['product_featured_order'])) ? $_POST['product_featured_order'] : '';
-  $product_price = (!empty($_POST['product_price'])) ? $_POST['product_price'] : '';
-
-  $product_ranking_changed = $old_product_ranking_order - $product_ranking_order;
-  $featured_ranking_changed = $old_product_featured_order - $product_featured_order;
-
-  update_post_meta( $post_id, 'product_ranking_order', $product_ranking_order );
-  update_post_meta( $post_id, 'product_featured', $product_featured );
-  update_post_meta( $post_id, 'product_featured_order', $product_featured_order );
-  update_post_meta( $post_id, 'product_price', $product_price );
-
-  update_post_meta( $post_id, 'product_ranking_changed', $product_ranking_changed );
-  update_post_meta( $post_id, 'featured_ranking_changed', $featured_ranking_changed );
-}
-add_action( 'save_post', 'product_rank_box_save' );
-
 // Favorite Ajax
 function process_favorite_callback(){
 
@@ -294,28 +192,64 @@ function get_top_parent_id(){
     return $post->ID;
 }
 
+// 상위 텀 아이디 가져오기
+function get_term_parent_id(){
+    global $term, $taxonomy;
+    $get_term = get_term_by( 'slug', $term, $taxonomy );
+    if( $get_term->parent !== 0 ){
+        return $get_term->parent;
+    }
+    return $get_term->term_id;
+}
+
 // 랭킹 순위 변동 나타내기
 function cosmetic_ranking_index(){
+     global $pagename;
 
-     $product_ranking_changed = get_post_meta( get_the_ID(), 'product_ranking_changed', true );
-     $featured_ranking_changed = get_post_meta( get_the_ID(), 'featured_ranking_changed', true );
+     switch ($pagename) {
+
+       case '':
+
+         $ranking_changed = get_post_meta( get_the_ID(), 'product_ranking_changed', true );
+
+         break;
+
+       case 'top-30':
+
+         $ranking_changed = get_post_meta( get_the_ID(), 'featured_ranking_changed', true );
+
+         break;
+
+       case 'descendant':
+
+         $ranking_changed = get_post_meta( get_the_ID(), 'descendant_ranking_changed', true );
+
+         break;
+
+       case 'sort-by-brand':
+
+         $ranking_changed = get_post_meta( get_the_ID(), 'brand_ranking_changed', true );
+
+         break;
+
+     }
 
      $content = '';
 
      switch ( true ) {
-       case $featured_ranking_changed > 0:
+       case $ranking_changed > 0:
         $content = '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
-        . ' ' . $featured_ranking_changed;
+        . ' ' . $ranking_changed;
         echo $content;
        break;
 
-       case $featured_ranking_changed < 0:
+       case $ranking_changed < 0:
         $content = '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
-         . ' ' . abs($featured_ranking_changed);
+         . ' ' . abs($ranking_changed);
         echo $content;
        break;
 
-       case $featured_ranking_changed == 0:
+       case $ranking_changed == 0:
         $content = '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>';
         echo $content;
        break;
@@ -347,4 +281,34 @@ function cosmetic_favorite_save_button(){
     <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
 
   <?php endif;
+}
+
+// filter for cosmetic post type edit list
+add_action('restrict_manage_posts','restrict_cosmetic_by_cosmetic_category');
+function restrict_cosmetic_by_cosmetic_category() {
+    $test = 0;
+    global $typenow;
+    global $wp_query;
+    $cosmetic_taxonomies = get_object_taxonomies( 'cosmetic', 'objects' );
+
+    if ($typenow=='cosmetic') {
+        foreach ($cosmetic_taxonomies as $key => $cosmetic_taxonomy) {
+
+          $cosmetic_term_slug = !empty($wp_query->query[$cosmetic_taxonomy->name]) ?
+            $wp_query->query[$cosmetic_taxonomy->name] : false;
+
+          wp_dropdown_categories(array(
+              'show_option_all' =>  __("Show All {$cosmetic_taxonomy->label}"),
+              'taxonomy'        =>  $cosmetic_taxonomy->name,
+              'name'            =>  $cosmetic_taxonomy->name,
+              'orderby'         =>  'name',
+              'selected'        =>  $cosmetic_term_slug,
+              'hierarchical'    =>  true,
+              'depth'           =>  3,
+              'show_count'      =>  true, // Show # items in parenthesis
+              'hide_empty'      =>  true, // Don't show cosmetic_category w/o listings
+              'value_field'     => 'slug',
+          ));
+        }
+    }
 }
