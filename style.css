@@ -51,12 +51,10 @@ img{
 div.container{
   padding: 0;
   width: 100%;
-
+  background: url("./img/background-tile.jpg");
 }
 article.post{
   border-bottom: 2px dotted #bbb;
-  padding: 0 20px;
-
 }
 article.post:last-of-type{
   border-bottom: 0;
@@ -75,6 +73,9 @@ article.post:last-of-type{
   position: relative;
   display: flex;
   flex-direction: column;
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom: 2em;
 }
 .site-header .title a{
   color: #333;
@@ -95,16 +96,15 @@ article.post:last-of-type{
   color: #333;
 }
 .site-header nav{
-  position: relative;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
   align-self: center;
   display: flex;
-  background-color: rgba(255,255,255,0.01);
   margin-bottom: 0;
-  padding-left: 25px;
-  border-radius: 0;
-  -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
-  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
 }
 .site-header .navbar-brand{
   padding: 15px 0px 15px 30px;
@@ -118,7 +118,7 @@ article.post:last-of-type{
   font-size: 1.2rem;
   color: #333;
   font-weight: 400;
-  padding: 0 40px;
+  padding: 0 20px;
   border-right: 1px solid #999;
 }
 .site-header .navbar-default .navbar-nav > li:last-of-type > a{
@@ -134,10 +134,32 @@ article.post:last-of-type{
   width: 600px;
   position: relative;
 }
+.search-box{
+  display: flex;
+  border: 1px solid #828282;
+  border-radius: 5px;
+  background: #f7f7f7;
+  padding: 2px;
+}
+.search-box input{
+  border: 0;
+  background: #f7f7f7;
+  padding: 3px 0px;
+}
+.search-box label{
+  margin-bottom: 0;
+}
+.search-box button{
+  border: 0;
+  background: #f7f7f7;
+  font-size: 1.2rem;
+  order: -1;
+}
 .search-form-container{
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
+  padding: 4em 2em;
 }
 .search-form-container .screen-reader-text{
   display: none;
@@ -145,32 +167,27 @@ article.post:last-of-type{
 .search-form-container fieldset.search-box{
   position: relative;
 }
-.search-form-container fieldset.search-box .glyphicon{
-  position: absolute;
-  top: 5px;
-  left: 5px;
-}
 .search-form-container fieldset.search-box .search-field{
   width: 150px;
 }
 /* 전면페이지 */
 .product{
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 }
 .product > ul{
   list-style: none;
   display: flex;
   justify-content: center;
   padding: 0;
-  border: 1px solid #adadad;
+  border: 0;
+  background: #fff;
+  box-shadow: 2px 2px 5px #bbb;
 }
 .product > ul > li{
   padding: 1em;
 }
 .product > ul > li > a > .product-image{
-  width: 50px;
+  width: 40px;
 }
 .product > ul > li > a{
   display: flex;
@@ -192,18 +209,30 @@ article.post:last-of-type{
   border-right: 1px dotted #333;
   color: #333;
 }
+article.post h4.cosmetic-category{
+  margin: 1em 0;
+}
+article.post .col-sm-12.col-md-4.col-lg-4{
+  padding: 0;
+}
+article.post .col-lg-4{
+  width: 25%;
+}
 article.post .thumbnail{
   border: 0;
 }
-.thumbnail-image{
-  border: 1px solid #adadad;
-  position: relative;
+article.post .thumbnail-header{
+  display: flex;
+  justify-content: space-between;
 }
 article.post .thumbnail .caption{
   padding: 0;
 }
 .ranking-index{
   padding: 0.5em 1.5em;
+}
+.favorite-save-button{
+  align-self: center;
 }
 .ranking{
   font-size: 2rem;
@@ -224,15 +253,13 @@ article.post .thumbnail .caption{
   color: #adadad;
 }
 .thumbnail .favorite-button, .thumbnail .is-not-logged{
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-right: 1em;
-  margin-top: 1em;
   border: 1px solid transparent;
   color: white;
   padding: 5px 10px;
   background: #116F7E;
+}
+.thumbnail .favorite-button.saved{
+  background: red;
 }
 .favorite-count{
   display: inline-block;
@@ -278,7 +305,8 @@ article.page h2{
   font-size: 2rem;
 }
 .content-box{
-  padding: 30px 100px;
+  width: 75%;
+  margin: 0 auto;
 }
 
 /* 페이지 서브 메뉴 */

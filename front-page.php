@@ -8,6 +8,7 @@
           'orderby' => 'ID',
         ));
         $test = 0;
+
     ?>
     <div class="content-box">
 
@@ -67,7 +68,7 @@
         ?>
             <article class="post clearfix">
 
-              <h4><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h4>
+              <h4 class="cosmetic-category"><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h4>
 
               <?php
 

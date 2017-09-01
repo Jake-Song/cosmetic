@@ -3,6 +3,7 @@
 function cosmetic_enqueue_scripts(){
     wp_enqueue_style( 'style', get_stylesheet_uri() );
     wp_enqueue_style( 'bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css' );
+    wp_enqueue_style( 'fontello', get_template_directory_uri() . '/fontello/css/fontello.css' );
     wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), true );
     wp_enqueue_script( 'custom', get_template_directory_uri() . '/js/custom.js', array('jquery') );
 
@@ -26,6 +27,7 @@ function my_theme_setup(){
 
     // 메뉴 등록하기
     register_nav_menus(array(
+      'top' => __( 'Top Menu' ),
       'primary' => __( 'Primary Menu' ),
       'footer' => __( 'Footer Menu' ),
     ));
