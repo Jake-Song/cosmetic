@@ -84,7 +84,7 @@ jQuery( document ).ready( function($){
       data: {
         action: 'process_favorite',
         favoritePostId: favoritePostId,
-        security: ajaxHandler.security,
+        security: ajaxHandler.securityFavorite,
         favorite: favorite,
       },
       success: function( response ){
@@ -106,5 +106,27 @@ jQuery( document ).ready( function($){
   $('.is-not-logged').on('click', function(){
     $(this).addClass('onclick');
   })
+// ajax pagination
+
+var ajaxUrl = "<?php echo admin_url('admin-ajax.php')?>";
+var page = 1; // What page we are on.
+var ppp = 4; // Post per page
+
+$('#more_posts').on('click', function( e ){
+  e.preventDefault();
+  $("#more_posts").attr("disabled",true); // Disable the button, temp.
+    $.ajax({
+      url: ajaxHandler.adminAjax,
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        action: 'process_load_more',
+        security: ajaxHandler.securityLoadmore,
+      },
+      success: function( response ){
+        alert('success');
+      },
+    })
+});
 
 })

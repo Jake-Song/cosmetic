@@ -48,6 +48,7 @@
       <div class="ajax-container">
 
         <?php
+          $paged = ( get_query_var('page') ) ? get_query_var('page') : 1;
           foreach( $terms as $key => $term ) :
 
               $args[$key] = array(
@@ -62,6 +63,8 @@
                 'orderby'   => 'meta_value_num',
         	      'meta_key'  => 'product_ranking_order',
                 'order' => 'ASC',
+                'posts_per_page' => 5,
+                'paged' => $paged,
               );
               $query[$key] = new WP_Query( $args[$key] );
 
@@ -83,7 +86,11 @@
                     $ranking_count++;
 
                   endwhile;
-
+                  $test = 0; ?>
+                  <div class="load-more">
+                      <a id="more_posts" href="#">Load More</a>
+                  </div>
+            <?php
               wp_reset_postdata();
 
               else :

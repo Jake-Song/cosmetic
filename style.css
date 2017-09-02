@@ -221,18 +221,34 @@ article.post .col-lg-4{
 article.post .thumbnail{
   border: 0;
 }
-article.post .thumbnail-header{
-  display: flex;
-  justify-content: space-between;
-}
 article.post .thumbnail .caption{
   padding: 0;
 }
+.ranking-icon{
+  font-size: 3rem;
+  display: inline-block;
+}
+.icon-trophy-3.first{
+  color: gold;
+}
+.icon-trophy-3.second{
+  color: silver;
+}
+.icon-trophy-3.third{
+  color: brown;
+}
+.icon-trophy-3.empty{
+  visibility: hidden;
+}
 .ranking-index{
-  padding: 0.5em 1.5em;
+  display: inline-block;
+  text-align: center;
 }
 .favorite-save-button{
-  align-self: center;
+  display: inline-block;
+  float: right;
+  margin-top: 1em;
+  margin-right: 1em;
 }
 .ranking{
   font-size: 2rem;

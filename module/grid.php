@@ -10,16 +10,17 @@
             <?php
               switch ($ranking_count) {
                 case 1 : ?>
-                  <i class="icon-trophy-3"></i>
+                  <i class="icon-trophy-3 first"></i>
             <?php break;
                 case 2 : ?>
-             <i class="icon-trophy-3"></i>
+             <i class="icon-trophy-3 second"></i>
             <?php break;
                 case 3 : ?>
-                  <i class="icon-trophy-3"></i>
+                  <i class="icon-trophy-3 third"></i>
             <?php break;
-                default:
-                  break;
+                default: ?>
+                  <i class="icon-trophy-3 empty"></i>
+            <?php break;
               }
 
             ?>

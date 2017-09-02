@@ -9,7 +9,8 @@ function cosmetic_enqueue_scripts(){
 
     wp_localize_script( 'custom', 'ajaxHandler', array(
       'adminAjax' => admin_url( 'admin-ajax.php' ),
-      'security' => wp_create_nonce( 'user-favorite' ),
+      'securityFavorite' => wp_create_nonce( 'user-favorite' ),
+      'securityLoadmore' => wp_create_nonce( 'loadmore' ),
     ) );
 }
 add_action('wp_enqueue_scripts', 'cosmetic_enqueue_scripts');
@@ -237,25 +238,26 @@ function cosmetic_ranking_index(){
      }
 
      $content = '';
+     if( isset( $ranking_changed ) ) :
+         switch ( true ) {
+           case $ranking_changed > 0:
+            $content = '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
+            . ' ' . $ranking_changed;
+            echo $content;
+           break;
 
-     switch ( true ) {
-       case $ranking_changed > 0:
-        $content = '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
-        . ' ' . $ranking_changed;
-        echo $content;
-       break;
+           case $ranking_changed < 0:
+            $content = '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
+             . ' ' . abs($ranking_changed);
+            echo $content;
+           break;
 
-       case $ranking_changed < 0:
-        $content = '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
-         . ' ' . abs($ranking_changed);
-        echo $content;
-       break;
-
-       case $ranking_changed == 0:
-        $content = '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>';
-        echo $content;
-       break;
-     }
+           case $ranking_changed == 0:
+            $content = '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>';
+            echo $content;
+           break;
+         }
+     endif;
 }
 
 // 로그인 후 favorite 버튼 사용하기
@@ -314,3 +316,36 @@ function restrict_cosmetic_by_cosmetic_category() {
         }
     }
 }
+// load more ajax
+function process_load_more(){
+    $test = 0;
+    global $wp_query;
+    $posts_per_page = get_option( 'posts_per_page' );
+    $paged = ( get_query_var('page') ) ? get_query_var('page') : 1;
+
+    $args = array(
+      'post_type' => 'cosmetic',
+      'tax_query' => array(
+        array(
+          'taxonomy' => 'cosmetic_category',
+          'field' => 'slug',
+          'terms' => $term->slug,
+        ),
+      ),
+      'orderby'   => 'meta_value_num',
+      'meta_key'  => 'product_ranking_order',
+      'order' => 'ASC',
+      'posts_per_page' => $posts_per_page,
+      'paged' => $paged,
+    );
+
+    $query = new WP_Query($args);
+    while ($query->have_posts()) { $query->the_post();
+       the_title();
+    }
+
+    exit;
+}
+
+add_action('wp_ajax_nopriv_process_load_more', 'process_load_more');
+add_action('wp_ajax_process_load_more', 'process_load_more');
