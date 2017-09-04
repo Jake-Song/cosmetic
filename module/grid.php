@@ -6,24 +6,26 @@
       <div class="thumbnail-image">
         <div class="thumbnail-header">
 
+          <?php if( isset($ranking_count) ) : ?>
+
           <div class="ranking-icon">
             <?php
-              switch ($ranking_count) {
-                case 1 : ?>
-                  <i class="icon-trophy-3 first"></i>
-            <?php break;
-                case 2 : ?>
-             <i class="icon-trophy-3 second"></i>
-            <?php break;
-                case 3 : ?>
-                  <i class="icon-trophy-3 third"></i>
-            <?php break;
-                default: ?>
-                  <i class="icon-trophy-3 empty"></i>
-            <?php break;
-              }
 
-            ?>
+                switch ($ranking_count) {
+                  case 1 : ?>
+                    <i class="icon-trophy-3 first"></i>
+              <?php break;
+                  case 2 : ?>
+               <i class="icon-trophy-3 second"></i>
+              <?php break;
+                  case 3 : ?>
+                    <i class="icon-trophy-3 third"></i>
+              <?php break;
+                  default: ?>
+                    <i class="icon-trophy-3 empty"></i>
+              <?php break;
+                }
+              ?>
           </div>
 
           <div class="ranking-index">
@@ -37,6 +39,9 @@
             </div>
 
           </div>
+
+        <?php endif; ?>
+        
           <div class="favorite-save-button">
             <?php cosmetic_favorite_save_button(); ?>
           </div>
@@ -76,7 +81,9 @@
               </span>
             </div>
 
-            <a href="#" target="_blank" class="btn btn-primary" role="button">Check Out</a>
+            <a href="#" target="_blank" class="btn btn-primary" role="button">
+              <i class="icon-export"></i> Check Out
+            </a>
         </div>
       </div>
   </div>

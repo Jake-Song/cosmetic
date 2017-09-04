@@ -272,17 +272,23 @@ function cosmetic_favorite_save_button(){
 
       if( (array_search( get_the_ID(), $user_favorite) !== false ) ) :
     ?>
-        <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">SAVED</button>
+        <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">
+          <i class="icon-floppy"></i> Saved
+        </button>
 
     <?php else : ?>
 
-        <button type="button" name="favorite" class="favorite-button" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
+        <button type="button" name="favorite" class="favorite-button" data-post-id="<?php echo get_the_ID(); ?>">
+          <i class="icon-floppy"></i>Save
+        </button>
 
     <?php endif; ?>
 
   <?php else : ?>
 
-    <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">SAVE</button>
+    <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">
+      <i class="icon-floppy"></i>Save
+    </button>
 
   <?php endif;
 }
@@ -316,36 +322,28 @@ function restrict_cosmetic_by_cosmetic_category() {
         }
     }
 }
-// load more ajax
-function process_load_more(){
-    $test = 0;
-    global $wp_query;
-    $posts_per_page = get_option( 'posts_per_page' );
-    $paged = ( get_query_var('page') ) ? get_query_var('page') : 1;
 
-    $args = array(
-      'post_type' => 'cosmetic',
-      'tax_query' => array(
-        array(
-          'taxonomy' => 'cosmetic_category',
-          'field' => 'slug',
-          'terms' => $term->slug,
-        ),
+// Load more ajax handler
+/*
+function process_load_more_callback(){
+  $test = 0;
+  $args = array(
+    'post_type' => 'cosmetic',
+    'tax_query' => array(
+      array(
+        'taxonomy' => 'cosmetic_category',
+        'field' => 'slug',
+        'terms' => $term->slug,
       ),
-      'orderby'   => 'meta_value_num',
-      'meta_key'  => 'product_ranking_order',
-      'order' => 'ASC',
-      'posts_per_page' => $posts_per_page,
-      'paged' => $paged,
-    );
-
-    $query = new WP_Query($args);
-    while ($query->have_posts()) { $query->the_post();
-       the_title();
-    }
-
-    exit;
+    ),
+    'orderby'   => 'meta_value_num',
+    'meta_key'  => 'product_ranking_order',
+    'order' => 'ASC',
+    'posts_per_page' => 4,
+    'paged' => $paged,
+  );
+  $query = new WP_Query( $args );
 }
-
-add_action('wp_ajax_nopriv_process_load_more', 'process_load_more');
-add_action('wp_ajax_process_load_more', 'process_load_more');
+*/
+// add_action( 'wp_ajax_process_load_more_callback', 'process_load_more_callback' );
+// add_action( 'wp_ajax_nopriv_process_load_more_callback', 'process_load_more_callback' );

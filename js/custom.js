@@ -1,12 +1,20 @@
 jQuery( document ).ready( function($){
 
-  // ajax
+  // Load Contents with ajax
 
   var newLocation = '',
   firstLoad = false;
   isLoading = false;
 
   $('.filter').on('click', 'ul li a', function(e){
+    e.preventDefault();
+    var newPage = $(this).attr('href');
+
+    if(!isLoading) changePage( newPage, true );
+    firstLoad = true;
+  });
+
+  $('body').on('click', '.page-numbers', function(e){
     e.preventDefault();
     var newPage = $(this).attr('href');
 
@@ -105,28 +113,12 @@ jQuery( document ).ready( function($){
 
   $('.is-not-logged').on('click', function(){
     $(this).addClass('onclick');
-  })
-// ajax pagination
+  });
 
-var ajaxUrl = "<?php echo admin_url('admin-ajax.php')?>";
-var page = 1; // What page we are on.
-var ppp = 4; // Post per page
+// Search Button
+$('#search-trigger').on('click', function(e){
+    $('.search-form-container').toggle();
 
-$('#more_posts').on('click', function( e ){
-  e.preventDefault();
-  $("#more_posts").attr("disabled",true); // Disable the button, temp.
-    $.ajax({
-      url: ajaxHandler.adminAjax,
-      type: 'POST',
-      dataType: 'json',
-      data: {
-        action: 'process_load_more',
-        security: ajaxHandler.securityLoadmore,
-      },
-      success: function( response ){
-        alert('success');
-      },
-    })
 });
 
 })

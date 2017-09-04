@@ -21,8 +21,8 @@
                   <a href="<?php echo esc_url( home_url( '/' ) . $term->taxonomy . '/' . $term->slug); ?>">
                     <div class="product-image">
                       <?php
-                        $product_image_html = "<img src='./wp-content/themes/cosmetic/img/{$term->slug}.svg'>";
-                        echo $product_image_html;
+                        //$product_image_html = "<img src='./wp-content/themes/cosmetic/img/{$term->slug}.svg'>";
+                        //echo $product_image_html;
                       ?>
                     </div>
                     <div class="product-name">
@@ -35,21 +35,47 @@
               <?php endif; ?>
             <?php endforeach; ?>
           </ul>
+            <div class="search-field">
+              <button type="button" name="search-trigger" id="search-trigger">
+                <i class="icon-search"></i>
+              </button>
+
+              <?php get_search_form(); ?>
+            </div>
         </div>
 
         <div class="filter">
           <ul>
-            <li><a href="./top-30">Top 30</a></li>
-            <li><a href="./sort-by-brand">Sort By Brand</a></li>
-            <li><a href="./new-arrival">New Arrival</a></li>
+            <li>
+              <a href="./top-30">
+                <i class="icon-award"></i>
+                Top 30
+              </a>
+            </li>
+            <li>
+              <a href="./sort-by-brand">
+                <i class="icon-award"></i>
+                Sort By Brand
+              </a>
+            </li>
+            <li>
+              <a href="./new-arrival">
+                <i class="icon-award"></i>
+                New Arrival
+              </a>
+            </li>
           </ul>
         </div>
 
       <div class="ajax-container">
 
         <?php
-          $paged = ( get_query_var('page') ) ? get_query_var('page') : 1;
+
+          $paged = array();
+
           foreach( $terms as $key => $term ) :
+
+            $paged[$key] = isset( $_GET['page'.$key] ) ? (int) $_GET['page'.$key] : 1;
 
               $args[$key] = array(
                 'post_type' => 'cosmetic',
@@ -63,8 +89,8 @@
                 'orderby'   => 'meta_value_num',
         	      'meta_key'  => 'product_ranking_order',
                 'order' => 'ASC',
-                'posts_per_page' => 5,
-                'paged' => $paged,
+                'posts_per_page' => 4,
+                'paged' => $paged[$key],
               );
               $query[$key] = new WP_Query( $args[$key] );
 
@@ -86,11 +112,15 @@
                     $ranking_count++;
 
                   endwhile;
-                  $test = 0; ?>
-                  <div class="load-more">
-                      <a id="more_posts" href="#">Load More</a>
-                  </div>
-            <?php
+                  $test = 0;
+                  $pag_args[$key] = array(
+                     'format'  => '?page'. $key .'=%#%',
+                     'current' => $paged[$key],
+                     'total'   => $query[$key]->max_num_pages,
+
+                 );
+           echo paginate_links( $pag_args[$key] );
+
               wp_reset_postdata();
 
               else :
