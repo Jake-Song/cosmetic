@@ -12,7 +12,15 @@ Template Name: User Favorite
           <?php
             $favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
 
-            $favorite_posts = array_map( 'intval', $favorite_posts );
+            if( empty( $favorite_posts ) ){
+              echo 'You could try to add products.';
+              return;
+            }
+
+            if( is_array($favorite_posts) ){
+              $favorite_posts = array_map( 'intval', $favorite_posts );
+            }
+
               $args = array(
                 'post__in' => $favorite_posts,
                 'post_type' => 'cosmetic',

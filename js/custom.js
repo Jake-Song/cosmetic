@@ -81,9 +81,22 @@ jQuery( document ).ready( function($){
 
   $('body').on('click', '.favorite-button', function(e){
     e.preventDefault();
+    var test = 0;
 
     var favoritePostId = $(this).attr("data-post-id");
     var favorite = $(this).hasClass('saved') ? 'remove' : 'add';
+
+    if(!isLoading){
+      loadFavoriteAjax( favoritePostId, favorite );
+    }
+  });
+
+  function loadFavoriteAjax( favoritePostId, favorite ){
+    isLoading = true;
+    favoriteAjax( favoritePostId, favorite );
+  }
+
+  function favoriteAjax( favoritePostId, favorite ){
 
     $.ajax({
       url: ajaxHandler.adminAjax,
@@ -106,10 +119,10 @@ jQuery( document ).ready( function($){
           .text('SAVE')
           .removeClass('saved');
         }
-
+        isLoading = false;
       },
     });
-  });
+  }
 
   $('.is-not-logged').on('click', function(){
     $(this).addClass('onclick');

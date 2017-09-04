@@ -139,11 +139,11 @@ function cosmetic_register_taxonomy(){
 }
 add_action( 'init', 'cosmetic_register_taxonomy' );
 
-// Favorite Ajax
+// Favorite with Ajax
 function process_favorite_callback(){
 
   global $current_user, $post;
-
+  $test = 0;
   if ( ! check_ajax_referer( 'user-favorite', 'security' ) ) {
     wp_send_json_error( 'Security Check failed' );
   }
@@ -267,10 +267,15 @@ function cosmetic_favorite_save_button(){
 
     if( is_user_logged_in() ) :
 
-      $user_favorite = !empty(get_user_meta( $current_user->ID, 'user-favorite', true))
-      ? get_user_meta( $current_user->ID, 'user-favorite', true) : array();
+      $user_favorite = !empty(get_user_meta( $current_user->ID, 'user-favorite',true))
+      ? get_user_meta( $current_user->ID, 'user-favorite', true) : 0;
 
-      if( (array_search( get_the_ID(), $user_favorite) !== false ) ) :
+      if( is_array( $user_favorite ) ) {
+        $search_in_user_meta = array_search( get_the_ID(), $user_favorite );
+      } else {
+        $search_in_user_meta = strpos( $user_favorite, get_the_ID() );
+      }
+      if( ($search_in_user_meta !== false ) ) :
     ?>
         <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">
           <i class="icon-floppy"></i> Saved
