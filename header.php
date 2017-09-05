@@ -44,6 +44,56 @@
 
                             <?php wp_nav_menu( $args ); ?>
 
-                </nav>
+              </nav>
+
+                <!-- Registration The Modal -->
+                <div id="register" class="modal">
+
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="modal-title">
+                      <h2>Create Account</h2>
+                    </div>
+
+                    <?php echo custom_registration_shortcode(); ?>
+
+                  </div>
+
+                </div>
+
+                <!-- Log in The Modal -->
+                <div id="signin" class="modal">
+
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="modal-title">
+                      <h2>Log In</h2>
+                    </div>
+
+                    <?php echo custom_login_shortcode(); ?>
+
+                  </div>
+
+                </div>
+
+                <!-- Registration The Modal -->
+                <div id="register" class="modal">
+
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="modal-title">
+                      <h3>Create Account</h3>
+                    </div>
+
+                    <?php echo custom_registration_shortcode(); ?>
+
+                  </div>
+
+                </div>
+
+                  <?php get_search_form(); ?>
 
           </header>

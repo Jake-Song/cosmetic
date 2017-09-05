@@ -5,7 +5,7 @@ Template Name: Archive Top 30
 ?>
 <?php get_header(); ?>
     <?php
-    
+
           $args = array(
             'post_type' => 'cosmetic',
             'meta_query' => array(
@@ -26,6 +26,8 @@ Template Name: Archive Top 30
           $query = new WP_Query( $args );
 
         ?>
+      <div class="content-box">
+
         <article class="post clearfix">
 
           <h2>Top 30</h2>
@@ -51,5 +53,5 @@ Template Name: Archive Top 30
           endif;
        ?>
        </article>
-
+     </div>
 <?php get_footer(); ?>

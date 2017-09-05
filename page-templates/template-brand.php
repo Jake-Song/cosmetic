@@ -31,6 +31,8 @@ Template Name: Archive Brand
           $query[$key] = new WP_Query( $args[$key] );
 
         ?>
+      <div class="content-box">
+
         <article class="post clearfix">
 
           <h2><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h2>
@@ -57,6 +59,8 @@ Template Name: Archive Brand
        ?>
        </article>
 
+  </div>
+  
     <?php endforeach; ?>
 
 <?php get_footer(); ?>

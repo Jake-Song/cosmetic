@@ -10,11 +10,12 @@ Template Name: Archive New Arrival
         $args = array(
             'post_type' => 'cosmetic',
             'orderby' => 'ID',
-            'posts_per_page' => -1,
-          );
+        );
           $query = new WP_Query( $args );
 
         ?>
+      <div class="content-box">
+
         <article class="post clearfix">
 
           <h2>New Arrival.</h2>
@@ -39,7 +40,7 @@ Template Name: Archive New Arrival
           endif;
        ?>
        </article>
-
+     </div>
 
 
 <?php get_footer(); ?>

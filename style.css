@@ -93,9 +93,10 @@ article.post:last-of-type{
   color: #333;
 }
 .site-header nav{
+  margin-top: 2em;
   position: absolute;
-  top: 50%;
-  left: 0;
+  bottom: 0;
+  right: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -115,7 +116,7 @@ article.post:last-of-type{
   font-size: 1.2rem;
   color: #333;
   font-weight: 400;
-  padding: 0 20px;
+  padding: 0 10px;
   border-right: 1px solid #999;
 }
 .site-header .navbar-default .navbar-nav > li:last-of-type > a{
@@ -133,29 +134,29 @@ article.post:last-of-type{
 }
 .search-box{
   display: flex;
-  border: 1px solid #adadad;
+  border: 1px solid #dcdcdc;
   background: #fff;
   border-radius: 2px;
 }
 .search-box input{
   border: 0;
   background: #fff;
-  padding: 5px 0px;
 }
 .search-box label{
   margin-bottom: 0;
+  padding-left: 5px;
 }
-.search-box input.search-submit{
+.search-box .search-submit{
   background: #ffbc00;
-  padding: 5px;
   font-size: 1.5rem;
-  color: white;
+  color: #333;
+  border: 0;
 }
 .search-form-container{
   position: absolute;
-  top: 0;
-  right: 0;
-  margin: 3em 0em;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
 }
 .search-form-container .screen-reader-text{
   display: none;
@@ -163,8 +164,13 @@ article.post:last-of-type{
 .search-form-container fieldset.search-box{
   position: relative;
 }
+.search-form-container fieldset.search-box .submit-button{
+  order: -1;
+}
 .search-form-container fieldset.search-box .search-field{
   width: 150px;
+  height: 30px;
+  font-weight: 400;
 }
 .search-form-container fieldset.search-box .search-field:required:focus{
   box-shadow: none;
@@ -181,13 +187,15 @@ article.post:last-of-type{
 .product > ul{
   list-style: none;
   display: flex;
+  justify-content: space-around;
   border: 0;
   background: #fff;
   box-shadow: 8px 11px 15px #bbb;;
   padding-left: 15px;
 }
 .product > ul > li{
-  padding: 1em;
+  position: relative;
+  padding: 10px;
 }
 .product > ul > li > a > .product-image{
   width: 40px;
@@ -198,6 +206,7 @@ article.post:last-of-type{
   align-items: center;
   color: #333;
 }
+
 .product > .search-field{
   position: absolute;
   top: 0px;
@@ -210,14 +219,12 @@ article.post:last-of-type{
   background: #ffbc00;
   padding: 9px 50px;
 }
-.search-form-container{
-  display: none;
-}
 .filter ul{
   list-style: none;
   display: flex;
   padding: 0;
   box-shadow: 5px 5px 10px #bbb;
+  background: #fff;
 }
 .filter ul li{
   flex: 1 1 33.3%;
@@ -233,12 +240,9 @@ article.post:last-of-type{
   font-size: 1.5rem;
   font-weight: bold;
 }
-.filter ul li a i{
-  display: block;
-  font-size: 5rem;
-}
-.filter ul li:nth-child(1) a i{
-  color: gold;
+.filter ul li a img{
+  width: 100px;
+  margin-bottom: 1em;
 }
 article.post h4.cosmetic-category{
   margin: 1em 0;
@@ -252,6 +256,7 @@ article.post .col-lg-4{
 article.post .thumbnail{
   position: relative;
   border: 0;
+  height: 320px;
 }
 article.post .thumbnail:hover::before{
   opacity: 0.7;
@@ -295,10 +300,11 @@ article.post .thumbnail .caption{
   font-size: 2rem;
 }
 .bd{
-  width: 60px;
-  height: 5px;
-  background: #fe516f;
-  margin: 1em 0;
+  width: 70px;
+  height: 2px;
+  background: #ffbc00;
+  position: absolute;
+  bottom: -1px;
 }
 .ranking-changed .glyphicon-triangle-top{
   color: #fe516f;
@@ -423,6 +429,82 @@ article.page h2{
 .site-header .navbar-default .navbar-nav > li.current-page-ancestor > a::before{
   box-shadow: inset 64px 0 0 0 #ffbc00;
 }
+
+/* 모달 */
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+}
+.my-theme .modal-content .modal-title{
+  margin-bottom: 1em;
+}
+.my-theme .modal-content form label{
+  display: block;
+}
+.my-theme .modal-content form input{
+  height: 35px;
+  width: 100%;
+  border: 1px solid #adadad;
+  border-radius: 3px;
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+#registration{
+  margin-top: 1em;
+  margin-right: 2em;
+  width: 30%;
+  background: #ffbc00;
+  color: white;
+  border: 0;
+  font-size: 1.1rem;
+}
+.terms{
+  display: inline-block;
+}
+.login-remember{
+  display: none;
+}
+#login, #reset-submit{
+  width: 30%;
+  background: #ffbc00;
+  color: white;
+  font-size: 1.1rem;
+}
+#reset-submit{
+  border: 0;
+  padding: 5px 0;
+  width: 45%;
+}
 /* 푸터 페이지 */
 .info-box{
   width: 30%;
@@ -437,7 +519,8 @@ article.page h2{
 
 /* 포스트 */
 .post h2{
-  margin-bottom: 10px;
+  margin-bottom: 1em;
+  clear: both;
 }
 p.post-info{
   font-size: 1rem;
@@ -508,4 +591,9 @@ div.single-post-image img.not-found{
 }
 .site-footer{
   clear: both;
+}
+
+/* 리셋 페이지 */
+article.reset-page form{
+  width: 40%;
 }

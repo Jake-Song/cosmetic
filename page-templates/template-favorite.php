@@ -8,6 +8,8 @@ Template Name: User Favorite
  ?>
 <?php get_header(); ?>
 
+    <div class="content-box">
+
       <article class="post">
           <?php
             $favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
@@ -45,5 +47,5 @@ Template Name: User Favorite
             endif;
            ?>
       </article>
-
+    </div>
 <?php get_footer(); ?>

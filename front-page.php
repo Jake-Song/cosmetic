@@ -21,47 +21,47 @@
                   <a href="<?php echo esc_url( home_url( '/' ) . $term->taxonomy . '/' . $term->slug); ?>">
                     <div class="product-image">
                       <?php
-                        //$product_image_html = "<img src='./wp-content/themes/cosmetic/img/{$term->slug}.svg'>";
-                        //echo $product_image_html;
+                        $product_image_html = "<img src='./wp-content/themes/cosmetic/img/{$term->slug}.svg'>";
+                        echo $product_image_html;
                       ?>
                     </div>
                     <div class="product-name">
                       <?php echo $term->name; ?>
                     </div>
                   </a>
-
+                  <div class="bd"></div>
                 </li>
 
               <?php endif; ?>
             <?php endforeach; ?>
           </ul>
-            <div class="search-field">
-              <button type="button" name="search-trigger" id="search-trigger">
-                <i class="icon-search"></i>
-              </button>
 
-              <?php get_search_form(); ?>
-            </div>
         </div>
 
         <div class="filter">
           <ul>
             <li>
               <a href="./top-30">
-                <i class="icon-award"></i>
-                Top 30
+                <img src="./wp-content/themes/cosmetic/img/top30.png" alt="">
+                <div class="">
+                  Top 30
+                </div>
               </a>
             </li>
             <li>
               <a href="./sort-by-brand">
-                <i class="icon-award"></i>
-                Sort By Brand
+                <img src="./wp-content/themes/cosmetic/img/brand-flat-icons.svg" alt="">
+                <div>
+                  Sort By Brand
+                </div>
               </a>
             </li>
             <li>
               <a href="./new-arrival">
-                <i class="icon-award"></i>
-                New Arrival
+                <img src="./wp-content/themes/cosmetic/img/new-icon.png" alt="">
+                <div>
+                  New Arrival
+                </div>
               </a>
             </li>
           </ul>
@@ -97,7 +97,7 @@
         ?>
             <article class="post clearfix">
 
-              <h4 class="cosmetic-category"><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h4>
+              <h2 class="cosmetic-category"><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h2>
 
               <?php
 

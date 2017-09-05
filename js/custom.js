@@ -131,7 +131,89 @@ jQuery( document ).ready( function($){
 // Search Button
 $('#search-trigger').on('click', function(e){
     $('.search-form-container').toggle();
+});
+
+// Modal
+// Get the modal
+var modal = document.getElementById('register');
+var loginModal = document.getElementById('signin');
+
+// Get the button that opens the modal
+var btn = document.querySelector(".register-modal");
+var loginBtn = document.querySelector(".login-modal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+var loginSpan = document.getElementsByClassName("close")[1];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function(e) {
+    e.preventDefault();
+    modal.style.display = "block";
+}
+loginBtn.onclick = function(e) {
+    e.preventDefault();
+    loginModal.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+loginSpan.onclick = function() {
+    loginModal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        loginModal.style.display = "none";
+    }
+}
+
+// Registration and Login with Ajax
+var regiForm = $('#registration-form');
+var loginForm = $('#loginform');
+
+regiForm.on('submit', function( e ){
+
+  e.preventDefault();
+
+  var action = 'user_regi_validation';
+
+  userFormAjax( regiForm, action );
 
 });
+
+loginForm.on('submit', function(e){
+
+  e.preventDefault();
+
+  var action = 'user_login_validation';
+
+  userFormAjax( loginForm, action );
+
+});
+
+function userFormAjax( form, action ){
+  var formData = form.serialize();
+  var test = 0;
+  $.ajax({
+    url: ajaxHandler.adminAjax,
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      action: action,
+      security: ajaxHandler.securityLogin,
+      formData: formData,
+    },
+    success: function( data ){
+      var test = 0;
+
+      console.log(data);
+      form.append(data);
+      
+    },
+  });
+}
 
 })

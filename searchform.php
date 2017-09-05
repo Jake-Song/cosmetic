@@ -4,10 +4,12 @@
 
   		<label>
   			<span class="screen-reader-text">검색:</span>
-  			<input type="search" class="search-field" value="" name="s" required />
+  			<input type="search" class="search-field" placeholder="Search.." value="" name="s" required />
   		</label>
       <div class="submit-button">
-  		    <input type="submit" class="search-submit" value="Search">
+  		    <button type="submit" class="search-submit">
+            <i class="icon-search"></i>
+          </button>
       </div>
     </fieldset>
   </form>
