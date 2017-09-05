@@ -272,20 +272,32 @@ function cosmetic_favorite_save_button(){
       ? get_user_meta( $current_user->ID, 'user-favorite', true) : 0;
 
       if( is_array( $user_favorite ) ) {
-        $search_in_user_meta = array_search( get_the_ID(), $user_favorite );
-      } else {
-        $search_in_user_meta = strpos( $user_favorite, get_the_ID() );
-      }
-      if( ($search_in_user_meta !== false ) ) :
-    ?>
-        <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">
-          <i class="icon-floppy"></i> Saved
-        </button>
 
-    <?php else : ?>
+        $search_in_user_meta = array_search( get_the_ID(), $user_favorite );
+
+      } else {
+
+        $search_in_user_meta = strpos( $user_favorite, get_the_ID() );
+
+      }
+
+      if( ($search_in_user_meta !== false ) ) :
+
+          if( is_page_template( 'page-templates/template-favorite.php' ) ) :
+            ?>
+            <button type="button" name="favorite" class="favorite-button saved remove" data-post-id="<?php echo get_the_ID(); ?>">
+               Remove
+            </button>
+      <?php else : ?>
+            <button type="button" name="favorite" class="favorite-button saved" data-post-id="<?php echo get_the_ID(); ?>">
+               Saved
+            </button>
+      <?php endif; ?>
+
+<?php else : ?>
 
         <button type="button" name="favorite" class="favorite-button" data-post-id="<?php echo get_the_ID(); ?>">
-          <i class="icon-floppy"></i>Save
+          Save
         </button>
 
     <?php endif; ?>
@@ -293,7 +305,7 @@ function cosmetic_favorite_save_button(){
   <?php else : ?>
 
     <button type="button" name="favorite" class="is-not-logged" data-post-id="<?php echo get_the_ID(); ?>">
-      <i class="icon-floppy"></i>Save
+      Save
     </button>
 
   <?php endif;
@@ -364,7 +376,7 @@ function user_login_validation_callback(){
     wp_send_json_error( 'Security Check failed' );
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
   }
 }
 add_action( 'wp_ajax_user_login_validation', 'user_login_validation_callback' );

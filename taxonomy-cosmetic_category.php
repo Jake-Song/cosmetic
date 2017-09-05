@@ -5,6 +5,7 @@
           'taxonomy' => 'cosmetic_category',
           'hide_empty' => 0,
           'orderby' => 'ID',
+          
         ));
     ?>
      <div class="content-box">
@@ -48,13 +49,6 @@
 
              endforeach; ?>
 
-           </ul>
-         </div>
-         <div class="filter">
-           <ul>
-             <li><a href="./top-30">Top 30</a></li>
-             <li><a href="./sort-by-brand">Sort By Brand</a></li>
-             <li><a href="./new-arrival">New Arrival</a></li>
            </ul>
          </div>
 

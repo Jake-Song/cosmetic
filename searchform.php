@@ -3,7 +3,7 @@
     <fieldset class="search-box">
 
   		<label>
-  			<span class="screen-reader-text">검색:</span>
+  			<span class="screen-reader-text">Search:</span>
   			<input type="search" class="search-field" placeholder="Search.." value="" name="s" required />
   		</label>
       <div class="submit-button">

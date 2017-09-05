@@ -63,37 +63,30 @@ jQuery( document ).ready( function($){
     });
   }
 
-  // registration
-  $(".tab_content_login").hide();
-		$("ul.tabs_login li:first").addClass("active_login").show();
-		$(".tab_content_login:first").show();
-		$("ul.tabs_login li").click(function() {
-			$("ul.tabs_login li").removeClass("active_login");
-			$(this).addClass("active_login");
-			$(".tab_content_login").hide();
-			var activeTab = $(this).find("a").attr("href");
-			if ($.browser.msie) {$(activeTab).show();}
-			else {$(activeTab).show();}
-			return false;
-		});
-
   // Favorite Ajax
 
-  $('body').on('click', '.favorite-button', function(e){
-    e.preventDefault();
-    var test = 0;
+  $('body').on('click', '.favorite-button', function(event){
+    event.preventDefault();
+
+    var isLoading = false;
 
     var favoritePostId = $(this).attr("data-post-id");
     var favorite = $(this).hasClass('saved') ? 'remove' : 'add';
 
     if(!isLoading){
-      loadFavoriteAjax( favoritePostId, favorite );
+      loadFavoriteAjax( favoritePostId, favorite, event );
     }
   });
 
-  function loadFavoriteAjax( favoritePostId, favorite ){
+  function loadFavoriteAjax( favoritePostId, favorite, event ){
+
     isLoading = true;
-    favoriteAjax( favoritePostId, favorite );
+
+    if( !$(event.target).hasClass('remove') ){
+      favoriteAjax( favoritePostId, favorite );
+    } else {
+      removeFavoriteAjax( favoritePostId, favorite );
+    }
   }
 
   function favoriteAjax( favoritePostId, favorite ){
@@ -124,52 +117,71 @@ jQuery( document ).ready( function($){
     });
   }
 
+  // Wishlist Favorite Remove
+  function removeFavoriteAjax( favoritePostId, favorite ){
+
+      $.ajax({
+        url: ajaxHandler.adminAjax,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          action: 'process_favorite',
+          favoritePostId: favoritePostId,
+          favorite: favorite,
+          security: ajaxHandler.securityFavorite,
+        },
+        success: function( data ){
+          $('.post-id-' + favoritePostId).css('display', 'none');
+          isLoading = false;
+        }
+      });
+  }
+
   $('.is-not-logged').on('click', function(){
     $(this).addClass('onclick');
   });
 
-// Search Button
-$('#search-trigger').on('click', function(e){
-    $('.search-form-container').toggle();
-});
-
 // Modal
-// Get the modal
-var modal = document.getElementById('register');
-var loginModal = document.getElementById('signin');
 
-// Get the button that opens the modal
-var btn = document.querySelector(".register-modal");
-var loginBtn = document.querySelector(".login-modal");
+if( document.querySelector(".register-modal") ){
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-var loginSpan = document.getElementsByClassName("close")[1];
+  // Get the modal
+  var modal = document.getElementById('register');
+  var loginModal = document.getElementById('signin');
 
-// When the user clicks on the button, open the modal
-btn.onclick = function(e) {
-    e.preventDefault();
-    modal.style.display = "block";
-}
-loginBtn.onclick = function(e) {
-    e.preventDefault();
-    loginModal.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-loginSpan.onclick = function() {
-    loginModal.style.display = "none";
-}
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-        loginModal.style.display = "none";
-    }
-}
+  // Get the button that opens the modal
 
+  var btn = document.querySelector(".register-modal");
+  var loginBtn = document.querySelector(".login-modal");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  var loginSpan = document.getElementsByClassName("close")[1];
+
+  // When the user clicks on the button, open the modal
+  btn.onclick = function(e) {
+      e.preventDefault();
+      modal.style.display = "block";
+  }
+  loginBtn.onclick = function(e) {
+      e.preventDefault();
+      loginModal.style.display = "block";
+  }
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+      modal.style.display = "none";
+  }
+  loginSpan.onclick = function() {
+      loginModal.style.display = "none";
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+          loginModal.style.display = "none";
+      }
+  }
+}
 // Registration and Login with Ajax
 var regiForm = $('#registration-form');
 var loginForm = $('#loginform');
@@ -211,7 +223,7 @@ function userFormAjax( form, action ){
 
       console.log(data);
       form.append(data);
-      
+
     },
   });
 }

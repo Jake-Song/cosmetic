@@ -10,6 +10,8 @@ Template Name: User Favorite
 
     <div class="content-box">
 
+      <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
+
       <article class="post">
           <?php
             $favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
@@ -26,6 +28,7 @@ Template Name: User Favorite
               $args = array(
                 'post__in' => $favorite_posts,
                 'post_type' => 'cosmetic',
+                
               );
 
             $query = new WP_Query( $args );

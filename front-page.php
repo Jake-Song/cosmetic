@@ -1,42 +1,8 @@
 <?php get_header(); ?>
 
-    <?php
-      $terms = get_terms(
-        array(
-          'taxonomy' => 'cosmetic_category',
-          'hide_empty' => 0,
-          'orderby' => 'ID',
-        ));
-        $test = 0;
-
-    ?>
     <div class="content-box">
 
-        <div class="product">
-          <ul>
-            <?php foreach ($terms as $key => $term) : ?>
-              <?php if( !( $term->parent ) ) : ?>
-            <?php $icon = $term->slug; ?>
-                <li>
-                  <a href="<?php echo esc_url( home_url( '/' ) . $term->taxonomy . '/' . $term->slug); ?>">
-                    <div class="product-image">
-                      <?php
-                        $product_image_html = "<img src='./wp-content/themes/cosmetic/img/{$term->slug}.svg'>";
-                        echo $product_image_html;
-                      ?>
-                    </div>
-                    <div class="product-name">
-                      <?php echo $term->name; ?>
-                    </div>
-                  </a>
-                  <div class="bd"></div>
-                </li>
-
-              <?php endif; ?>
-            <?php endforeach; ?>
-          </ul>
-
-        </div>
+    <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
         <div class="filter">
           <ul>
@@ -69,6 +35,11 @@
 
       <div class="ajax-container">
 
+        <div class="category-title">
+          <h4>By Category</h4>
+          <h2>Best Goods - Top 5</h2>
+        </div>
+
         <?php
 
           $paged = array();
@@ -89,7 +60,7 @@
                 'orderby'   => 'meta_value_num',
         	      'meta_key'  => 'product_ranking_order',
                 'order' => 'ASC',
-                'posts_per_page' => 4,
+                'posts_per_page' => 5,
                 'paged' => $paged[$key],
               );
               $query[$key] = new WP_Query( $args[$key] );
@@ -97,11 +68,10 @@
         ?>
             <article class="post clearfix">
 
-              <h2 class="cosmetic-category"><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h2>
+            <?php if( $query[$key]->have_posts() ) : ?>
+                  <h4 class="cosmetic-category"><?php echo strtoupper($term->name); ?></h4>
 
-              <?php
-
-              if( $query[$key]->have_posts() ) :
+                <?php
 
                   $ranking_count = 1;
 
@@ -119,13 +89,11 @@
                      'total'   => $query[$key]->max_num_pages,
 
                  );
-           echo paginate_links( $pag_args[$key] );
+              echo paginate_links( $pag_args[$key] );
 
               wp_reset_postdata();
 
-              else :
-                  echo '포스트가 존재하지 않습니다.';
-              endif;
+          endif;
            ?>
            </article>
 

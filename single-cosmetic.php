@@ -1,5 +1,9 @@
 <?php get_header(); ?>
+
   <div class="content-box">
+
+  <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
+
     <?php
         if(have_posts()) :
           while(have_posts()) : the_post(); ?>

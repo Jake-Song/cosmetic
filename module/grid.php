@@ -1,14 +1,23 @@
-<div class="col-sm-12 col-md-4 col-lg-4">
+<div class="col-sm-12 col-md-4 col-lg-4 post-id-<?php echo esc_attr( get_the_ID() ); ?>">
 
   <div class="thumbnail">
 
     <?php if( has_post_thumbnail() ) : ?>
+
       <div class="thumbnail-image">
+
         <div class="thumbnail-header">
 
-          <?php if( isset($ranking_count) ) : ?>
+          <?php
+
+            if( !is_page_template( 'page-templates/template-favorite.php' )
+                && !is_page_template( 'page-templates/template-new.php' )
+                && !is_search() ) :
+
+          ?>
 
           <div class="ranking-icon">
+
             <?php
 
                 switch ($ranking_count) {
@@ -26,6 +35,7 @@
               <?php break;
                 }
               ?>
+
           </div>
 
           <div class="ranking-index">
@@ -41,7 +51,7 @@
           </div>
 
         <?php endif; ?>
-        
+
           <div class="favorite-save-button">
             <?php cosmetic_favorite_save_button(); ?>
           </div>
@@ -55,35 +65,40 @@
 
       <div class="caption clearfix">
         <div class="thumbnail-content">
+
           <?php the_title(); ?>
-          <?php //the_excerpt(); ?>
+
         </div>
         <div class="thumbnail-footer">
-
-            <div class="product-price">
-              <?php
-                $product_price = get_post_meta( get_the_ID(), 'product_price', true );
-                if( !empty( $product_price ) ) echo '$' . $product_price;
-              ?>
-            </div>
-            <div class="favorite">
-              <span class="favorite-icon">
-
-                  <img src="<?php echo site_url(); ?>/wp-content/themes/cosmetic/img/wishlist-icon.svg" alt="">
-
-              </span>
-              <span class="favorite-count post-id-<?php the_ID(); ?>">
+          
+            <div class="price-and-favorite">
+              <div class="product-price">
                 <?php
-                  $favorite_count = !empty(get_post_meta( $post->ID, 'favorite_count', true )) ?
-                  get_post_meta( $post->ID, 'favorite_count', true ) : 0;
-                  echo $favorite_count . ' Saves';
+                  $product_price = get_post_meta( get_the_ID(), 'product_price', true );
+                  if( !empty( $product_price ) ) echo '$' . $product_price;
                 ?>
-              </span>
+              </div>
+              <div class="favorite">
+                <span class="favorite-icon">
+
+                    <img src="<?php echo site_url(); ?>/wp-content/themes/cosmetic/img/wishlist-icon.svg" alt="">
+
+                </span>
+                <span class="favorite-count post-id-<?php the_ID(); ?>">
+                  <?php
+                    $favorite_count = !empty(get_post_meta( $post->ID, 'favorite_count', true )) ?
+                    get_post_meta( $post->ID, 'favorite_count', true ) : 0;
+                    echo $favorite_count . ' Saves';
+                  ?>
+                </span>
+              </div>
             </div>
 
-            <a href="#" target="_blank" class="btn btn-primary" role="button">
-              <i class="icon-export"></i> Check Out
-            </a>
+            <div class="check-out-button">
+              <a href="#" target="_blank" class="btn btn-primary" role="button">
+                 Check Out
+              </a>
+            </div>
         </div>
       </div>
   </div>

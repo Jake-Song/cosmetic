@@ -10,11 +10,14 @@ Template Name: Archive New Arrival
         $args = array(
             'post_type' => 'cosmetic',
             'orderby' => 'ID',
+            'posts_per_page' => 10,
         );
           $query = new WP_Query( $args );
 
         ?>
       <div class="content-box">
+
+        <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
         <article class="post clearfix">
 

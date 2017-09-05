@@ -25,6 +25,7 @@ html.my-theme{
 body{
   font-family: "Spoqa Han Sans", "Spoqa Han Sans JP", 'Sans-serif' !important;
   letter-spacing: -1px;
+  height: 100%;
 }
 p{
   letter-spacing: 0px;
@@ -51,6 +52,7 @@ img{
 div.container{
   padding: 0;
   width: 100%;
+  height: 100%;
   background: url("./img/background-tile.jpg");
 }
 article.post:last-of-type{
@@ -70,7 +72,7 @@ article.post:last-of-type{
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 960px;
   margin: 0 auto;
   margin-bottom: 2em;
 }
@@ -164,11 +166,8 @@ article.post:last-of-type{
 .search-form-container fieldset.search-box{
   position: relative;
 }
-.search-form-container fieldset.search-box .submit-button{
-  order: -1;
-}
 .search-form-container fieldset.search-box .search-field{
-  width: 150px;
+  width: 130px;
   height: 30px;
   font-weight: 400;
 }
@@ -187,15 +186,15 @@ article.post:last-of-type{
 .product > ul{
   list-style: none;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   border: 0;
   background: #fff;
   box-shadow: 8px 11px 15px #bbb;;
-  padding-left: 15px;
+  padding: 0;
 }
 .product > ul > li{
   position: relative;
-  padding: 10px;
+  padding: 15px;
 }
 .product > ul > li > a > .product-image{
   width: 40px;
@@ -205,6 +204,7 @@ article.post:last-of-type{
   flex-direction: column;
   align-items: center;
   color: #333;
+  font-weight: bold;
 }
 
 .product > .search-field{
@@ -230,7 +230,7 @@ article.post:last-of-type{
   flex: 1 1 33.3%;
   text-align: center;
   padding: 2em 0;
-  border-right: 1px solid #adadad;
+  border-right: 1px solid #ececec;
 }
 .filter ul li:last-child{
   border-right: 0;
@@ -241,17 +241,25 @@ article.post:last-of-type{
   font-weight: bold;
 }
 .filter ul li a img{
-  width: 100px;
+  width: 80px;
   margin-bottom: 1em;
+}
+.category-title{
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+.category-title h2{
+  margin-top: 0;
 }
 article.post h4.cosmetic-category{
   margin: 1em 0;
+  font-weight: 700;
 }
 article.post .col-sm-12.col-md-4.col-lg-4{
   padding: 0;
 }
 article.post .col-lg-4{
-  width: 25%;
+  width: 20%;
 }
 article.post .thumbnail{
   position: relative;
@@ -259,7 +267,7 @@ article.post .thumbnail{
   height: 320px;
 }
 article.post .thumbnail:hover::before{
-  opacity: 0.7;
+  opacity: 0.2;
 }
 article.post .thumbnail::before{
   content: "";
@@ -268,13 +276,16 @@ article.post .thumbnail::before{
   left: 0;
   width: 100%;
   height: 100%;
-  background: #ffbc00;
+  background: #000;
   opacity: 0;
   transition: opacity .5s;
   pointer-events: none;
 }
 article.post .thumbnail .caption{
   padding: 0;
+}
+.thumbnail-header{
+  position: relative;
 }
 .ranking-icon{
   font-size: 3rem;
@@ -303,8 +314,6 @@ article.post .thumbnail .caption{
   width: 70px;
   height: 2px;
   background: #ffbc00;
-  position: absolute;
-  bottom: -1px;
 }
 .ranking-changed .glyphicon-triangle-top{
   color: #fe516f;
@@ -317,42 +326,36 @@ article.post .thumbnail .caption{
 }
 .favorite-save-button{
   position: absolute;
-  top: 50%;
-  right: 50%;
-  transform: translateY(-50%);
+  top: 15px;
+  right: 5px;
+  transition: .1s;
+  transform: translateX(10%);
   opacity: 0;
-  transition: opacity .5s;
 }
-.thumbnail-footer .btn-primary{
-  border-radius: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-  transition: opacity .5s;
-  background: #fff;
-  color: #333;
-  border: 0;
-}
-.thumbnail:hover .favorite-save-button, .thumbnail:hover .thumbnail-footer .btn-primary{
-  opacity: 1;
+.thumbnail:hover .favorite-save-button {
+    opacity: 1;
+    transform: translateX(0);
 }
 .thumbnail .favorite-button, .thumbnail .is-not-logged{
   border: 1px solid transparent;
   color: white;
-  padding: 5.5px 22px;
-  background: #116F7E;
+  padding: 5px 12px;
+  background: #b13c3c;
 }
 .thumbnail .favorite-button.saved{
-  background: #fff;
-  color: #333;
+  background: #adadad;
 }
 .favorite-count{
   display: inline-block;
 }
 .favorite-icon img{
   width: 15px;
+}
+.thumbnail-content{
+  margin-bottom: 5px;
+  width: 184px;
+  height: 40px;
+  overflow: hidden;
 }
 .thumbnail-footer{
   display: flex;
@@ -362,11 +365,25 @@ article.post .thumbnail .caption{
 .thumbnail-footer .product-price{
   font-size: 1.2rem;
 }
+.thumbnail-footer .favorite{
+  font-size: .8rem;
+}
+.check-out-button{
+  z-index: 1;
+}
+.check-out-button a{
+  border-radius: 0;
+}
 /* 푸터 */
 .site-footer{
   margin-top: 30px;
   padding: 0 20px;
-  border-top: 2px solid #999;
+  border-top: 2px solid #ffbc00;
+}
+.site-footer p{
+  width: 960px;
+  margin: 0 auto;
+  padding: 10px 0;
 }
 .site-footer .site-nav ul{
   padding: 0;
@@ -389,8 +406,9 @@ article.page h2{
   font-size: 2rem;
 }
 .content-box{
-  width: 75%;
+  width: 960px;
   margin: 0 auto;
+  height: 75%;
 }
 
 /* 페이지 서브 메뉴 */
@@ -565,34 +583,17 @@ div.single-post-image img.not-found{
 .check-out-container .btn-primary{
   padding: 15px 60px;
 }
-.author-name{
-  margin-bottom: 20px;
-}
-.author-name h2{
-  display: inline-block;
-  width: 29%;
-  font-size: 1.7rem;
-  font-weight: 300;
-}
-.sep-double{
-  display: inline-block;
-  width: 70%;
-  height: 6px;
-  border-top: 1px solid #e0dede;
-  border-bottom: 1px solid #e0dede;
-}
-.avatar{
-  float: left;
-  margin: 0 20px 20px 0;
-}
-.description{
-  line-height: 1.65em;
-  color: #747474;
-}
 .site-footer{
   clear: both;
 }
-
+/* 카테고리 별 페이지 */
+.sub-product ul{
+  list-style: none;
+  padding: 0;
+}
+.sub-product ul li{
+  display: inline;
+}
 /* 리셋 페이지 */
 article.reset-page form{
   width: 40%;

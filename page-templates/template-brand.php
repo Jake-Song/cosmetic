@@ -4,6 +4,12 @@ Template Name: Archive Brand
 */
 ?>
 <?php get_header(); ?>
+
+
+    <div class="content-box">
+
+    <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
+
     <?php
 
       $terms = get_terms(
@@ -12,7 +18,9 @@ Template Name: Archive Brand
           'hide_empty' => 0,
           'orderby' => 'ID',
         ));
+    ?>
 
+    <?php
       foreach( $terms as $key => $term ) :
 
           $args[$key] = array(
@@ -31,7 +39,6 @@ Template Name: Archive Brand
           $query[$key] = new WP_Query( $args[$key] );
 
         ?>
-      <div class="content-box">
 
         <article class="post clearfix">
 
@@ -59,8 +66,8 @@ Template Name: Archive Brand
        ?>
        </article>
 
-  </div>
-  
     <?php endforeach; ?>
+
+    </div>
 
 <?php get_footer(); ?>
