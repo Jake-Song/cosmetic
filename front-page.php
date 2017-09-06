@@ -71,17 +71,24 @@
             <?php if( $query[$key]->have_posts() ) : ?>
                   <h4 class="cosmetic-category"><?php echo strtoupper($term->name); ?></h4>
 
+                  <div class="product-row">
+
+                    <?php
+
+                      $ranking_count = 1;
+
+                      while( $query[$key]->have_posts()) : $query[$key]->the_post();
+
+                          include( locate_template( '/module/grid.php', false, false ) );
+
+                        $ranking_count++;
+
+                      endwhile;
+                    ?>
+
+                </div>
+
                 <?php
-
-                  $ranking_count = 1;
-
-                  while( $query[$key]->have_posts()) : $query[$key]->the_post();
-
-                      include( locate_template( '/module/grid.php', false, false ) );
-
-                    $ranking_count++;
-
-                  endwhile;
                   $test = 0;
                   $pag_args[$key] = array(
                      'format'  => '?page'. $key .'=%#%',

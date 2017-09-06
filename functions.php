@@ -132,7 +132,7 @@ function cosmetic_register_taxonomy(){
         'show_admin_column' => true,
         'update_count_callback' => '_update_post_term_count',
         'query_var' => true,
-        'rewrite' => array( 'slug' => $slug ),
+        'rewrite' => array( 'slug' => $slug, 'hierarchical' => true ),
       );
       register_taxonomy( $slug, 'cosmetic', $args );
 

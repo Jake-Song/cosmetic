@@ -206,18 +206,23 @@ article.post:last-of-type{
   color: #333;
   font-weight: bold;
 }
-
-.product > .search-field{
+.arrow-down {
   position: absolute;
-  top: 0px;
-  right: 0px;
-  font-size: 1.5rem;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid #fff;
+  display: none;
 }
-#search-trigger{
-  border: 0;
-  cursor: pointer;
-  background: #ffbc00;
-  padding: 9px 50px;
+.product > ul > li.active .arrow-down{
+  display: block;
+}
+.sub-product > ul > li.active a{
+  color: #ffbc00;
 }
 .filter ul{
   list-style: none;
@@ -254,6 +259,7 @@ article.post:last-of-type{
 article.post h4.cosmetic-category{
   margin: 1em 0;
   font-weight: 700;
+  clear: both;
 }
 article.post .col-sm-12.col-md-4.col-lg-4{
   padding: 0;
@@ -562,6 +568,9 @@ article.post{
 }
 
 /* 싱글 포스트 */
+article.post.single h2{
+  clear: none;
+}
 div.single-post-image{
   margin-top: 20px;
   float: left;
@@ -574,11 +583,10 @@ div.single-post-image img.not-found{
 }
 .price-container{
   font-size: 2rem;
-  text-align: center;
   margin-top: 2em;
 }
 .check-out-container{
-  text-align: center;
+  margin-top: 2em;
 }
 .check-out-container .btn-primary{
   padding: 15px 60px;

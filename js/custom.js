@@ -1,5 +1,31 @@
 jQuery( document ).ready( function($){
 
+  // Product menu active
+
+    $('.product > ul > li > a').each( function(){
+      var href = $(this).attr('href');
+      var location = window.location.href.replace(/\/$/, "");
+      var test = 0;
+      if( href == location ){
+        $(this).parent().addClass('active');
+      } else {
+        $(this).parent().removeClass('active');
+      }
+  } );
+
+  $('.sub-product > ul > li > a').each( function(){
+    var childHref = $(this).attr('href');
+    var childLocation = window.location.href;
+    var parentLocation = window.location.href.replace(/\/[a-z0-9_.-]*\/$/, "");
+
+    if( childHref == childLocation ){
+      $(this).parent().addClass('active');
+      $(".product > ul > li > a[href='"+ parentLocation +"']").parent().addClass('active');
+    } else {
+      $(this).parent().removeClass('active');
+    }
+  } );
+
   // Load Contents with ajax
 
   var newLocation = '',
@@ -9,16 +35,18 @@ jQuery( document ).ready( function($){
   $('.filter').on('click', 'ul li a', function(e){
     e.preventDefault();
     var newPage = $(this).attr('href');
+    var action = 'render'
 
-    if(!isLoading) changePage( newPage, true );
+    if(!isLoading) changePage( newPage, true, action );
     firstLoad = true;
   });
 
   $('body').on('click', '.page-numbers', function(e){
     e.preventDefault();
     var newPage = $(this).attr('href');
+    var action = 'append';
 
-    if(!isLoading) changePage( newPage, true );
+    if(!isLoading) changePage( newPage, true, action );
     firstLoad = true;
   });
 
@@ -29,38 +57,61 @@ jQuery( document ).ready( function($){
       if it's false - the page has just been loaded
       */
       var newPage = location.href;
-
-      if( !isLoading  &&  newLocation != newPage ) changePage(newPage, false);
+      var action = 'render';
+      if( !isLoading  &&  newLocation != newPage ) changePage(newPage, false, action);
 
     }
     firstLoad = true;
   });
 
-  function changePage(url, bool) {
+  function changePage(url, bool, action ) {
     isLoading = true;
-    loadContent(url, bool);
+    loadContent(url, bool, action);
     newLocation = url;
   }
 
-  function loadContent( url, bool ){
-
+  function loadContent( url, bool, action ){
+    var test = 0;
     $.ajaxSetup({ cache: false });
 
-    var section = $('<article class="post clearfix"></article>');
+      switch (action) {
 
-    section.load(url+' article.post > *', function(event){
+        case "render":
 
-      // load new content and replace <main> content with the new one
-      $('.ajax-container').html(section);
+        var section = $('<article class="post clearfix"></article>');
 
-      isLoading = false;
+        section.load(url+' article.post > *', function(event){
+          // load new content and replace <main> content with the new one
+          $('.ajax-container').html(section);
+          isLoading = false;
 
-      if(url!=window.location && bool){
-        //add the new page to the window.history
-        //if the new page was triggered by a 'popstate' event, don't add it
-        window.history.pushState({path: url},'',url);
+          if(url!=window.location && bool){
+            //add the new page to the window.history
+            //if the new page was triggered by a 'popstate' event, don't add it
+            window.history.pushState({path: url},'',url);
+          }
+        });
+          break;
+
+        case "append":
+
+            var section = $('<div class="product-row"></div>');
+
+            section.load(url+' .product-row > *', function(event){
+
+              // load new content and replace <main> content with the new one
+              $('.product-row').append(section);
+              isLoading = false;
+
+              if(url!=window.location && bool){
+                //add the new page to the window.history
+                //if the new page was triggered by a 'popstate' event, don't add it
+                window.history.pushState({path: url},'',url);
+              }
+            });
+
+          break;
       }
-    });
   }
 
   // Favorite Ajax

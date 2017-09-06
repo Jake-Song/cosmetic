@@ -5,7 +5,7 @@
           'taxonomy' => 'cosmetic_category',
           'hide_empty' => 0,
           'orderby' => 'ID',
-          
+
         ));
     ?>
      <div class="content-box">
@@ -23,13 +23,15 @@
                        <?php echo $taxonomy_term->name; ?>
                      </div>
                    </a>
+                   <div class="arrow-down"></div>
                 </li>
+
               <?php endif; ?>
              <?php endforeach; ?>
            </ul>
          </div>
-         <div class="sub-product">
-           <ul class="sub-product">
+         <div class="sub-product product">
+           <ul>
 
              <?php
              //$custom_term = get_term_by( 'slug', $term, $taxonomy );
