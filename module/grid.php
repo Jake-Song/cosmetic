@@ -19,7 +19,37 @@
           <div class="ranking-icon">
 
             <?php
+            $test = 0;
+            global $pagename;
 
+            switch ($pagename) {
+
+              case '':
+
+                  $ranking_count = get_post_meta( get_the_ID(), 'product_ranking_order', true );
+
+                break;
+
+              case 'top-30':
+
+                  $ranking_count = get_post_meta( get_the_ID(), 'product_featured_order', true );
+
+                break;
+
+              case 'descendant':
+
+                $ranking_count = get_post_meta( get_the_ID(), 'product_descendant_order', true );
+
+                break;
+
+              case 'sort-by-brand':
+
+                $ranking_count = get_post_meta( get_the_ID(), 'product_brand_order', true );
+
+                break;
+
+            }
+                
                 switch ($ranking_count) {
                   case 1 : ?>
                     <i class="icon-trophy-3 first"></i>
@@ -70,7 +100,7 @@
 
         </div>
         <div class="thumbnail-footer">
-          
+
             <div class="price-and-favorite">
               <div class="product-price">
                 <?php

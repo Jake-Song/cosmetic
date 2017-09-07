@@ -5,7 +5,7 @@ jQuery( document ).ready( function($){
     $('.product > ul > li > a').each( function(){
       var href = $(this).attr('href');
       var location = window.location.href.replace(/\/$/, "");
-      var test = 0;
+
       if( href == location ){
         $(this).parent().addClass('active');
       } else {
@@ -43,11 +43,7 @@ jQuery( document ).ready( function($){
 
   $('body').on('click', '.page-numbers', function(e){
     e.preventDefault();
-    var newPage = $(this).attr('href');
-    var action = 'append';
 
-    if(!isLoading) changePage( newPage, true, action );
-    firstLoad = true;
   });
 
   $(window).on('popstate', function() {
@@ -191,6 +187,55 @@ jQuery( document ).ready( function($){
   $('.is-not-logged').on('click', function(){
     $(this).addClass('onclick');
   });
+
+// Pagination with ajax
+$('.loadmore').on( 'click', function(){
+
+  loadMoreAjax( this );
+
+});
+
+function loadMoreAjax( target ){
+  var lastPage = $(target).siblings('.product-row').last();
+  var pageNum = lastPage.attr('data-page');
+  var pageNum = parseInt(pageNum);
+
+  var max_num_pages = $(target).siblings('.max-num-pages').text();
+  if( max_num_pages && (parseInt(max_num_pages) == pageNum) ){
+    return false;
+  }
+
+  var slug = $(target).parent().attr('data-slug');
+  var that = target;
+
+  $.ajax({
+    url: ajaxHandler.adminAjax,
+    type: 'POST',
+    data: {
+      action: 'process_pagination',
+      security: ajaxHandler.securityLoadmore,
+      page: pageNum,
+      slug: slug,
+    },
+    success: function(response){
+
+      var container = $('<div class="product-row"></div>');
+      container.attr('data-page', pageNum + 1).html(response);
+      container.insertAfter( lastPage );
+      if( parseInt(max_num_pages) == (pageNum + 1) ){
+        $(that).text('Close').unbind().on('click', function(){
+          $(this).parent().find(".product-row").not( $(".product-row")[0] ).remove();
+          $(this).text('Load More').unbind().on('click', function(){
+            loadMoreAjax(this);
+          });
+        });
+      }
+    },
+    error: function(){
+
+    },
+  });
+}
 
 // Modal
 

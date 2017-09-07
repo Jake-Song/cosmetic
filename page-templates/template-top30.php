@@ -36,15 +36,11 @@ Template Name: Archive Top 30
 
           if( $query->have_posts() ) :
 
-              $ranking_count = 1;
-
               while( $query->have_posts()) : $query->the_post();
 
                   include( locate_template( '/module/grid.php', false, false ) );
 
-                $ranking_count++;
-
-              endwhile;
+             endwhile;
 
           wp_reset_postdata();
 

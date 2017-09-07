@@ -62,46 +62,47 @@
                 'order' => 'ASC',
                 'posts_per_page' => 5,
                 'paged' => $paged[$key],
+
               );
               $query[$key] = new WP_Query( $args[$key] );
 
         ?>
-            <article class="post clearfix">
+            <article class="post clearfix" data-slug="<?php echo esc_attr($term->slug); ?>">
 
-            <?php if( $query[$key]->have_posts() ) : ?>
+            <?php if( $query[$key]->have_posts() ) :
+
+              $max_num_pages = $query[$key]->max_num_pages;
+
+              $hidden_info = "<div class='hidden max-num-pages'>{$max_num_pages}</div>";
+
+              echo $hidden_info;
+
+            ?>
                   <h4 class="cosmetic-category"><?php echo strtoupper($term->name); ?></h4>
 
-                  <div class="product-row">
+                  <div class="product-row" data-page="1">
 
                     <?php
-
-                      $ranking_count = 1;
 
                       while( $query[$key]->have_posts()) : $query[$key]->the_post();
 
                           include( locate_template( '/module/grid.php', false, false ) );
 
-                        $ranking_count++;
-
                       endwhile;
+                      
                     ?>
 
                 </div>
 
-                <?php
-                  $test = 0;
-                  $pag_args[$key] = array(
-                     'format'  => '?page'. $key .'=%#%',
-                     'current' => $paged[$key],
-                     'total'   => $query[$key]->max_num_pages,
+          <?php
 
-                 );
-              echo paginate_links( $pag_args[$key] );
+                wp_reset_postdata();
 
-              wp_reset_postdata();
-
-          endif;
-           ?>
+            endif;
+          ?>
+          <?php if( $max_num_pages > 1) : ?>
+             <button type="button" class="loadmore" name="loadmore">Load More</button>
+          <?php endif; ?>
            </article>
 
         <?php endforeach; ?>

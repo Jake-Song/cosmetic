@@ -186,6 +186,63 @@ function process_favorite_callback(){
 add_action('wp_ajax_process_favorite', 'process_favorite_callback');
 add_action('wp_ajax_nopriv_process_favorite', 'process_favorite_callback');
 
+// Login validation with ajax
+function user_login_validation_callback(){
+  if ( ! check_ajax_referer( 'loadmore', 'security' ) ) {
+    wp_send_json_error( 'Security Check failed' );
+  }
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  }
+}
+add_action( 'wp_ajax_user_login_validation', 'user_login_validation_callback' );
+add_action( 'wp_ajax_nopriv_user_login_validation', 'user_login_validation_callback' );
+
+// Pagination with ajax
+function process_pagination_callback(){
+  if ( ! check_ajax_referer( 'loadmore', 'security' ) ) {
+    wp_send_json_error( 'Security Check failed' );
+  }
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $page = sanitize_text_field($_POST['page']);
+    $posts_per_page = 5;
+    $slug = sanitize_text_field($_POST['slug']);
+    $offset = $posts_per_page * $page;
+
+    $args = array(
+      'post_type' => 'cosmetic',
+      'tax_query' => array(
+        array(
+          'taxonomy' => 'cosmetic_category',
+          'field' => 'slug',
+          'terms' => $slug,
+        ),
+      ),
+      'orderby'   => 'meta_value_num',
+      'meta_key'  => 'product_ranking_order',
+      'order' => 'ASC',
+      'paged' => $page,
+      'posts_per_page' => $posts_per_page,
+      'offset' => $offset,
+    );
+    $query = new WP_Query( $args );
+
+    if( $query->have_posts() ):
+      $ranking_count = 1;
+      while( $query->have_posts() ) : $query->the_post();
+        include( locate_template( '/module/grid.php', false, false ) );
+        $ranking_count++;
+      endwhile;
+      wp_reset_postdata();
+    endif;
+
+    die();
+  }
+}
+add_action( 'wp_ajax_process_pagination', 'process_pagination_callback' );
+add_action( 'wp_ajax_nopriv_process_pagination', 'process_pagination_callback' );
+
 // 상위 페이지 아이디 가져오기
 function get_top_parent_id(){
     global $post;
@@ -369,18 +426,6 @@ function user_regi_validation_callback(){
 }
 add_action( 'wp_ajax_user_regi_validation', 'user_regi_validation_callback' );
 add_action( 'wp_ajax_nopriv_user_regi_validation', 'user_regi_validation_callback' );
-
-// Login validation
-function user_login_validation_callback(){
-  if ( ! check_ajax_referer( 'login', 'security' ) ) {
-    wp_send_json_error( 'Security Check failed' );
-  }
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-  }
-}
-add_action( 'wp_ajax_user_login_validation', 'user_login_validation_callback' );
-add_action( 'wp_ajax_nopriv_user_login_validation', 'user_login_validation_callback' );
 
 // Auto login after register
 function log_me_the_f_in( $user_id ) {
