@@ -1,5 +1,5 @@
 <div class="search-form-container">
-  <form role="search" method="get" class="search-form" action="<?php home_url('/'); ?>">
+  <form role="search" method="get" class="search-form" action="<?php echo esc_url(get_site_url('/')); ?>">
     <fieldset class="search-box">
 
   		<label>

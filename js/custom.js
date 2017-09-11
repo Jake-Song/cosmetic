@@ -35,15 +35,9 @@ jQuery( document ).ready( function($){
   $('.filter').on('click', 'ul li a', function(e){
     e.preventDefault();
     var newPage = $(this).attr('href');
-    var action = 'render'
 
-    if(!isLoading) changePage( newPage, true, action );
+    if(!isLoading) changePage( newPage, true );
     firstLoad = true;
-  });
-
-  $('body').on('click', '.page-numbers', function(e){
-    e.preventDefault();
-
   });
 
   $(window).on('popstate', function() {
@@ -53,26 +47,22 @@ jQuery( document ).ready( function($){
       if it's false - the page has just been loaded
       */
       var newPage = location.href;
-      var action = 'render';
-      if( !isLoading  &&  newLocation != newPage ) changePage(newPage, false, action);
+
+      if( !isLoading  &&  newLocation != newPage ) changePage(newPage, false);
 
     }
     firstLoad = true;
   });
 
-  function changePage(url, bool, action ) {
+  function changePage( url, bool ) {
     isLoading = true;
-    loadContent(url, bool, action);
+    loadContent( url, bool);
     newLocation = url;
   }
 
-  function loadContent( url, bool, action ){
+  function loadContent( url, bool ){
     var test = 0;
     $.ajaxSetup({ cache: false });
-
-      switch (action) {
-
-        case "render":
 
         var section = $('<article class="post clearfix"></article>');
 
@@ -87,27 +77,6 @@ jQuery( document ).ready( function($){
             window.history.pushState({path: url},'',url);
           }
         });
-          break;
-
-        case "append":
-
-            var section = $('<div class="product-row"></div>');
-
-            section.load(url+' .product-row > *', function(event){
-
-              // load new content and replace <main> content with the new one
-              $('.product-row').append(section);
-              isLoading = false;
-
-              if(url!=window.location && bool){
-                //add the new page to the window.history
-                //if the new page was triggered by a 'popstate' event, don't add it
-                window.history.pushState({path: url},'',url);
-              }
-            });
-
-          break;
-      }
   }
 
   // Favorite Ajax
@@ -115,7 +84,7 @@ jQuery( document ).ready( function($){
   $('body').on('click', '.favorite-button', function(event){
     event.preventDefault();
 
-    var isLoading = false;
+    //var isLoading = false;
 
     var favoritePostId = $(this).attr("data-post-id");
     var favorite = $(this).hasClass('saved') ? 'remove' : 'add';
@@ -314,12 +283,25 @@ function userFormAjax( form, action ){
       security: ajaxHandler.securityLogin,
       formData: formData,
     },
-    success: function( data ){
-      var test = 0;
+    success: function( response ){
+      if( true === response.success ){
 
-      console.log(data);
-      form.append(data);
+          if( action == 'user_regi_validation' ){
+            form.html(response.data);
+          } else if ( action == 'user_login_validation' ) {
+            window.location.reload();
+          }
 
+      } else if ( false === response.success ) {
+
+          form.find('input').not('input[type="submit"]').val('');
+          var errorMsg = $('<div class="error"></div>');
+          errorMsg.html( response.data );
+          if( form.siblings('.error') ){
+            form.siblings('.error').remove();
+          }
+          errorMsg.insertBefore(form);
+      }
     },
   });
 }

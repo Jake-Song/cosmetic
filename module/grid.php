@@ -49,7 +49,7 @@
                 break;
 
             }
-                
+
                 switch ($ranking_count) {
                   case 1 : ?>
                     <i class="icon-trophy-3 first"></i>

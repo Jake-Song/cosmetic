@@ -39,6 +39,18 @@ function my_theme_setup(){
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
 
+// 로그아웃 메뉴 추가하기
+add_filter( 'wp_nav_menu_items', 'wti_loginout_menu_link', 10, 2 );
+
+function wti_loginout_menu_link( $items, $args ) {
+   if ($args->theme_location == 'primary') {
+      if (is_user_logged_in()) {
+         $items .= '<li class="right"><a href="'. wp_logout_url() .'">'. "Log Out" .'</a></li>';
+      }
+   }
+   return $items;
+}
+
 // 화장품 포스트 타입 등록
 function cosmetic_register_post_type(){
 
@@ -140,6 +152,17 @@ function cosmetic_register_taxonomy(){
 }
 add_action( 'init', 'cosmetic_register_taxonomy' );
 
+// 대시보드 접근 제한
+add_action( 'init', 'blockusers_init' );
+
+function blockusers_init() {
+  if ( is_admin() && ! current_user_can( 'administrator' ) &&
+    ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+    wp_redirect( home_url() );
+    exit;
+  }
+}
+
 // Favorite with Ajax
 function process_favorite_callback(){
 
@@ -186,14 +209,72 @@ function process_favorite_callback(){
 add_action('wp_ajax_process_favorite', 'process_favorite_callback');
 add_action('wp_ajax_nopriv_process_favorite', 'process_favorite_callback');
 
-// Login validation with ajax
-function user_login_validation_callback(){
-  if ( ! check_ajax_referer( 'loadmore', 'security' ) ) {
+// 회원가입 ajax
+function user_regi_validation_callback(){
+  $test = 0;
+  if ( ! check_ajax_referer( 'login', 'security' ) ) {
     wp_send_json_error( 'Security Check failed' );
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $form_data = $_POST['formData'];
+    $user_info = array();
+    parse_str($form_data, $user_info);
 
+    global $username, $password, $email;
+    $username = sanitize_user( $user_info['username'] );
+    $password = esc_attr( $user_info['password'] );
+    $email = sanitize_email( $user_info['email'] );
+
+    registration_validation( $username, $password, $email );
+
+    // call @function complete_registration to create the user
+    // only when no WP_error is found
+    complete_registration(
+      $username,
+      $password,
+      $email
+    );
   }
+
+}
+add_action( 'wp_ajax_user_regi_validation', 'user_regi_validation_callback' );
+add_action( 'wp_ajax_nopriv_user_regi_validation', 'user_regi_validation_callback' );
+
+// Login validation with ajax
+function user_login_validation_callback(){
+  $test = 0;
+  if ( ! check_ajax_referer( 'login', 'security' ) ) {
+    wp_send_json_error( 'Security Check failed' );
+  }
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $test = 0;
+    $form_data = $_POST['formData'];
+    $user_info = array();
+    parse_str($form_data, $user_info);
+
+    if( empty($user_info['log']) || empty($user_info['pwd']) ){
+      wp_send_json_error( 'Please fill out the form.' );
+    }
+
+    $credentials['user_login'] = sanitize_user( $user_info['log'] );
+    $credentials['user_password'] = sanitize_text_field( $user_info['pwd'] );
+
+    $user_obj = get_user_by( 'login', $credentials['user_login'] );
+
+    if( false == $user_obj ){
+      wp_send_json_error('Invalid Username or Password.');
+    } else {
+      $check_password = wp_check_password( $credentials['user_password'], $user_obj->user_pass, $user_obj->ID );
+      if( !$check_password ){
+        wp_send_json_error('Invalid Username or Password.');
+      }
+    }
+
+    $user = wp_signon( $credentials, false );
+
+    wp_send_json_success('Success');
+
+   }
 }
 add_action( 'wp_ajax_user_login_validation', 'user_login_validation_callback' );
 add_action( 'wp_ajax_nopriv_user_login_validation', 'user_login_validation_callback' );
@@ -229,10 +310,10 @@ function process_pagination_callback(){
     $query = new WP_Query( $args );
 
     if( $query->have_posts() ):
-      $ranking_count = 1;
+
       while( $query->have_posts() ) : $query->the_post();
         include( locate_template( '/module/grid.php', false, false ) );
-        $ranking_count++;
+      
       endwhile;
       wp_reset_postdata();
     endif;
@@ -397,46 +478,3 @@ function restrict_cosmetic_by_cosmetic_category() {
         }
     }
 }
-function user_regi_validation_callback(){
-  $test = 0;
-  if ( ! check_ajax_referer( 'login', 'security' ) ) {
-    wp_send_json_error( 'Security Check failed' );
-  }
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $form_data = $_POST['formData'];
-    $user_info = array();
-    parse_str($form_data, $user_info);
-
-    global $username, $password, $email;
-    $username = sanitize_user( $user_info['username'] );
-    $password = esc_attr( $user_info['password'] );
-    $email = sanitize_email( $user_info['email'] );
-
-    registration_validation( $username, $password, $email );
-
-    // call @function complete_registration to create the user
-    // only when no WP_error is found
-    complete_registration(
-      $username,
-      $password,
-      $email
-    );
-  }
-
-}
-add_action( 'wp_ajax_user_regi_validation', 'user_regi_validation_callback' );
-add_action( 'wp_ajax_nopriv_user_regi_validation', 'user_regi_validation_callback' );
-
-// Auto login after register
-function log_me_the_f_in( $user_id ) {
-    $test = 0;
-    $user = get_user_by('id',$user_id);
-    $username = $user->user_nicename;
-    $user_id = $user->ID;
-    wp_set_current_user($user_id, $username);
-    wp_set_auth_cookie($user_id);
-    do_action('wp_login', $username, $user);
-    wp_redirect(home_url());
-    exit;
-}
-add_action( 'user_register', 'log_me_the_f_in' );

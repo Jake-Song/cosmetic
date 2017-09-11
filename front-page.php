@@ -65,7 +65,7 @@
 
               );
               $query[$key] = new WP_Query( $args[$key] );
-
+              $test = 0;
         ?>
             <article class="post clearfix" data-slug="<?php echo esc_attr($term->slug); ?>">
 
@@ -89,7 +89,7 @@
                           include( locate_template( '/module/grid.php', false, false ) );
 
                       endwhile;
-                      
+
                     ?>
 
                 </div>
