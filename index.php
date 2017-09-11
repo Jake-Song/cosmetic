@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+  <div class="content-box">
     <?php
       if(have_posts()) :
           while(have_posts()) : the_post(); ?>
@@ -41,4 +42,7 @@
           echo '포스트가 존재하지 않습니다.';
       endif;
    ?>
+
+   </div>
+     
 <?php get_footer(); ?>

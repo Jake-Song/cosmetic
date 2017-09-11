@@ -74,7 +74,6 @@ article.post:last-of-type{
   flex-direction: column;
   width: 960px;
   margin: 0 auto;
-  margin-bottom: 2em;
 }
 .site-header .title a{
   color: #333;
@@ -96,30 +95,33 @@ article.post:last-of-type{
 }
 .site-header nav{
   margin-top: 2em;
-  position: absolute;
-  bottom: 0;
-  right: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
-  align-self: center;
   display: flex;
   margin-bottom: 0;
 }
 .site-header .navbar-brand{
   padding: 15px 0px 15px 30px;
 }
+#primary-menu{
+  padding: 0;
+}
 .site-header nav ul li{
   padding: 15px 0;
   float: left;
+}
+.site-header nav ul li.active{
+  z-index: 1;
+  background: #fff;
+  border-radius: 3px 3px 0 0;
 }
 .site-header .navbar-default .navbar-nav > li > a{
   position: relative;
   font-size: 1.2rem;
   color: #333;
   font-weight: 400;
-  padding: 0 10px;
-  border-right: 1px solid #999;
+  padding: 0 20px;
 }
 .site-header .navbar-default .navbar-nav > li:last-of-type > a{
   border-right: 0;
@@ -156,9 +158,10 @@ article.post:last-of-type{
 }
 .search-form-container{
   position: absolute;
-  bottom: 0;
-  left: 0;
+  top: 0;
+  right: 0;
   padding: 10px;
+  margin-top: 3em;
 }
 .search-form-container .screen-reader-text{
   display: none;
@@ -224,6 +227,10 @@ article.post:last-of-type{
 .sub-product > ul > li.active a{
   color: #ffbc00;
 }
+.filter{
+  width: 65%;
+  margin: 0 auto;
+}
 .filter ul{
   list-style: none;
   display: flex;
@@ -234,7 +241,7 @@ article.post:last-of-type{
 .filter ul li{
   flex: 1 1 33.3%;
   text-align: center;
-  padding: 2em 0;
+  padding: 1em 0;
   border-right: 1px solid #ececec;
 }
 .filter ul li:last-child{
@@ -246,7 +253,7 @@ article.post:last-of-type{
   font-weight: bold;
 }
 .filter ul li a img{
-  width: 80px;
+  width: 55px;
   margin-bottom: 1em;
 }
 .category-title{
@@ -576,20 +583,20 @@ div.single-post-image{
   float: left;
   border: 1px solid #adadad;
   margin-right: 30px;
+  width: 40%;
 }
 div.single-post-image img.not-found{
   width: 440px;
   height: auto;
 }
 .price-container{
-  font-size: 2rem;
-  margin-top: 2em;
+  font-size: 1.5rem;
 }
 .check-out-container{
   margin-top: 2em;
 }
 .check-out-container .btn-primary{
-  padding: 15px 60px;
+  padding: 10px 25px;
 }
 .site-footer{
   clear: both;

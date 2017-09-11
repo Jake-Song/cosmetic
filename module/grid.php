@@ -125,8 +125,12 @@
             </div>
 
             <div class="check-out-button">
-              <a href="#" target="_blank" class="btn btn-primary" role="button">
-                 Check Out
+              <?php
+                $checkout_url = !empty( get_post_meta( $post->ID, 'checkout_url', true ) )
+                ? get_post_meta( $post->ID, 'checkout_url', true ) : '';
+               ?>
+              <a href="<?php echo esc_url($checkout_url); ?>" target="_blank" class="btn btn-primary" role="button">
+                 Check It Out
               </a>
             </div>
         </div>

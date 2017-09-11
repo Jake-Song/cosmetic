@@ -28,15 +28,16 @@
                     <?php
                       $product_price = get_post_meta( get_the_ID(), 'product_price', true );
                       if( !empty( $product_price ) ) echo '$' . $product_price;
-                     ?>
+                      $checkout_url = get_post_meta( get_the_ID(), 'checkout_url', true );
+                   ?>
                   </div>
                   <div class="check-out-container">
-                    <a href="#" target="_blank" class="btn btn-primary" role="button">
-                      Check Out
+                    <a href="<?php echo esc_url($checkout_url); ?>" target="_blank" class="btn btn-primary" role="button">
+                      Check It Out
                     </a>
                   </div>
               </article>
-              
+
     <?php endwhile;
       else :
           echo '포스트가 존재하지 않습니다.';
