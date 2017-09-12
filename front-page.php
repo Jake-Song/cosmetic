@@ -1,4 +1,9 @@
-<?php get_header(); ?>
+<?php
+  /*
+  Template Name: Front Page
+  */
+  get_header();
+?>
 
     <div class="content-box">
 

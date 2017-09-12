@@ -158,10 +158,9 @@ article.post:last-of-type{
 }
 .search-form-container{
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
-  padding: 10px;
-  margin-top: 3em;
+  padding: 10px;  
 }
 .search-form-container .screen-reader-text{
   display: none;
