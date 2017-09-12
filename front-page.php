@@ -72,10 +72,16 @@
 
                 );
                 $query[$key] = new WP_Query( $args[$key] );
-                $test = 0;
+
           ?>
               <article class="post clearfix" data-slug="<?php echo esc_attr($term->slug); ?>">
-
+                <div class="post-modified">
+                  <?php
+                    $post_date = $query[$key]->post->post_modified;
+                    echo $post_date;
+                    $test = 0;
+                  ?>
+                </div>
               <?php if( $query[$key]->have_posts() ) :
 
                 $max_num_pages = $query[$key]->max_num_pages;

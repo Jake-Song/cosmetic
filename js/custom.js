@@ -235,9 +235,13 @@ if( document.querySelector(".register-modal") ){
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
       modal.style.display = "none";
+      var errorMsg = document.getElementsByClassName('error')[0];
+      errorMsg.parentNode.removeChild(errorMsg);
   }
   loginSpan.onclick = function() {
       loginModal.style.display = "none";
+      var errorMsg = document.getElementsByClassName('error')[0];
+      errorMsg.parentNode.removeChild(errorMsg);
   }
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
@@ -282,6 +286,9 @@ function userFormAjax( form, action ){
       action: action,
       security: ajaxHandler.securityLogin,
       formData: formData,
+    },
+    beforeSend: function(){
+
     },
     success: function( response ){
       if( true === response.success ){

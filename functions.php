@@ -39,6 +39,14 @@ function my_theme_setup(){
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
 
+// 일반 사용자 어드민 바 기능 끄기
+add_action('after_setup_theme', 'remove_admin_bar');
+
+function remove_admin_bar() {
+  if (!current_user_can('administrator') && !is_admin()) {
+    show_admin_bar(false);
+  }
+}
 // 로그아웃 메뉴 추가하기
 add_filter( 'wp_nav_menu_items', 'wti_loginout_menu_link', 10, 2 );
 
@@ -313,7 +321,7 @@ function process_pagination_callback(){
 
       while( $query->have_posts() ) : $query->the_post();
         include( locate_template( '/module/grid.php', false, false ) );
-      
+
       endwhile;
       wp_reset_postdata();
     endif;

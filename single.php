@@ -4,7 +4,6 @@
           while(have_posts()) : the_post(); ?>
 
               <article class="post clearfix">
-
                   <div class="single-post-image">
 
                       <?php if( has_post_thumbnail() ) : ?>

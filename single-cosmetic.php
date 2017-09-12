@@ -18,7 +18,35 @@
                           <img class="not-found" src="../wp-content/uploads/2017/07/image-not-found.png" alt="">
                       <?php endif; ?>
 
+                      <?php
+                        $single_post_images = get_post_meta( get_the_ID(), 'custom_image_data', true );
+                        if( !empty($single_post_images) ) :
+                            foreach ($single_post_images as $key => $image) {
+                          ?>
+                              <img class="behind" src="<?php echo esc_url($image['url']); ?>" alt="">
+                          <?php
+                            }
+                        endif;
+                       ?>
                   </div>
+
+                      <?php
+                        $single_post_images = get_post_meta( get_the_ID(), 'custom_image_data', true );
+                        if( !empty($single_post_images) ) :
+                            foreach ($single_post_images as $key => $image) {
+                          ?>
+
+                            <div class="additional-image order-<?php echo $key ?>">
+                              <a href="#">
+                                <img src="<?php echo esc_url($image['url']); ?>" alt="">
+                              </a>
+                            </div>
+
+                          <?php
+                            }
+                        endif;
+                       ?>
+
 
                   <h2><?php the_title(); ?></h2>
 
