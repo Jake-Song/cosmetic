@@ -1,5 +1,12 @@
 jQuery( document ).ready( function($){
 
+  // Social Buttons
+  $("#shareIcons").jsSocials({
+    showLabel: false,
+    showCount: false,
+    shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
+  });
+
   // Product menu active
 
     $('.product > ul > li > a').each( function(){
@@ -194,7 +201,7 @@ function loadMoreAjax( target ){
       if( parseInt(max_num_pages) == (pageNum + 1) ){
         $(that).text('Close').unbind().on('click', function(){
           $(this).parent().find(".product-row").not( $(".product-row")[0] ).remove();
-          $(this).text('Load More').unbind().on('click', function(){
+          $(this).text('More').unbind().on('click', function(){
             loadMoreAjax(this);
           });
         });

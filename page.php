@@ -1,8 +1,16 @@
 <?php get_header(); ?>
+
+    <div class="content-box">
+
+      <div class="title-box">
+        <h2><?php echo ucfirst( the_title() ); ?></h2>
+      </div>
+
     <?php
         if(have_posts()) :
             while(have_posts()) : the_post(); ?>
-                <article class="post page">
+
+                <article class="post page about-us">
                    <h2><?php echo get_the_title( get_top_parent_id() ); ?></h2>
                    <div class="content-box">
                         <nav class="site-nav sub-nav">
@@ -25,4 +33,7 @@
         endif;
 
      ?>
+
+   </div>
+
  <?php get_footer(); ?>

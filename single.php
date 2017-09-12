@@ -1,4 +1,11 @@
 <?php get_header(); ?>
+
+    <div class="content-box">
+
+      <div class="title-box">
+        <h2><?php echo ucfirst( the_title() ); ?></h2>
+      </div>
+
     <?php
       if(have_posts()) :
           while(have_posts()) : the_post(); ?>
@@ -35,19 +42,9 @@
 
                   <?php the_content(); ?>
               </article>
-
-              <div class="author-info">
-                  <div class="author-name">
-                      <h2>About the Author: <?php the_author_meta( 'display_name' ); ?></h2><div class="sep-double"></div>
-                  </div>
-                  <div class="author-desc">
-                      <div class="avatar">
-                          <?php echo get_avatar( get_the_author_meta( 'ID' ) ); ?>
-                      </div>
-                      <div class="description">
-                          <?php echo wpautop( the_author_meta( 'description' ) ); ?>
-                      </div>
-                  </div>
+              <div class="social-wrapper">
+                <div id="shareIcons"></div>
+                <div class="text">Share This Story. Choose the platform what you want.</div>
               </div>
 
     <?php endwhile;
@@ -55,4 +52,7 @@
           echo '포스트가 존재하지 않습니다.';
       endif;
    ?>
+
+   </div>
+
 <?php get_footer(); ?>
