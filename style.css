@@ -284,7 +284,7 @@ article.post:last-of-type{
 }
 .filter ul li a img{
   width: 55px;
-  margin-bottom: 1em;
+  margin-bottom: .2em;
 }
 .category-title{
   margin-top: 2em;
@@ -427,6 +427,34 @@ article.post .thumbnail .caption{
 .check-out-button a{
   border-radius: 0;
 }
+article.post{
+  position: relative;
+}
+.loadmore{
+  cursor: pointer;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #333;
+  font-weight: bold;
+}
+.pagination-arrow-down{
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 50px solid #fff;
+}
+.spare{
+  height: 320px;
+  background: #fff;
+}
 /* 푸터 */
 .site-footer{
   margin-top: 30px;
@@ -454,6 +482,29 @@ article.post .thumbnail .caption{
 .site-footer p{
   clear: both;
 }
+.footer-content-box{
+  width: 960px;
+  margin: 1em auto;
+  position: relative;
+}
+.footer-content-box .social{
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 2em;
+}
+.footer-content-box .social a{
+  padding-right: 1em;
+}
+.footer-content-box .social a i{
+  font-size: 2rem;
+  color: #adadad;
+  transition: color .2s;
+}
+.footer-content-box .social a:hover i{
+  color: #333;
+}
+
 /* 페이지 */
 article.page h2{
   font-size: 2rem;

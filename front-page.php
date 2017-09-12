@@ -103,6 +103,13 @@
 
                         endwhile;
 
+                        if( count( $query[$key]->posts ) % 5 !== 0 ) :
+                          for( $i = 0; $i < 5 - (count( $query[$key]->posts ) % 5); $i++ ) :
+                        ?>
+                            <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+                      <?php
+                          endfor;
+                        endif;
                       ?>
 
                   </div>
@@ -114,7 +121,10 @@
               endif;
             ?>
             <?php if( $max_num_pages > 1) : ?>
-               <button type="button" class="loadmore" name="loadmore">Load More</button>
+               <div class="pagination-arrow-down"></div>
+               <a class="loadmore" name="loadmore">
+                 More
+               </a>
             <?php endif; ?>
              </article>
 

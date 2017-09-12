@@ -324,8 +324,18 @@ function process_pagination_callback(){
 
       while( $query->have_posts() ) : $query->the_post();
         include( locate_template( '/module/grid.php', false, false ) );
-
       endwhile;
+$test = 0;
+      if( count( $query->posts ) % 5 !== 0 ) :
+
+        for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+      ?>
+          <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+    <?php
+        endfor;
+
+      endif;
+
       wp_reset_postdata();
     endif;
 

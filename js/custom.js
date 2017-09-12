@@ -165,8 +165,9 @@ jQuery( document ).ready( function($){
   });
 
 // Pagination with ajax
-$('.loadmore').on( 'click', function(){
-
+$('.loadmore').on( 'click', function(e){
+  e.preventDefault();
+  
   loadMoreAjax( this );
 
 });
