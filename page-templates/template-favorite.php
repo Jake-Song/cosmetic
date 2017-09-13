@@ -9,7 +9,7 @@ Template Name: User Favorite
 
       <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-      <article class="post">
+      <article class="post favorite">
         <?php
           global $current_user;
 
@@ -27,7 +27,7 @@ Template Name: User Favorite
               $args = array(
                 'post__in' => $favorite_posts,
                 'post_type' => 'cosmetic',
-
+                'posts_per_page' => -1,
               );
 
             $query = new WP_Query( $args );

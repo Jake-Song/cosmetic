@@ -58,7 +58,7 @@
 
           <article class="post clearfix">
 
-             <h4><?php echo 'TOP 3 - ' . str_replace( '-', ' ', strtoupper($term) ); ?></h4>
+             <h4><?php echo 'By Category - ' . str_replace( '-', ' ', strtoupper($term) ); ?></h4>
 
              <?php
 
@@ -74,6 +74,7 @@
                'orderby'   => 'meta_value_num',
                'meta_key'  => 'product_ranking_order',
                'order' => 'ASC',
+               'posts_per_page' => -1
              );
 
              $query = new WP_Query( $args );

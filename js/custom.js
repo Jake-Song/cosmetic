@@ -1,5 +1,11 @@
 jQuery( document ).ready( function($){
 
+  // To login
+  $('.tologin a').click(function(e){
+    e.preventDefault();
+    modal.style.display = "block";
+    loginModal.style.display = "none";
+  });
   // Social Buttons
   $("#shareIcons").jsSocials({
     showLabel: false,
@@ -160,14 +166,15 @@ jQuery( document ).ready( function($){
       });
   }
 
-  $('.is-not-logged').on('click', function(){
+  $('body').on('click', '.is-not-logged', function(){
     $(this).addClass('onclick');
+    modal.style.display = "block";
   });
 
 // Pagination with ajax
 $('.loadmore').on( 'click', function(e){
   e.preventDefault();
-  
+
   loadMoreAjax( this );
 
 });
@@ -201,7 +208,9 @@ function loadMoreAjax( target ){
       container.insertAfter( lastPage );
       if( parseInt(max_num_pages) == (pageNum + 1) ){
         $(that).text('Close').unbind().on('click', function(){
-          $(this).parent().find(".product-row").not( $(".product-row")[0] ).remove();
+          var test = 0;
+          console.log($(".product-row")[0]);
+          $(this).parent().find(".product-row").not( ".product-row:first" ).remove();
           $(this).text('More').unbind().on('click', function(){
             loadMoreAjax(this);
           });

@@ -74,14 +74,9 @@
                 $query[$key] = new WP_Query( $args[$key] );
 
           ?>
+
               <article class="post clearfix" data-slug="<?php echo esc_attr($term->slug); ?>">
-                <div class="post-modified">
-                  <?php
-                    $post_date = $query[$key]->post->post_modified;
-                    echo $post_date;
-                    $test = 0;
-                  ?>
-                </div>
+
               <?php if( $query[$key]->have_posts() ) :
 
                 $max_num_pages = $query[$key]->max_num_pages;
@@ -89,9 +84,34 @@
                 $hidden_info = "<div class='hidden max-num-pages'>{$max_num_pages}</div>";
 
                 echo $hidden_info;
-
               ?>
                     <h4 class="cosmetic-category"><?php echo strtoupper($term->name); ?></h4>
+
+                    <div class="post-modified">
+                      <?php
+                        $latest = new WP_Query(
+                            array(
+                                'post_type' => 'cosmetic',
+                                'post_status' => 'publish',
+                                'posts_per_page' => 1,
+                                'tax_query' => array(
+                                  array(
+                                    'taxonomy' => 'cosmetic_category',
+                                    'field' => 'slug',
+                                    'terms' => $term->slug,
+                                  ),
+                                ),
+                                'orderby' => 'modified',
+                                'order' => 'DESC'
+                            )
+                        );
+
+                        if($latest->have_posts()){
+                            $modified_date = get_the_modified_date(('m/d/Y'), $latest->post->ID);
+                        }
+                        echo 'Last updated: ' . $modified_date;
+                      ?>
+                    </div>
 
                     <div class="product-row" data-page="1">
 
@@ -102,6 +122,8 @@
                             include( locate_template( '/module/grid.php', false, false ) );
 
                         endwhile;
+
+                        $test = 0;
 
                         if( count( $query[$key]->posts ) % 5 !== 0 ) :
                           for( $i = 0; $i < 5 - (count( $query[$key]->posts ) % 5); $i++ ) :

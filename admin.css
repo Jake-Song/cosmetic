@@ -1,0 +1,12 @@
+/* 화장품 메타 박스 */
+#metabox_wrapper img.selected{
+  border: 1px solid #adadad;
+  margin-right: 3px;
+}
+table.metabox-input{
+  width: 100%;
+}
+table.metabox-input label{
+  width: 35%;
+  display: inline-block;
+}

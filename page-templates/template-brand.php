@@ -40,9 +40,9 @@ Template Name: Archive Brand
 
         ?>
 
-        <article class="post clearfix">
-
-          <h2><?php echo 'TOP 3 - ' . strtoupper($term->name); ?></h2>
+        <article class="post brand clearfix">
+          <h4 class="cosmetic-brand">By Brand</h4>
+          <h2><?php echo strtoupper($term->name) . ' - TOP 5'; ?></h2>
 
           <?php
 
@@ -58,6 +58,14 @@ Template Name: Archive Brand
 
              endwhile;
 
+             if( count( $query[$key]->posts ) % 5 !== 0 ) :
+               for( $i = 0; $i < 5 - (count( $query[$key]->posts ) % 5); $i++ ) :
+             ?>
+                 <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+             <?php
+               endfor;
+
+             endif;
           wp_reset_postdata();
 
           else :

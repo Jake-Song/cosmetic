@@ -146,9 +146,6 @@ article.post:last-of-type{
   position: relative;
 }
 .search-box{
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   border: 1px solid #dcdcdc;
   background: #fff;
   border-radius: 2px;
@@ -180,9 +177,14 @@ article.post:last-of-type{
   position: relative;
 }
 .search-form-container fieldset.search-box .search-field{
-  width: 130px;
+  width: 160px;
   height: 30px;
   font-weight: 400;
+}
+.search-form-container fieldset.search-box .submit-button{
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .search-form-container fieldset.search-box .search-field:required:focus{
   -webkit-box-shadow: none;
@@ -292,6 +294,11 @@ article.post:last-of-type{
 }
 .category-title h2{
   margin-top: 0;
+}
+article.post .post-modified{
+  position: absolute;
+  top: 25px;
+  right: 0;
 }
 article.post h4.cosmetic-category{
   margin: 1em 0;
@@ -438,6 +445,10 @@ article.post{
   transform: translateX(-50%);
   color: #333;
   font-weight: bold;
+  transition: color .2s;
+}
+.loadmore:hover{
+  color: #ffbc00;
 }
 .pagination-arrow-down{
   position: absolute;
@@ -513,6 +524,21 @@ article.page h2{
   width: 960px;
   margin: 0 auto;
   height: 75%;
+}
+
+/* 브랜드 페이지  */
+article.brand h2{
+  clear: both;
+}
+
+/* 뉴 페이지 */
+article.new .thumbnail{
+  height: 250px;
+}
+
+/* Favorite 페이지 */
+article.favorite .thumbnail{
+  height: 250px;
 }
 
 /* 페이지 서브 메뉴 */

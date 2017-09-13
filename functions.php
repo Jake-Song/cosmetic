@@ -19,6 +19,14 @@ function cosmetic_enqueue_scripts(){
 }
 add_action('wp_enqueue_scripts', 'cosmetic_enqueue_scripts');
 
+// 어드민 페이지 스타일 시트 적용
+add_action( 'admin_enqueue_scripts', 'load_admin_styles' );
+
+function load_admin_styles() {
+ wp_enqueue_style( 'admin_css', get_template_directory_uri() . '/admin.css', false, '1.0.0' );
+
+}
+
 // 부트스트랩 메뉴 적용
 require_once('inc/wp_bootstrap_navwalker.php');
 

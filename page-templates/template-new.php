@@ -19,7 +19,7 @@ Template Name: Archive New Arrival
 
         <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-        <article class="post clearfix">
+        <article class="post new clearfix">
 
           <h2>New Arrival.</h2>
 
