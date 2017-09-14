@@ -6,6 +6,7 @@ jQuery( document ).ready( function($){
     modal.style.display = "block";
     loginModal.style.display = "none";
   });
+
   // Social Buttons
   $("#shareIcons").jsSocials({
     showLabel: false,
@@ -30,7 +31,7 @@ jQuery( document ).ready( function($){
     var childHref = $(this).attr('href');
     var childLocation = window.location.href;
     var parentLocation = window.location.href.replace(/\/[a-z0-9_.-]*\/$/, "");
-
+    var test = 0;
     if( childHref == childLocation ){
       $(this).parent().addClass('active');
       $(".product > ul > li > a[href='"+ parentLocation +"']").parent().addClass('active');
@@ -38,6 +39,12 @@ jQuery( document ).ready( function($){
       $(this).parent().removeClass('active');
     }
   } );
+
+  // Fix Menu Css
+  $('body').on('click', '.product > ul > li', function(){
+    if( !$('.site-header nav ul li.menu-item-home').hasClass('active') )
+      $('.site-header nav ul li.menu-item-home').addClass('active');
+  });
 
   // Load Contents with ajax
 

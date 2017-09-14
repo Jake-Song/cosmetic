@@ -50,6 +50,25 @@ function my_theme_setup(){
 }
 add_action( 'after_setup_theme', 'my_theme_setup' );
 
+// 메뉴 아이템 클래스 픽스
+function custom_special_nav_class( $classes, $item ) {
+    global $taxonomy;
+    $front_page_id  = (int) get_option( 'page_on_front' );
+
+    if( isset( $taxonomy ) && $taxonomy === "cosmetic_category" ){
+
+      if ( $front_page_id === (int) $item->object_id ) {
+          $classes[] = "custom_for_taxonomy";
+      } else {
+        if(( $key = array_search('current_page_parent', $classes )) !== false) {
+          unset($classes[$key]);
+        }
+      }
+    }
+    return $classes;
+}
+add_filter( 'nav_menu_css_class' , 'custom_special_nav_class' , 10, 2 );
+
 // 일반 사용자 어드민 바 기능 끄기
 add_action('after_setup_theme', 'remove_admin_bar');
 

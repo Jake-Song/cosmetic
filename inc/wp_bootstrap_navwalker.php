@@ -56,6 +56,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 		 * @return void
 		 */
 		public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+
 			$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 			/**
 			* Dividers, Headers or Disabled
@@ -78,6 +79,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 				$class_names = $value;
 				$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 				$classes[] = 'menu-item-' . $item->ID;
+				
 				$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 				if ( $args->has_children ) {
 					$class_names .= ' dropdown';

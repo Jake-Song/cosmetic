@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+
     <?php
       $taxonomy_terms = get_terms(
         array(
@@ -90,6 +91,8 @@
                    $ranking_count++;
 
                  endwhile;
+
+                 wp_reset_postdata();
 
              else :
                  echo '포스트가 존재하지 않습니다.';
