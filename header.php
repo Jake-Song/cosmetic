@@ -57,7 +57,7 @@
                     </div>
 
                     <?php echo custom_registration_shortcode(); ?>
-
+                  
                   </div>
 
                 </div>

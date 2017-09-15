@@ -85,6 +85,9 @@
           <div class="favorite-save-button">
             <?php cosmetic_favorite_save_button(); ?>
           </div>
+
+          <div class="loading-pulse"></div>
+
       </div>
 
         <a href="<?php the_permalink(); ?>">

@@ -75,24 +75,34 @@ jQuery( document ).ready( function($){
   }
 
   function loadContent( url, bool ){
-    var test = 0;
-    $.ajaxSetup({ cache: false });
 
-          var section = $('<div class="wrapper-for-ajax"></div>');
+    $.ajax({
+      url: url,
+      beforeSend: function(){
+        $('article').hide();
+        $('.ajax-preloader').show();
+      },
+      success: function( response ){
 
-          section.load(url+' div.wrapper-for-ajax > *', function(event){
-            // load new content and replace <main> content with the new one
-            var test = 0;
-            $('.ajax-container').html(section);
-            isLoading = false;
+        var content = $(response).find('.wrapper-for-ajax > *');
+        var section = $('<div class="wrapper-for-ajax"></div>');
 
-            if(url!=window.location && bool){
-              //add the new page to the window.history
-              //if the new page was triggered by a 'popstate' event, don't add it
-              window.history.pushState({path: url},'',url);
-            }
-          });
+        section.html(content);
+        $('.ajax-container').html(section);
+        isLoading = false;
+
+        if(url!=window.location && bool){
+          //add the new page to the window.history
+          //if the new page was triggered by a 'popstate' event, don't add it
+          window.history.pushState({path: url},'',url);
         }
+      },
+      error: function(error){
+        console.log(error);
+      }
+    });
+
+  }
 
   // Favorite Ajax
 
@@ -132,7 +142,17 @@ jQuery( document ).ready( function($){
         security: ajaxHandler.securityFavorite,
         favorite: favorite,
       },
+      beforeSend: function(){
+        $(".favorite-button[data-post-id='" + favoritePostId + "']").hide();
+        $(".favorite-button[data-post-id='" + favoritePostId + "']").parent()
+        .siblings('.loading-pulse').show();
+      },
       success: function( response ){
+
+        $(".favorite-button[data-post-id='" + favoritePostId + "']").parent()
+        .siblings('.loading-pulse').hide();
+        $(".favorite-button[data-post-id='" + favoritePostId + "']").show();
+
         $('.favorite-count.post-id-' + favoritePostId).text( response.data.favorite_count +' Saves' );
         if( !$(".favorite-button[data-post-id='" + favoritePostId + "']").hasClass('saved') ){
           $(".favorite-button[data-post-id='" + favoritePostId +"']")
@@ -161,6 +181,11 @@ jQuery( document ).ready( function($){
           favorite: favorite,
           security: ajaxHandler.securityFavorite,
         },
+        beforeSend: function(){
+          $(".favorite-button[data-post-id='" + favoritePostId + "']").hide();
+          $(".favorite-button[data-post-id='" + favoritePostId + "']").parent()
+          .siblings('.loading-pulse').show();
+        },
         success: function( data ){
           $('.post-id-' + favoritePostId).css('display', 'none');
           isLoading = false;
@@ -168,9 +193,10 @@ jQuery( document ).ready( function($){
       });
   }
 
+// Redirect to login modal
   $('body').on('click', '.is-not-logged', function(){
     $(this).addClass('onclick');
-    modal.style.display = "block";
+    loginModal.style.display = "block";
   });
 
 // Pagination with ajax
@@ -307,9 +333,10 @@ function userFormAjax( form, action ){
       formData: formData,
     },
     beforeSend: function(){
-
+      $('#registration .loading-pulse').show();
     },
     success: function( response ){
+      $('#registration .loading-pulse').hide();
       if( true === response.success ){
 
           if( action == 'user_regi_validation' ){
@@ -319,7 +346,7 @@ function userFormAjax( form, action ){
           }
 
       } else if ( false === response.success ) {
-
+          $('#registration .loading-pulse').hide();
           form.find('input').not('input[type="submit"]').val('');
           var errorMsg = $('<div class="error"></div>');
           errorMsg.html( response.data );

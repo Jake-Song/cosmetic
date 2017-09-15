@@ -11,7 +11,7 @@
   <ul>
     <?php foreach ($terms as $key => $term) : ?>
       <?php if( !( $term->parent ) ) : ?>
-    <?php $icon = $term->slug; ?>
+
         <li>
           <a href="<?php echo esc_url( home_url( '/' ) . $term->taxonomy . '/' . $term->slug); ?>">
             <div class="product-image">
@@ -25,6 +25,7 @@
           </a>
 
         </li>
+        
         <div class="arrow-down"></div>
       <?php endif; ?>
     <?php endforeach; ?>

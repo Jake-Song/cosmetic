@@ -11,10 +11,13 @@ Template Name: Archive Brand
     <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
     <div class="wrapper-for-ajax">
+
       <div class="template-title">
-        <h4 class="cosmetic-brand">By Brand</h4>
+        <h4>By Brand</h4>
         <h2>Best Goods - Top 5</h2>
       </div>
+
+    <?php get_template_part( '/module/ajax_preloader' ); ?>
 
     <?php
 
@@ -58,15 +61,11 @@ Template Name: Archive Brand
 
             if( $query[$key]->have_posts() ) :
 
-                $ranking_count = 1;
-
                 while( $query[$key]->have_posts()) : $query[$key]->the_post();
 
                     include( locate_template( '/module/grid.php', false, false ) );
 
-                 $ranking_count++;
-
-               endwhile;
+                endwhile;
 
                if( count( $query[$key]->posts ) % 5 !== 0 ) :
                  for( $i = 0; $i < 5 - (count( $query[$key]->posts ) % 5); $i++ ) :

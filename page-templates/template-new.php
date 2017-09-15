@@ -22,9 +22,11 @@ Template Name: Archive New Arrival
         <div class="wrapper-for-ajax">
 
           <div class="template-title">
-            <h4 class="cosmetic-brand">By Brand</h4>
+            <h4>By Brand</h4>
             <h2>Best Goods - Top 5</h2>
           </div>
+
+          <?php get_template_part( '/module/ajax_preloader' ); ?>
 
           <article class="post new clearfix">
 
@@ -36,12 +38,10 @@ Template Name: Archive New Arrival
 
             if( $query->have_posts() ) :
 
-                $ranking_count = 1;
-
                 while( $query->have_posts()) : $query->the_post();
 
                   include( locate_template( './module/grid.php', false, false ) );
-                  $ranking_count++;
+
 
                 endwhile;
 

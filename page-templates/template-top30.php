@@ -36,9 +36,12 @@ Template Name: Archive Top 30
             <h4>Overall Category</h4>
             <h2>Top 30</h2>
           </div>
-          <h4 class="cosmetic-title">All Goods</h4>
+
+          <?php get_template_part( '/module/ajax_preloader' ); ?>
 
           <article class="post clearfix">
+
+            <h4 class="cosmetic-title">All Goods</h4>
 
             <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
