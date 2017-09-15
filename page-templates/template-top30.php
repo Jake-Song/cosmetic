@@ -28,26 +28,39 @@ Template Name: Archive Top 30
         ?>
       <div class="content-box">
 
-        <article class="post clearfix">
+        <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-          <h2>Top 30</h2>
+        <div class="wrapper-for-ajax">
 
-          <?php
+          <div class="template-title">
+            <h4>Overall Category</h4>
+            <h2>Top 30</h2>
+          </div>
+          <h4 class="cosmetic-title">All Goods</h4>
 
-          if( $query->have_posts() ) :
+          <article class="post clearfix">
 
-              while( $query->have_posts()) : $query->the_post();
+            <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
-                  include( locate_template( '/module/grid.php', false, false ) );
+            <?php
 
-             endwhile;
+            if( $query->have_posts() ) :
 
-          wp_reset_postdata();
+                while( $query->have_posts()) : $query->the_post();
 
-          else :
-              echo '포스트가 존재하지 않습니다.';
-          endif;
-       ?>
-       </article>
+                    include( locate_template( '/module/grid.php', false, false ) );
+
+               endwhile;
+
+            wp_reset_postdata();
+
+            else :
+                echo '포스트가 존재하지 않습니다.';
+            endif;
+         ?>
+         </article>
+
+       </div>
+
      </div>
 <?php get_footer(); ?>

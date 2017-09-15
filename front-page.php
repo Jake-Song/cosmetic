@@ -40,7 +40,7 @@
 
       <div class="ajax-container">
 
-        <div class="category-title">
+        <div class="template-title">
           <h4>By Category</h4>
           <h2>Best Goods - Top 5</h2>
         </div>
@@ -85,33 +85,9 @@
 
                 echo $hidden_info;
               ?>
-                    <h4 class="cosmetic-category"><?php echo strtoupper($term->name); ?></h4>
+                    <h4 class="cosmetic-title"><?php echo strtoupper($term->name); ?></h4>
 
-                    <div class="post-modified">
-                      <?php
-                        $latest = new WP_Query(
-                            array(
-                                'post_type' => 'cosmetic',
-                                'post_status' => 'publish',
-                                'posts_per_page' => 1,
-                                'tax_query' => array(
-                                  array(
-                                    'taxonomy' => 'cosmetic_category',
-                                    'field' => 'slug',
-                                    'terms' => $term->slug,
-                                  ),
-                                ),
-                                'orderby' => 'modified',
-                                'order' => 'DESC'
-                            )
-                        );
-
-                        if($latest->have_posts()){
-                            $modified_date = get_the_modified_date(('m/d/Y'), $latest->post->ID);
-                        }
-                        echo 'Last updated: ' . $modified_date;
-                      ?>
-                    </div>
+                    <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
                     <div class="product-row" data-page="1">
 
@@ -122,8 +98,6 @@
                             include( locate_template( '/module/grid.php', false, false ) );
 
                         endwhile;
-
-                        $test = 0;
 
                         if( count( $query[$key]->posts ) % 5 !== 0 ) :
                           for( $i = 0; $i < 5 - (count( $query[$key]->posts ) % 5); $i++ ) :

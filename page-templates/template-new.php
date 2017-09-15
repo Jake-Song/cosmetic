@@ -19,30 +19,42 @@ Template Name: Archive New Arrival
 
         <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-        <article class="post new clearfix">
+        <div class="wrapper-for-ajax">
 
-          <h2>New Arrival.</h2>
+          <div class="template-title">
+            <h4 class="cosmetic-brand">By Brand</h4>
+            <h2>Best Goods - Top 5</h2>
+          </div>
 
-          <?php
+          <article class="post new clearfix">
 
-          if( $query->have_posts() ) :
+            <h4 class="cosmetic-title">New Arrival.</h2>
 
-              $ranking_count = 1;
+            <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
-              while( $query->have_posts()) : $query->the_post();
+            <?php
 
-                include( locate_template( './module/grid.php', false, false ) );
-                $ranking_count++;
+            if( $query->have_posts() ) :
 
-              endwhile;
+                $ranking_count = 1;
 
-          wp_reset_postdata();
+                while( $query->have_posts()) : $query->the_post();
 
-          else :
-              echo '포스트가 존재하지 않습니다.';
-          endif;
-       ?>
-       </article>
+                  include( locate_template( './module/grid.php', false, false ) );
+                  $ranking_count++;
+
+                endwhile;
+
+            wp_reset_postdata();
+
+            else :
+                echo '포스트가 존재하지 않습니다.';
+            endif;
+         ?>
+         </article>
+
+       </div>
+
      </div>
 
 

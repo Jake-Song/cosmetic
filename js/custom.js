@@ -40,12 +40,6 @@ jQuery( document ).ready( function($){
     }
   } );
 
-  // Fix Menu Css
-  $('body').on('click', '.product > ul > li', function(){
-    if( !$('.site-header nav ul li.menu-item-home').hasClass('active') )
-      $('.site-header nav ul li.menu-item-home').addClass('active');
-  });
-
   // Load Contents with ajax
 
   var newLocation = '',
@@ -84,20 +78,21 @@ jQuery( document ).ready( function($){
     var test = 0;
     $.ajaxSetup({ cache: false });
 
-        var section = $('<article class="post clearfix"></article>');
+          var section = $('<div class="wrapper-for-ajax"></div>');
 
-        section.load(url+' article.post > *', function(event){
-          // load new content and replace <main> content with the new one
-          $('.ajax-container').html(section);
-          isLoading = false;
+          section.load(url+' div.wrapper-for-ajax > *', function(event){
+            // load new content and replace <main> content with the new one
+            var test = 0;
+            $('.ajax-container').html(section);
+            isLoading = false;
 
-          if(url!=window.location && bool){
-            //add the new page to the window.history
-            //if the new page was triggered by a 'popstate' event, don't add it
-            window.history.pushState({path: url},'',url);
-          }
-        });
-  }
+            if(url!=window.location && bool){
+              //add the new page to the window.history
+              //if the new page was triggered by a 'popstate' event, don't add it
+              window.history.pushState({path: url},'',url);
+            }
+          });
+        }
 
   // Favorite Ajax
 

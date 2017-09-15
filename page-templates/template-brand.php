@@ -10,6 +10,12 @@ Template Name: Archive Brand
 
     <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
+    <div class="wrapper-for-ajax">
+      <div class="template-title">
+        <h4 class="cosmetic-brand">By Brand</h4>
+        <h2>Best Goods - Top 5</h2>
+      </div>
+
     <?php
 
       $terms = get_terms(
@@ -40,41 +46,52 @@ Template Name: Archive Brand
 
         ?>
 
-        <article class="post brand clearfix">
-          <h4 class="cosmetic-brand">By Brand</h4>
-          <h2><?php echo strtoupper($term->name) . ' - TOP 5'; ?></h2>
+          <article class="post brand clearfix">
 
-          <?php
+            <h4 class="cosmetic-title"><?php echo strtoupper($term->name) . ' - TOP 5'; ?></h4>
 
-          if( $query[$key]->have_posts() ) :
+            <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
-              $ranking_count = 1;
+            <div class="product-row" data-page="1">
 
-              while( $query[$key]->have_posts()) : $query[$key]->the_post();
+            <?php
 
-                  include( locate_template( '/module/grid.php', false, false ) );
+            if( $query[$key]->have_posts() ) :
 
-               $ranking_count++;
+                $ranking_count = 1;
 
-             endwhile;
+                while( $query[$key]->have_posts()) : $query[$key]->the_post();
 
-             if( count( $query[$key]->posts ) % 5 !== 0 ) :
-               for( $i = 0; $i < 5 - (count( $query[$key]->posts ) % 5); $i++ ) :
-             ?>
-                 <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
-             <?php
-               endfor;
+                    include( locate_template( '/module/grid.php', false, false ) );
 
-             endif;
-          wp_reset_postdata();
+                 $ranking_count++;
 
-          else :
-              echo '포스트가 존재하지 않습니다.';
-          endif;
-       ?>
-       </article>
+               endwhile;
+
+               if( count( $query[$key]->posts ) % 5 !== 0 ) :
+                 for( $i = 0; $i < 5 - (count( $query[$key]->posts ) % 5); $i++ ) :
+               ?>
+                   <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+               <?php
+                 endfor;
+
+               endif;
+                ?>
+
+            </div>
+
+        <?php
+            wp_reset_postdata();
+
+            else :
+                echo '포스트가 존재하지 않습니다.';
+            endif;
+         ?>
+         </article>
 
     <?php endforeach; ?>
+
+      </div>
 
     </div>
 

@@ -35,16 +35,22 @@
            <ul>
 
              <?php
-             //$custom_term = get_term_by( 'slug', $term, $taxonomy );
-             $get_term_id = get_term_parent_id();
-
-             foreach( $taxonomy_terms as $taxonomy_term ) :
-
-              if( $taxonomy_term->parent !== 0 && $taxonomy_term->parent === $get_term_id ) : ?>
-
+               //$custom_term = get_term_by( 'slug', $term, $taxonomy );
+               $get_term_id = get_term_parent_id();
+             ?>
                <li class="sub-product-list">
-                 <a href="<?php echo esc_url(get_term_link( $taxonomy_term )); ?>">
-                   <?php echo $taxonomy_term->name; ?>
+                 <a href="<?php echo esc_url( get_term_link( $get_term_id ) ); ?>">Overall</a>
+               </li>
+             <?php
+             $test = 0;
+               foreach( $taxonomy_terms as $taxonomy_term ) :
+
+                if( $taxonomy_term->parent !== 0 && $taxonomy_term->parent === $get_term_id ) : ?>
+
+                 <li class="sub-product-list">
+                   <a href="<?php echo esc_url(get_term_link( $taxonomy_term )); ?>">
+                     <?php echo $taxonomy_term->name;
+              ?>
                  </a>
                </li>
              <?php
@@ -57,9 +63,11 @@
 
        <div class="ajax-container">
 
-          <article class="post clearfix">
+          <article class="post tax clearfix">
 
              <h4><?php echo 'By Category - ' . str_replace( '-', ' ', strtoupper($term) ); ?></h4>
+
+             <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
              <?php
 

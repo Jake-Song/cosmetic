@@ -295,11 +295,11 @@ article.post:last-of-type{
   width: 55px;
   margin-bottom: .2em;
 }
-.category-title{
+.template-title{
   margin-top: 2em;
   margin-bottom: 1em;
 }
-.category-title h2{
+.template-title h2{
   margin-top: 0;
 }
 article.post .post-modified{
@@ -307,7 +307,7 @@ article.post .post-modified{
   top: 25px;
   right: 0;
 }
-article.post h4.cosmetic-category{
+article.post h4.cosmetic-title{
   margin: 1em 0;
   font-weight: 700;
   clear: both;
@@ -533,18 +533,24 @@ article.page h2{
   height: 75%;
 }
 
-/* 브랜드 페이지  */
-article.brand h2{
-  clear: both;
+/* 카테고리 페이지 */
+article.post.tax .post-modified{
+  top: 15px;
 }
 
-/* 뉴 페이지 */
-article.new .thumbnail{
-  height: 250px;
+/* 브랜드 페이지 */
+article.post.brand h2{
+  margin-top: 0;
 }
 
-/* Favorite 페이지 */
-article.favorite .thumbnail{
+/* 업데이트 날짜 조정 */
+article.post.new .post-modified{
+  top: 35px;
+}
+
+/* 그리드 크기 조정 */
+article.post.new .thumbnail,
+article.post.favorite .thumbnail{
   height: 250px;
 }
 
