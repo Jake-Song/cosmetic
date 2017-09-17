@@ -71,6 +71,8 @@
 
              <?php
 
+             $this_term = get_term_by( 'slug', $term, $taxonomy );
+
              $args = array(
                'post_type' => 'cosmetic',
                'tax_query' => array(
@@ -81,11 +83,12 @@
                  ),
                ),
                'orderby'   => 'meta_value_num',
-               'meta_key'  => 'product_ranking_order',
+               'meta_key'  => (!$this_term->parent) ? 'product_ranking_order'
+                : 'product_descendant_order',
                'order' => 'ASC',
                'posts_per_page' => -1
              );
-
+             $test = 0;
              $query = new WP_Query( $args );
 
              if( $query->have_posts() ) :

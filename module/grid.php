@@ -19,36 +19,54 @@
           <div class="ranking-icon">
 
             <?php
-            $test = 0;
-            global $pagename;
+              global $term, $taxonomy, $pagename;
 
-            switch ($pagename) {
+              if( $term && $taxonomy ){
+                $this_term = get_term_by( 'slug', $term, $taxonomy );
+              }
 
-              case '':
+              $test = 0;
+              $is_front_page = ( is_front_page() ) || ( $pagename === null ) ? true : false;
+              $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
+                          || ( $pagename === 'top-30' ) ? true : false;
+              $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;
+              $is_tax_descendant = ( is_tax() ) && ( $this_term->parent ) ? true : false;
+              $is_brand =( is_page_template( '/page-templates/template-brand.php' ) )
+                           || ( $pagename === 'sort-by-brand' ) ? true : false;;
+
+              switch ( true ) {
+
+                case $is_front_page :
+
+                    $ranking_count = get_post_meta( get_the_ID(), 'product_ranking_order', true );
+
+                  break;
+
+                case $is_top30 :
+
+                    $ranking_count = get_post_meta( get_the_ID(), 'product_featured_order', true );
+
+                  break;
+
+                case $is_tax_parent :
 
                   $ranking_count = get_post_meta( get_the_ID(), 'product_ranking_order', true );
 
-                break;
+                  break;
 
-              case 'top-30':
+                case $is_tax_descendant :
 
-                  $ranking_count = get_post_meta( get_the_ID(), 'product_featured_order', true );
+                  $ranking_count = get_post_meta( get_the_ID(), 'product_descendant_order', true );
 
-                break;
+                  break;
 
-              case 'descendant':
+                case $is_brand :
 
-                $ranking_count = get_post_meta( get_the_ID(), 'product_descendant_order', true );
+                  $ranking_count = get_post_meta( get_the_ID(), 'product_brand_order', true );
 
-                break;
+                  break;
 
-              case 'sort-by-brand':
-
-                $ranking_count = get_post_meta( get_the_ID(), 'product_brand_order', true );
-
-                break;
-
-            }
+                }
 
                 switch ($ranking_count) {
                   case 1 : ?>

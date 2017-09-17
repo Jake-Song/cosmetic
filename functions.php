@@ -19,6 +19,25 @@ function cosmetic_enqueue_scripts(){
 }
 add_action('wp_enqueue_scripts', 'cosmetic_enqueue_scripts');
 
+// 사용자 정의하기
+function themeslug_customize_register( $wp_customize ) {
+  $wp_customize->add_setting(
+     'cosmetic_footer_social', //give it an ID
+     array(
+     'default' => '#333333', // Give it a default
+     )
+   );
+   $wp_customize->add_control( 'footer_social_url',
+       array(
+       'label' => __( 'Accent Color', 'mythemename' ), //set the label to appear in the Customizer
+       'section' => 'title_tagline', //select the section for it to appear under
+       'settings' => 'cosmetic_footer_social', //pick the setting it applies to
+       'type' => 'text'
+       )
+    );
+}
+add_action( 'customize_register', 'themeslug_customize_register' );
+
 // 어드민 페이지 스타일 시트 적용
 add_action( 'admin_enqueue_scripts', 'load_admin_styles' );
 
@@ -394,57 +413,77 @@ function get_term_parent_id(){
 
 // 랭킹 순위 변동 나타내기
 function cosmetic_ranking_index(){
-     global $pagename;
 
-     switch ($pagename) {
+  global $term, $taxonomy, $pagename;
 
-       case '':
+  if( $term && $taxonomy ){
+    $this_term = get_term_by( 'slug', $term, $taxonomy );
+  }
 
-         $ranking_changed = get_post_meta( get_the_ID(), 'product_ranking_changed', true );
+  $test = 0;
+  $is_front_page = ( is_front_page() ) || ( $pagename === null ) ? true : false;
+  $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
+              || ( $pagename === 'top-30' ) ? true : false;
+  $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;
+  $is_tax_descendant = ( is_tax() ) && ( $this_term->parent ) ? true : false;
+  $is_brand =( is_page_template( '/page-templates/template-brand.php' ) )
+               || ( $pagename === 'sort-by-brand' ) ? true : false;;
 
+   switch ( true ) {
+
+     case $is_front_page :
+
+       $ranking_changed = get_post_meta( get_the_ID(), 'product_ranking_changed', true );
+
+       break;
+
+     case $is_top30 :
+
+       $ranking_changed = get_post_meta( get_the_ID(), 'featured_ranking_changed', true );
+
+       break;
+
+     case $is_tax_parent:
+
+       $ranking_changed = get_post_meta( get_the_ID(), 'product_ranking_changed', true );
+
+       break;
+
+     case $is_tax_descendant:
+
+       $ranking_changed = get_post_meta( get_the_ID(), 'descendant_ranking_changed', true );
+
+       break;
+
+     case $is_brand :
+
+       $ranking_changed = get_post_meta( get_the_ID(), 'brand_ranking_changed', true );
+
+       break;
+
+   }
+
+   $content = '';
+   if( isset( $ranking_changed ) ) :
+       switch ( true ) {
+         case $ranking_changed > 0:
+          $content = '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
+          . ' ' . $ranking_changed;
+          echo $content;
          break;
 
-       case 'top-30':
-
-         $ranking_changed = get_post_meta( get_the_ID(), 'featured_ranking_changed', true );
-
+         case $ranking_changed < 0:
+          $content = '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
+           . ' ' . abs($ranking_changed);
+          echo $content;
          break;
 
-       case 'descendant':
-
-         $ranking_changed = get_post_meta( get_the_ID(), 'descendant_ranking_changed', true );
-
+         case $ranking_changed == 0:
+          $content = '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>';
+          echo $content;
          break;
-
-       case 'sort-by-brand':
-
-         $ranking_changed = get_post_meta( get_the_ID(), 'brand_ranking_changed', true );
-
-         break;
-
-     }
-
-     $content = '';
-     if( isset( $ranking_changed ) ) :
-         switch ( true ) {
-           case $ranking_changed > 0:
-            $content = '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
-            . ' ' . $ranking_changed;
-            echo $content;
-           break;
-
-           case $ranking_changed < 0:
-            $content = '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
-             . ' ' . abs($ranking_changed);
-            echo $content;
-           break;
-
-           case $ranking_changed == 0:
-            $content = '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>';
-            echo $content;
-           break;
-         }
-     endif;
+       }
+   endif;
 }
 
 // 로그인 후 favorite 버튼 사용하기
