@@ -17,7 +17,22 @@
                   </a>
                   <h4>Real Korean Cosmetic</h4>
                 </div>
+                <nav class="navbar navbar-default top-menu">
+                  <?php
+                    $args = array(
+                      'theme_location' => 'top',
+                      'depth' => 3,
+                      'container' => 'div',
+                      'container_class'   => 'collapse navbar-collapse',
+                      'container_id'      => 'top-menu',
+                      'menu_class'        => 'nav navbar-nav',
+                      'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+                      //'walker'            => new WP_Bootstrap_Navwalker(),
+                    );
+                   ?>
 
+                  <?php wp_nav_menu( $args ); ?>
+                </nav>
                 <nav class="navbar navbar-default">
 
                       <div class="navbar-header">
@@ -57,7 +72,7 @@
                     </div>
 
                     <?php echo custom_registration_shortcode(); ?>
-                  
+
                   </div>
 
                 </div>

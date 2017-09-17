@@ -15,10 +15,7 @@ Template Name: User Favorite
 
             $favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
 
-            if( empty( $favorite_posts ) ){
-              echo 'You could try to add products.';
-              return;
-            }
+          if( !empty( $favorite_posts ) ){
 
             if( is_array($favorite_posts) ){
               $favorite_posts = array_map( 'intval', $favorite_posts );
@@ -44,9 +41,11 @@ Template Name: User Favorite
               endwhile;
 
               wp_reset_postdata();
-              else :
-                echo 'You could try to add products.';
+              
             endif;
+          } else {
+            echo 'You could try to add products.';
+          }
            ?>
       </article>
     </div>

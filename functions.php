@@ -100,7 +100,7 @@ function remove_admin_bar() {
 add_filter( 'wp_nav_menu_items', 'wti_loginout_menu_link', 10, 2 );
 
 function wti_loginout_menu_link( $items, $args ) {
-   if ($args->theme_location == 'primary') {
+   if ($args->theme_location == 'top') {
       if (is_user_logged_in()) {
          $items .= '<li class="right"><a href="'. wp_logout_url() .'">'. "Log Out" .'</a></li>';
       }
