@@ -1,7 +1,8 @@
 /* 화장품 메타 박스 */
-#metabox_wrapper img.selected{
+#image_metabox img.selected{
   border: 1px solid #adadad;
   margin-right: 3px;
+  width: 15%;
 }
 table.metabox-input{
   width: 100%;
