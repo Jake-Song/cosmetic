@@ -71,20 +71,39 @@ add_action( 'after_setup_theme', 'my_theme_setup' );
 
 // 메뉴 아이템 클래스 픽스
 function custom_special_nav_class( $classes, $item ) {
-    global $taxonomy;
+  $test = 0;
+    global $taxonomy, $post;
+
     $front_page_id  = (int) get_option( 'page_on_front' );
 
     if( isset( $taxonomy ) && $taxonomy === "cosmetic_category" ){
 
-      if ( $front_page_id === (int) $item->object_id ) {
-          $classes[] = "custom_for_taxonomy";
-      } else {
-        if(( $key = array_search('current_page_parent', $classes )) !== false) {
-          unset($classes[$key]);
+        if ( $front_page_id === (int) $item->object_id ){
+
+             $classes[] = "custom_for_taxonomy";
+
+         } elseif( ( $key = array_search('current_page_parent', $classes )) !== false ) {
+
+             unset($classes[$key]);
+
+         }
+
+    } elseif( isset( $post->post_type ) && $post->post_type === 'cosmetic' ){
+
+        if( $front_page_id === (int) $item->object_id ){
+
+              $classes[] = "custom_for_taxonomy";
+
+        } elseif( ( $key = array_search('current_page_parent', $classes )) !== false ) {
+
+            unset($classes[$key]);
+
         }
-      }
+
     }
-    return $classes;
+
+        return $classes;
+
 }
 add_filter( 'nav_menu_css_class' , 'custom_special_nav_class' , 10, 2 );
 
@@ -345,27 +364,62 @@ function process_pagination_callback(){
 
     $page = sanitize_text_field($_POST['page']);
     $posts_per_page = 5;
-    $slug = sanitize_text_field($_POST['slug']);
+    $slug = isset( $_POST['slug'] ) ? sanitize_text_field($_POST['slug']) : '';
     $offset = $posts_per_page * $page;
+    $template = sanitize_text_field($_POST['template']);
 
-    $args = array(
-      'post_type' => 'cosmetic',
-      'tax_query' => array(
-        array(
-          'taxonomy' => 'cosmetic_category',
-          'field' => 'slug',
-          'terms' => $slug,
+    switch ( $template ) {
+
+      case 'front-page':
+
+      $args = array(
+        'post_type' => 'cosmetic',
+        'tax_query' => array(
+          array(
+            'taxonomy' => 'cosmetic_category',
+            'field' => 'slug',
+            'terms' => $slug,
+          ),
         ),
-      ),
-      'orderby'   => 'meta_value_num',
-      'meta_key'  => 'product_ranking_order',
-      'order' => 'ASC',
-      'paged' => $page,
-      'posts_per_page' => $posts_per_page,
-      'offset' => $offset,
-    );
-    $query = new WP_Query( $args );
+        'orderby'   => 'meta_value_num',
+        'meta_key'  => 'product_ranking_order',
+        'order' => 'ASC',
+        'paged' => $page,
+        'posts_per_page' => $posts_per_page,
+        'offset' => $offset,
+      );
 
+        break;
+
+      case 'top30':
+
+        $args = array(
+          'post_type' => 'cosmetic',
+          'meta_query' => array(
+            array(
+              'key' => 'product_featured',
+              'value' => 'featured',
+            ),
+            array(
+              'key' => 'product_featured_order',
+              'value_num' => '30',
+              'compare' => '=<',
+            ),
+          ),
+          'orderby'   => 'meta_value_num',
+          'meta_key'  => 'product_featured_order',
+          'order' => 'ASC',
+          'paged' => $page,
+          'posts_per_page' => $posts_per_page,
+          'offset' => $offset,
+        );
+
+        break;
+
+    }
+
+    $query = new WP_Query( $args );
+    $test = 0;
     if( $query->have_posts() ):
 
       while( $query->have_posts() ) : $query->the_post();

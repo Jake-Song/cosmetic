@@ -19,7 +19,7 @@
           <div class="ranking-icon">
 
             <?php
-              global $term, $taxonomy, $pagename;
+              global $term, $taxonomy, $pagename, $post;
 
               if( $term && $taxonomy ){
                 $this_term = get_term_by( 'slug', $term, $taxonomy );

@@ -49,18 +49,44 @@ Template Name: Archive Top 30
 
             if( $query->have_posts() ) :
 
-                while( $query->have_posts()) : $query->the_post();
+                $max_num_pages = $query->max_num_pages;
 
-                    include( locate_template( '/module/grid.php', false, false ) );
+                $hidden_info = "<div class='hidden max-num-pages'>{$max_num_pages}</div>";
 
-               endwhile;
+                echo $hidden_info;
+              ?>
+              <div class="product-row" data-page="1">
+                <?php
+                  while( $query->have_posts()) : $query->the_post();
 
+                      include( locate_template( '/module/grid.php', false, false ) );
+
+                 endwhile;
+
+                 if( count( $query->posts ) % 5 !== 0 ) :
+                   for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+                 ?>
+                     <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+               <?php
+                   endfor;
+                 endif;
+               ?>
+             </div>
+         <?php
             wp_reset_postdata();
 
             else :
                 echo '포스트가 존재하지 않습니다.';
             endif;
          ?>
+
+         <?php if( $max_num_pages > 1) : ?>
+            <div class="pagination-arrow-down"></div>
+            <a class="loadmore" name="loadmore" data-template="top30">
+              More
+            </a>
+         <?php endif; ?>
+
          </article>
 
        </div>

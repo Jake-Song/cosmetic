@@ -800,9 +800,33 @@ article.post{
   color: #fff;
   background: #939393;
 }
-/* 싱글 포스트 */
+
+/* 제품 상세 페이지 */
+article.post.single{
+  display: flex;
+}
 article.post.single h2{
   clear: none;
+}
+article.post.single .image-wrapper{
+  flex-basis: 40%;
+}
+article.post.single .image-wrapper .single-post-images{
+  width: 90%;
+  position: relative;
+  min-height: 345.6px;
+}
+article.post.single .image-wrapper .single-post-images img.single-image.current{
+  opacity: 1;
+}
+article.post.single .image-wrapper .single-post-images img.single-image{
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  transition: opacity .5s;
+}
+article.post.single .text-wrapper{
+  flex-basis: 60%;
 }
 div.single-post-image{
   position: relative;
@@ -810,24 +834,14 @@ div.single-post-image{
   float: left;
   border: 1px solid #adadad;
   margin-right: 30px;
-  width: 40%;
-}
-div.single-post-image .behind{
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;
-}
-div.single-post-image img.not-found{
-  width: 440px;
-  height: auto;
 }
 .additional-image{
   margin-top: 25px;
   border: 1px solid #adadad;
   margin-right: 5px;
-  width: 9.62%;
+  width: 21.5%;
   float: left;
+  cursor: pointer;
 }
 .additional-image.order-0{
   clear: both;
@@ -836,7 +850,7 @@ div.single-post-image img.not-found{
   font-size: 1.5rem;
 }
 .check-out-container{
-  margin-top: 2em;
+  margin-top: .5em;
 }
 .check-out-container .btn-primary{
   padding: 10px 25px;

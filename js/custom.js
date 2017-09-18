@@ -1,5 +1,40 @@
 jQuery( document ).ready( function($){
 
+  // Image slide for cosmetic single
+  var singleImages = $('.single-post-images .single-image');
+  var currentImage = singleImages[0];
+  var test = 0;
+  function navigate( counter ){
+    $(currentImage).removeClass('current');
+
+    currentImage = singleImages[counter];
+
+    $(currentImage).addClass('current');
+  }
+
+  var firstBtn = $('.additional-image.order-0');
+  var secondBtn = $('.additional-image.order-1');
+  var thirdBtn = $('.additional-image.order-2');
+  var fourthBtn = $('.additional-image.order-3');
+
+  firstBtn.on( 'click', function(e){
+    e.preventDefault();
+    navigate(0);
+  });
+  secondBtn.on( 'click', function(e){
+    e.preventDefault();
+    navigate(1);
+  });
+  thirdBtn.on( 'click', function(e){
+    e.preventDefault();
+    navigate(2);
+  });
+  fourthBtn.on( 'click', function(e){
+    e.preventDefault();
+    navigate(3);
+  });
+  navigate(0);
+
   // To login
   $('.tologin a').click(function(e){
     e.preventDefault();
@@ -202,12 +237,12 @@ jQuery( document ).ready( function($){
 // Pagination with ajax
 $('.loadmore').on( 'click', function(e){
   e.preventDefault();
-
-  loadMoreAjax( this );
+  var template = $(this).attr('data-template');
+  loadMoreAjax( this, template );
 
 });
 
-function loadMoreAjax( target ){
+function loadMoreAjax( target, template ){
   var lastPage = $(target).siblings('.product-row').last();
   var pageNum = lastPage.attr('data-page');
   var pageNum = parseInt(pageNum);
@@ -228,6 +263,7 @@ function loadMoreAjax( target ){
       security: ajaxHandler.securityLoadmore,
       page: pageNum,
       slug: slug,
+      template: template,
     },
     success: function(response){
 
@@ -236,11 +272,9 @@ function loadMoreAjax( target ){
       container.insertAfter( lastPage );
       if( parseInt(max_num_pages) == (pageNum + 1) ){
         $(that).text('Close').unbind().on('click', function(){
-          var test = 0;
-          console.log($(".product-row")[0]);
           $(this).parent().find(".product-row").not( ".product-row:first" ).remove();
           $(this).text('More').unbind().on('click', function(){
-            loadMoreAjax(this);
+            loadMoreAjax(this, template);
           });
         });
       }
