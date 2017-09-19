@@ -29,10 +29,11 @@ function themeslug_customize_register( $wp_customize ) {
    );
    $wp_customize->add_control( 'footer_social_url',
        array(
-       'label' => __( 'Accent Color', 'mythemename' ), //set the label to appear in the Customizer
-       'section' => 'title_tagline', //select the section for it to appear under
-       'settings' => 'cosmetic_footer_social', //pick the setting it applies to
-       'type' => 'text'
+         'label' => __( '푸터 소셜 아이콘', 'cosmetic' ), //set the label to appear in the Customizer
+         'section' => 'title_tagline', //select the section for it to appear under
+         'settings' => 'cosmetic_footer_social', //pick the setting it applies to
+         'type' => 'text',
+         'priority' => 9999,
        )
     );
 }
@@ -542,6 +543,56 @@ function brand_pagination_callback(){
 add_action( 'wp_ajax_brand_pagination', 'brand_pagination_callback' );
 add_action( 'wp_ajax_nopriv_brand_pagination', 'brand_pagination_callback' );
 
+// New Pagination with Ajax
+function new_pagination_callback(){
+
+  if ( ! check_ajax_referer( 'loadmore', 'security' ) ) {
+    wp_send_json_error( 'Security Check failed' );
+  }
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $page = sanitize_text_field($_POST['page']);
+    $posts_per_page = 5;
+    $slug = isset( $_POST['slug'] ) ? sanitize_text_field($_POST['slug']) : '';
+    $offset = $posts_per_page * $page;
+    $template_for_ajax = isset( $_POST['template'] ) ? sanitize_text_field($_POST['template']) : '';
+
+    $args = array(
+      'post_type' => 'cosmetic',
+      'orderby'   => 'ID',
+      'post_status' => 'publish',
+      'paged' => $page,
+      'posts_per_page' => $posts_per_page,
+      'offset' => $offset,
+    );
+
+    $query = new WP_Query( $args );
+
+    if( $query->have_posts() ):
+
+      while( $query->have_posts() ) : $query->the_post();
+        include( locate_template( '/module/grid.php', false, false ) );
+      endwhile;
+
+      if( count( $query->posts ) % 5 !== 0 ) :
+
+        for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+      ?>
+          <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+    <?php
+        endfor;
+
+      endif;
+
+      wp_reset_postdata();
+    endif;
+
+    die();
+  }
+}
+add_action( 'wp_ajax_new_pagination', 'new_pagination_callback' );
+add_action( 'wp_ajax_nopriv_new_pagination', 'new_pagination_callback' );
+
 // 상위 페이지 아이디 가져오기
 function get_top_parent_id(){
     global $post;
@@ -573,7 +624,7 @@ function cosmetic_ranking_index( $template_for_ajax = null ){
 
   $test = 0;
 
-  if( isset( $template_for_ajax ) ){
+  if( !empty( $template_for_ajax ) ){
 
     $is_front_page = $is_top30 =
     $is_tax_parent = $is_tax_descendant =
@@ -591,7 +642,7 @@ function cosmetic_ranking_index( $template_for_ajax = null ){
         break;
     }
   } else {
-    $is_front_page = ( is_front_page() ) || ( $pagename === '' ) ? true : false;
+    $is_front_page = ( is_front_page() ) && ( $pagename === '' ) ? true : false;
     $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
                 || ( $pagename === 'top-30' ) ? true : false;
     $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;

@@ -8,18 +8,23 @@
 
         <div class="thumbnail-header">
 
-          <?php
+        <?php
+          $test = 0;
+          if( !isset( $template_for_ajax ) ){
+            $template_for_ajax = '';
+          }
 
-            if( !is_page_template( 'page-templates/template-favorite.php' )
-                && !is_page_template( 'page-templates/template-new.php' )
-                && !is_search() ) :
+          if( !is_page_template( 'page-templates/template-favorite.php' )
+              && !is_page_template( 'page-templates/template-new.php' )
+              && !is_search() ) :
 
+              if( $template_for_ajax !== "new" ) :
           ?>
 
           <div class="ranking-icon">
 
             <?php
-              global $term, $taxonomy, $pagename, $post;
+              global $term, $taxonomy, $pagename;
 
               if( $term && $taxonomy ){
                 $this_term = get_term_by( 'slug', $term, $taxonomy );
@@ -31,7 +36,7 @@
               $is_tax_parent = $is_tax_descendant =
               $is_brand = false;
 
-              if( isset( $template_for_ajax ) ){
+              if( !empty( $template_for_ajax ) ){
                 switch ( $template_for_ajax ) {
                   case 'front-page':
                     $is_front_page = true;
@@ -44,7 +49,7 @@
                     break;
                 }
               } else {
-                $is_front_page = ( is_front_page() ) || ( $pagename === '' ) ? true : false;
+                $is_front_page = ( is_front_page() ) && ( $pagename === '' ) ? true : false;
                 $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
                             || ( $pagename === 'top-30' ) ? true : false;
                 $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;
@@ -124,8 +129,13 @@
 
           </div>
 
-        <?php endif; ?>
+        <?php
+            endif;
 
+          endif;
+
+          global $post;
+        ?>
           <div class="favorite-save-button">
             <?php cosmetic_favorite_save_button(); ?>
           </div>

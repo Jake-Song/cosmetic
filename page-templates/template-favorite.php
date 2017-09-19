@@ -30,18 +30,14 @@ Template Name: User Favorite
             $query = new WP_Query( $args );
             if( $query->have_posts() ) :
 
-              $ranking_count = 1;
-
               while( $query->have_posts() ) : $query-> the_post();
 
                 include( locate_template( '/module/grid.php', false, false ) );
 
-                $ranking_count++;
-
               endwhile;
 
               wp_reset_postdata();
-              
+
             endif;
           } else {
             echo 'You could try to add products.';
