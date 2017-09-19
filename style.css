@@ -492,7 +492,6 @@ article.post{
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 30px;
   padding: 0 20px;
   border-top: 2px solid #ffbc00;
 }
@@ -548,7 +547,7 @@ article.page h2{
   width: 960px;
   margin: 0 auto;
   height: 75%;
-  margin-bottom: 3em;
+  margin-bottom: 6em;
 }
 
 /* 카테고리 페이지 */

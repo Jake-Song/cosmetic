@@ -26,13 +26,32 @@
               }
 
               $test = 0;
-              $is_front_page = ( is_front_page() ) || ( $pagename === null ) ? true : false;
-              $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
-                          || ( $pagename === 'top-30' ) ? true : false;
-              $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;
-              $is_tax_descendant = ( is_tax() ) && ( $this_term->parent ) ? true : false;
-              $is_brand =( is_page_template( '/page-templates/template-brand.php' ) )
-                           || ( $pagename === 'sort-by-brand' ) ? true : false;;
+
+              $is_front_page = $is_top30 =
+              $is_tax_parent = $is_tax_descendant =
+              $is_brand = false;
+
+              if( isset( $template_for_ajax ) ){
+                switch ( $template_for_ajax ) {
+                  case 'front-page':
+                    $is_front_page = true;
+                    break;
+                  case 'top30':
+                    $is_top30 = true;
+                    break;
+                  case 'brand':
+                    $is_brand = true;
+                    break;
+                }
+              } else {
+                $is_front_page = ( is_front_page() ) || ( $pagename === '' ) ? true : false;
+                $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
+                            || ( $pagename === 'top-30' ) ? true : false;
+                $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;
+                $is_tax_descendant = ( is_tax() ) && ( $this_term->parent ) ? true : false;
+                $is_brand =( is_page_template( '/page-templates/template-brand.php' ) )
+                             || ( $pagename === 'sort-by-brand' ) ? true : false;;
+              }
 
               switch ( true ) {
 
@@ -92,7 +111,14 @@
 
             <div class="ranking-changed">
 
-              <?php cosmetic_ranking_index(); ?>
+              <?php
+                if( isset( $template_for_ajax ) ){
+                  cosmetic_ranking_index( $template_for_ajax );
+                } else {
+                    cosmetic_ranking_index();
+                }
+
+              ?>
 
             </div>
 

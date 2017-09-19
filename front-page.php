@@ -122,7 +122,7 @@
               ?>
               <?php if( $max_num_pages > 1) : ?>
                  <div class="pagination-arrow-down"></div>
-                 <a class="loadmore" name="loadmore" data-template="front-page">
+                 <a class="loadmore" name="loadmore" data-action="front_page_pagination" data-template="front-page">
                    More
                  </a>
               <?php endif; ?>

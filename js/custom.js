@@ -235,14 +235,15 @@ jQuery( document ).ready( function($){
   });
 
 // Pagination with ajax
-$('.loadmore').on( 'click', function(e){
+$('body').on( 'click', '.loadmore', function(e){
   e.preventDefault();
+  var action = $(this).attr('data-action');
   var template = $(this).attr('data-template');
-  loadMoreAjax( this, template );
+  loadMoreAjax( this, template, action );
 
 });
 
-function loadMoreAjax( target, template ){
+function loadMoreAjax( target, template, action ){
   var lastPage = $(target).siblings('.product-row').last();
   var pageNum = lastPage.attr('data-page');
   var pageNum = parseInt(pageNum);
@@ -259,7 +260,7 @@ function loadMoreAjax( target, template ){
     url: ajaxHandler.adminAjax,
     type: 'POST',
     data: {
-      action: 'process_pagination',
+      action: action,
       security: ajaxHandler.securityLoadmore,
       page: pageNum,
       slug: slug,
@@ -271,11 +272,10 @@ function loadMoreAjax( target, template ){
       container.attr('data-page', pageNum + 1).html(response);
       container.insertAfter( lastPage );
       if( parseInt(max_num_pages) == (pageNum + 1) ){
-        $(that).text('Close').unbind().on('click', function(){
+        $(that).text('Close').off().on('click', function(e){
+          e.stopPropagation();
           $(this).parent().find(".product-row").not( ".product-row:first" ).remove();
-          $(this).text('More').unbind().on('click', function(){
-            loadMoreAjax(this, template);
-          });
+          $(this).text('More').off();
         });
       }
     },

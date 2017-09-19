@@ -9,8 +9,9 @@ Template Name: Archive New Arrival
 
         $args = array(
             'post_type' => 'cosmetic',
-            'orderby' => 'ID',
-            'posts_per_page' => 10,
+            'post_status' => 'publish',
+            'order-by' => 'ID',
+            
         );
           $query = new WP_Query( $args );
 
@@ -38,19 +39,49 @@ Template Name: Archive New Arrival
 
             if( $query->have_posts() ) :
 
+                $max_num_pages = $query->max_num_pages;
+
+                $hidden_info = "<div class='hidden max-num-pages'>{$max_num_pages}</div>";
+
+                echo $hidden_info;
+              ?>
+
+              <div class="product-row" data-page="1">
+
+              <?php
                 while( $query->have_posts()) : $query->the_post();
 
                   include( locate_template( './module/grid.php', false, false ) );
 
-
                 endwhile;
 
+                if( count( $query->posts ) % 5 !== 0 ) :
+                  for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+                ?>
+                    <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+                <?php
+                  endfor;
+
+                endif;
+                 ?>
+
+               </div>
+
+          <?php
             wp_reset_postdata();
 
             else :
                 echo '포스트가 존재하지 않습니다.';
             endif;
          ?>
+
+         <?php if( $max_num_pages > 1) : ?>
+            <div class="pagination-arrow-down"></div>
+            <a class="loadmore" name="loadmore" data-action="new_pagination" data-template="new">
+              More
+            </a>
+         <?php endif; ?>
+
          </article>
 
        </div>

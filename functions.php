@@ -346,7 +346,16 @@ function user_login_validation_callback(){
       }
     }
 
-    $user = wp_signon( $credentials, false );
+    $secure_cookie = '';
+    if ( $user_obj ) {
+      if ( get_user_option('use_ssl', $user_obj->ID) ) {
+        $secure_cookie = true;
+        force_ssl_admin(true);
+      }
+    }
+
+    $user = wp_signon( $credentials, $secure_cookie );
+
 
     wp_send_json_success('Success');
 
@@ -355,8 +364,9 @@ function user_login_validation_callback(){
 add_action( 'wp_ajax_user_login_validation', 'user_login_validation_callback' );
 add_action( 'wp_ajax_nopriv_user_login_validation', 'user_login_validation_callback' );
 
-// Pagination with ajax
-function process_pagination_callback(){
+// Front Page Pagination with ajax
+function front_page_pagination_callback(){
+
   if ( ! check_ajax_referer( 'loadmore', 'security' ) ) {
     wp_send_json_error( 'Security Check failed' );
   }
@@ -366,66 +376,33 @@ function process_pagination_callback(){
     $posts_per_page = 5;
     $slug = isset( $_POST['slug'] ) ? sanitize_text_field($_POST['slug']) : '';
     $offset = $posts_per_page * $page;
-    $template = sanitize_text_field($_POST['template']);
+    $template_for_ajax = isset( $_POST['template'] ) ? sanitize_text_field($_POST['template']) : '';
 
-    switch ( $template ) {
-
-      case 'front-page':
-
-      $args = array(
-        'post_type' => 'cosmetic',
-        'tax_query' => array(
-          array(
-            'taxonomy' => 'cosmetic_category',
-            'field' => 'slug',
-            'terms' => $slug,
-          ),
+    $args = array(
+      'post_type' => 'cosmetic',
+      'tax_query' => array(
+        array(
+          'taxonomy' => 'cosmetic_category',
+          'field' => 'slug',
+          'terms' => $slug,
         ),
-        'orderby'   => 'meta_value_num',
-        'meta_key'  => 'product_ranking_order',
-        'order' => 'ASC',
-        'paged' => $page,
-        'posts_per_page' => $posts_per_page,
-        'offset' => $offset,
-      );
-
-        break;
-
-      case 'top30':
-
-        $args = array(
-          'post_type' => 'cosmetic',
-          'meta_query' => array(
-            array(
-              'key' => 'product_featured',
-              'value' => 'featured',
-            ),
-            array(
-              'key' => 'product_featured_order',
-              'value_num' => '30',
-              'compare' => '=<',
-            ),
-          ),
-          'orderby'   => 'meta_value_num',
-          'meta_key'  => 'product_featured_order',
-          'order' => 'ASC',
-          'paged' => $page,
-          'posts_per_page' => $posts_per_page,
-          'offset' => $offset,
-        );
-
-        break;
-
-    }
+      ),
+      'orderby'   => 'meta_value_num',
+      'meta_key'  => 'product_ranking_order',
+      'order' => 'ASC',
+      'paged' => $page,
+      'posts_per_page' => $posts_per_page,
+      'offset' => $offset,
+    );
 
     $query = new WP_Query( $args );
-    $test = 0;
+
     if( $query->have_posts() ):
 
       while( $query->have_posts() ) : $query->the_post();
         include( locate_template( '/module/grid.php', false, false ) );
       endwhile;
-$test = 0;
+
       if( count( $query->posts ) % 5 !== 0 ) :
 
         for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
@@ -442,8 +419,128 @@ $test = 0;
     die();
   }
 }
-add_action( 'wp_ajax_process_pagination', 'process_pagination_callback' );
-add_action( 'wp_ajax_nopriv_process_pagination', 'process_pagination_callback' );
+add_action( 'wp_ajax_front_page_pagination', 'front_page_pagination_callback' );
+add_action( 'wp_ajax_nopriv_front_page_pagination', 'front_page_pagination_callback' );
+
+// Top 30 Pagination with Ajax
+function top30_pagination_callback(){
+
+  if ( ! check_ajax_referer( 'loadmore', 'security' ) ) {
+    wp_send_json_error( 'Security Check failed' );
+  }
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $page = sanitize_text_field($_POST['page']);
+    $posts_per_page = 5;
+    $slug = isset( $_POST['slug'] ) ? sanitize_text_field($_POST['slug']) : '';
+    $offset = $posts_per_page * $page;
+    $template_for_ajax = isset( $_POST['template'] ) ? sanitize_text_field($_POST['template']) : '';
+
+    $args = array(
+      'post_type' => 'cosmetic',
+      'meta_query' => array(
+        array(
+          'key' => 'product_featured',
+          'value' => 'featured',
+        ),
+        array(
+          'key' => 'product_featured_order',
+          'value_num' => '30',
+          'compare' => '=<',
+        ),
+      ),
+      'orderby'   => 'meta_value_num',
+      'meta_key'  => 'product_featured_order',
+      'order' => 'ASC',
+      'paged' => $page,
+      'posts_per_page' => $posts_per_page,
+      'offset' => $offset,
+    );
+
+    $query = new WP_Query( $args );
+
+    if( $query->have_posts() ):
+
+      while( $query->have_posts() ) : $query->the_post();
+        include( locate_template( '/module/grid.php', false, false ) );
+      endwhile;
+
+      if( count( $query->posts ) % 5 !== 0 ) :
+
+        for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+      ?>
+          <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+    <?php
+        endfor;
+
+      endif;
+
+      wp_reset_postdata();
+    endif;
+
+    die();
+  }
+}
+add_action( 'wp_ajax_top30_pagination', 'top30_pagination_callback' );
+add_action( 'wp_ajax_nopriv_top30_pagination', 'top30_pagination_callback' );
+
+// Brand Pagination with Ajax
+function brand_pagination_callback(){
+
+  if ( ! check_ajax_referer( 'loadmore', 'security' ) ) {
+    wp_send_json_error( 'Security Check failed' );
+  }
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $page = sanitize_text_field($_POST['page']);
+    $posts_per_page = 5;
+    $slug = isset( $_POST['slug'] ) ? sanitize_text_field($_POST['slug']) : '';
+    $offset = $posts_per_page * $page;
+    $template_for_ajax = isset( $_POST['template'] ) ? sanitize_text_field($_POST['template']) : '';
+
+    $args = array(
+      'post_type' => 'cosmetic',
+      'tax_query' => array(
+        array(
+          'taxonomy' => 'cosmetic_brand',
+          'field' => 'slug',
+          'terms' => $slug,
+        ),
+      ),
+      'orderby'   => 'meta_value_num',
+      'meta_key'  => 'product_brand_order',
+      'order' => 'ASC',
+      'paged' => $page,
+      'posts_per_page' => $posts_per_page,
+      'offset' => $offset,
+    );
+
+    $query = new WP_Query( $args );
+
+    if( $query->have_posts() ):
+
+      while( $query->have_posts() ) : $query->the_post();
+        include( locate_template( '/module/grid.php', false, false ) );
+      endwhile;
+
+      if( count( $query->posts ) % 5 !== 0 ) :
+
+        for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+      ?>
+          <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+    <?php
+        endfor;
+
+      endif;
+
+      wp_reset_postdata();
+    endif;
+
+    die();
+  }
+}
+add_action( 'wp_ajax_brand_pagination', 'brand_pagination_callback' );
+add_action( 'wp_ajax_nopriv_brand_pagination', 'brand_pagination_callback' );
 
 // 상위 페이지 아이디 가져오기
 function get_top_parent_id(){
@@ -466,7 +563,7 @@ function get_term_parent_id(){
 }
 
 // 랭킹 순위 변동 나타내기
-function cosmetic_ranking_index(){
+function cosmetic_ranking_index( $template_for_ajax = null ){
 
   global $term, $taxonomy, $pagename;
 
@@ -475,13 +572,33 @@ function cosmetic_ranking_index(){
   }
 
   $test = 0;
-  $is_front_page = ( is_front_page() ) || ( $pagename === null ) ? true : false;
-  $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
-              || ( $pagename === 'top-30' ) ? true : false;
-  $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;
-  $is_tax_descendant = ( is_tax() ) && ( $this_term->parent ) ? true : false;
-  $is_brand =( is_page_template( '/page-templates/template-brand.php' ) )
-               || ( $pagename === 'sort-by-brand' ) ? true : false;;
+
+  if( isset( $template_for_ajax ) ){
+
+    $is_front_page = $is_top30 =
+    $is_tax_parent = $is_tax_descendant =
+    $is_brand = false;
+
+    switch ( $template_for_ajax ) {
+      case 'front-page':
+        $is_front_page = true;
+        break;
+      case 'top30':
+        $is_top30 = true;
+        break;
+      case 'brand':
+        $is_brand = true;
+        break;
+    }
+  } else {
+    $is_front_page = ( is_front_page() ) || ( $pagename === '' ) ? true : false;
+    $is_top30 = ( is_page_template( '/page-templates/template-top30.php' ) )
+                || ( $pagename === 'top-30' ) ? true : false;
+    $is_tax_parent = ( is_tax() ) && ( !$this_term->parent ) ? true : false;
+    $is_tax_descendant = ( is_tax() ) && ( $this_term->parent ) ? true : false;
+    $is_brand =( is_page_template( '/page-templates/template-brand.php' ) )
+                 || ( $pagename === 'sort-by-brand' ) ? true : false;;
+  }
 
    switch ( true ) {
 

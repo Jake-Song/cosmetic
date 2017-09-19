@@ -82,7 +82,7 @@ Template Name: Archive Top 30
 
          <?php if( $max_num_pages > 1) : ?>
             <div class="pagination-arrow-down"></div>
-            <a class="loadmore" name="loadmore" data-template="top30">
+            <a class="loadmore" name="loadmore" data-action="top30_pagination" data-template="top30">
               More
             </a>
          <?php endif; ?>
