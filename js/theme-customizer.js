@@ -1,9 +1,11 @@
 jQuery(document).ready(function($){
 
   // 로고
-  wp.customize( 'logo_settings', function( value ) {
+  wp.customize( 'logo_settings', function( a,b,c ) {
+    console.log(a,b,c);
     value.bind( function( newval ) {
-      console.log( newval );
+      var imgID = JSON.stringify( newval );
+      $('.site-header .title a').append( imgID );
     } );
   } );
   // 소셜 아이콘

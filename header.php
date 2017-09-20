@@ -13,8 +13,8 @@
 
                 <div class="title">
                   <?php
-                
-                    if( get_theme_mod('logo_settings') !== '' ){
+                    $test = 0;
+                    if( get_theme_mod('logo_settings', '') !== '' ){
                       $logo_id = get_theme_mod('logo_settings');
                   ?>
                       <a href="<?php echo home_url(); ?>">
