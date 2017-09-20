@@ -9,7 +9,7 @@ Template Name: User Favorite
 
       <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-      <article class="post favorite">
+      <article class="post favorite clearfix">
         <?php
           global $current_user;
 

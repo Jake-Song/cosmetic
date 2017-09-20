@@ -9,34 +9,7 @@
 
     <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-        <div class="filter">
-          <ul>
-            <li>
-              <a href="./top-30">
-                <img src="./wp-content/themes/cosmetic/img/top30.png" alt="">
-                <div class="">
-                  Top 30
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="./sort-by-brand">
-                <img src="./wp-content/themes/cosmetic/img/brand-flat-icons.svg" alt="">
-                <div>
-                  Sort By Brand
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="./new-arrival">
-                <img src="./wp-content/themes/cosmetic/img/new-icon.png" alt="">
-                <div>
-                  New Arrival
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
+      <?php get_template_part( '/module/ajax-navigation' ); ?>
 
       <div class="ajax-container">
 

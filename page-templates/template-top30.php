@@ -30,66 +30,70 @@ Template Name: Archive Top 30
 
         <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-        <div class="wrapper-for-ajax">
+        <?php get_template_part( '/module/ajax-navigation' ); ?>
 
-          <div class="template-title">
-            <h4>Overall Category</h4>
-            <h2>Top 30</h2>
-          </div>
+        <div class="ajax-container">
 
-          <?php get_template_part( '/module/ajax_preloader' ); ?>
+          <div class="wrapper-for-ajax">
 
-          <article class="post clearfix">
+            <div class="template-title">
+              <h4>Overall Category</h4>
+              <h2>Top 30</h2>
+            </div>
 
-            <h4 class="cosmetic-title">All Goods</h4>
+            <?php get_template_part( '/module/ajax_preloader' ); ?>
 
-            <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
+            <article class="post clearfix">
 
-            <?php
+              <h4 class="cosmetic-title">All Goods</h4>
 
-            if( $query->have_posts() ) :
+              <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
-                $max_num_pages = $query->max_num_pages;
+              <?php
 
-                $hidden_info = "<div class='hidden max-num-pages'>{$max_num_pages}</div>";
+              if( $query->have_posts() ) :
 
-                echo $hidden_info;
-              ?>
-              <div class="product-row" data-page="1">
-                <?php
-                  while( $query->have_posts()) : $query->the_post();
+                  $max_num_pages = $query->max_num_pages;
 
-                      include( locate_template( '/module/grid.php', false, false ) );
+                  $hidden_info = "<div class='hidden max-num-pages'>{$max_num_pages}</div>";
 
-                 endwhile;
+                  echo $hidden_info;
+                ?>
+                <div class="product-row" data-page="1">
+                  <?php
+                    while( $query->have_posts()) : $query->the_post();
 
-                 if( count( $query->posts ) % 5 !== 0 ) :
-                   for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+                        include( locate_template( '/module/grid.php', false, false ) );
+
+                   endwhile;
+
+                   if( count( $query->posts ) % 5 !== 0 ) :
+                     for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+                   ?>
+                       <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+                 <?php
+                     endfor;
+                   endif;
                  ?>
-                     <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
-               <?php
-                   endfor;
-                 endif;
-               ?>
-             </div>
-         <?php
-            wp_reset_postdata();
+               </div>
+           <?php
+              wp_reset_postdata();
 
-            else :
-                echo '포스트가 존재하지 않습니다.';
-            endif;
-         ?>
+              else :
+                  echo '포스트가 존재하지 않습니다.';
+              endif;
+           ?>
 
-         <?php if( $max_num_pages > 1) : ?>
-            <div class="pagination-arrow-down"></div>
-            <a class="loadmore" name="loadmore" data-action="top30_pagination" data-template="top30">
-              More
-            </a>
-         <?php endif; ?>
+           <?php if( $max_num_pages > 1) : ?>
+              <div class="pagination-arrow-down"></div>
+              <a class="loadmore" name="loadmore" data-action="top30_pagination" data-template="top30">
+                More
+              </a>
+           <?php endif; ?>
 
-         </article>
+           </article>
 
+         </div>
        </div>
-
      </div>
 <?php get_footer(); ?>

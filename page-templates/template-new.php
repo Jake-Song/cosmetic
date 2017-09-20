@@ -20,60 +20,64 @@ Template Name: Archive New Arrival
 
         <?php include( locate_template( '/module/product-menu.php', false, false ) ); ?>
 
-        <div class="wrapper-for-ajax">
+        <?php get_template_part( '/module/ajax-navigation' ); ?>
 
-          <div class="template-title">
-            <h4>By Brand</h4>
-            <h2>Best Goods - Top 5</h2>
-          </div>
+        <div class="ajax-container">
 
-          <?php get_template_part( '/module/ajax_preloader' ); ?>
+            <div class="wrapper-for-ajax">
 
-          <article class="post new clearfix">
+              <div class="template-title">
+                <h4>By Brand</h4>
+                <h2>Best Goods - Top 5</h2>
+              </div>
 
-            <h4 class="cosmetic-title">New Arrival.</h2>
+              <?php get_template_part( '/module/ajax_preloader' ); ?>
 
-            <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
+              <article class="post new clearfix">
 
-            <?php
+                <h4 class="cosmetic-title">New Arrival.</h2>
 
-              if( $query->have_posts() ) :
+                <?php include( locate_template( '/module/modified_date.php', false, false ) ); ?>
 
-            ?>
+                <?php
 
-              <div class="product-row" data-page="1">
+                  if( $query->have_posts() ) :
+
+                ?>
+
+                  <div class="product-row" data-page="1">
+
+                  <?php
+                    while( $query->have_posts()) : $query->the_post();
+
+                      include( locate_template( './module/grid.php', false, false ) );
+
+                    endwhile;
+
+                    if( count( $query->posts ) % 5 !== 0 ) :
+                      for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
+                    ?>
+                        <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
+                    <?php
+                      endfor;
+
+                    endif;
+                     ?>
+
+                   </div>
 
               <?php
-                while( $query->have_posts()) : $query->the_post();
+                wp_reset_postdata();
 
-                  include( locate_template( './module/grid.php', false, false ) );
-
-                endwhile;
-
-                if( count( $query->posts ) % 5 !== 0 ) :
-                  for( $i = 0; $i < 5 - (count( $query->posts ) % 5); $i++ ) :
-                ?>
-                    <div class="col-sm-12 col-md-4 col-lg-4 spare"></div>
-                <?php
-                  endfor;
-
+                else :
+                    echo '포스트가 존재하지 않습니다.';
                 endif;
-                 ?>
+             ?>
 
-               </div>
+             </article>
 
-          <?php
-            wp_reset_postdata();
-
-            else :
-                echo '포스트가 존재하지 않습니다.';
-            endif;
-         ?>
-
-         </article>
-
-       </div>
-
+        </div>
+      </div>
      </div>
 
 

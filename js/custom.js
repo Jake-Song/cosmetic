@@ -84,7 +84,7 @@ jQuery( document ).ready( function($){
   $('.filter').on('click', 'ul li a', function(e){
     e.preventDefault();
     var newPage = $(this).attr('href');
-
+    var test = 0;
     if(!isLoading) changePage( newPage, true );
     firstLoad = true;
   });
