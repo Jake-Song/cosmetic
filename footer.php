@@ -2,9 +2,15 @@
   <div class="footer-content-box">
     <?php bloginfo('name') ?> - &copy; <?php echo date('Y'); ?>
     <div class="social">
-      <a href="https://www.facebook.com"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-      <a href="https://www.instagram.com"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-      <a href="https://www.youtube.com"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+      <a href="<?php echo esc_url( get_theme_mod( 'cosmetic_footer_social_url_1' ) ); ?>" target="_blank">
+        <i class="<?php echo esc_attr( get_theme_mod( 'cosmetic_footer_social_icon_1' ) ); ?>" aria-hidden="true"></i>
+      </a>
+      <a href="<?php echo esc_url( get_theme_mod( 'cosmetic_footer_social_url_2' ) ); ?>" target="_blank">
+        <i class="<?php echo esc_attr( get_theme_mod( 'cosmetic_footer_social_icon_2' ) ); ?>" aria-hidden="true"></i>
+      </a>
+      <a href="<?php echo esc_url( get_theme_mod( 'cosmetic_footer_social_url_3' ) ); ?>" target="_blank">
+        <i class="<?php echo esc_attr( get_theme_mod( 'cosmetic_footer_social_icon_3' ) ); ?>" aria-hidden="true"></i>
+      </a>
     </div>
   </div>
 

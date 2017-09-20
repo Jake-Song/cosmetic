@@ -21,23 +21,160 @@ add_action('wp_enqueue_scripts', 'cosmetic_enqueue_scripts');
 
 // 사용자 정의하기
 function themeslug_customize_register( $wp_customize ) {
+
+  // 사이트 로고
   $wp_customize->add_setting(
-     'cosmetic_footer_social', //give it an ID
+     'logo_settings', //give it an ID
      array(
-     'default' => '#333333', // Give it a default
+       'type' => 'theme_mod',
+       'default' => '', // Give it a default
+
      )
    );
-   $wp_customize->add_control( 'footer_social_url',
+   $wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'logo', array(
+     'section'     => 'title_tagline',
+     'settings'    => 'logo_settings',
+     'label'       => __( '로고', 'cosmetic' ),
+     'description' => __( '화면 상단의 로고 이미지로 사용됩니다. 권장크기는 270 x 45 입니다.' ),
+     'flex_width'  => true, // Allow any width, making the specified value recommended. False by default.
+     'flex_height' => false, // Require the resulting image to be exactly as tall as the height attribute (default).
+     'width'       => 270,
+     'height'      => 45,
+   ) ) );
+
+  // 푸터 소셜 편집
+  $wp_customize->add_section( 'footer', array(
+    'title' => __( '푸터 소셜아이콘', 'cosmetic' ),
+    'description' => __( '푸터 소셜아이콘 편집', 'cosmetic' ),
+    'priority' => 160,
+    'capability' => 'edit_theme_options',
+  ) );
+  $wp_customize->add_setting(
+     'cosmetic_footer_social_url_1', //give it an ID
+     array(
+       'type' => 'theme_mod',
+       'default' => '', // Give it a default
+
+     )
+   );
+   $wp_customize->add_setting(
+      'cosmetic_footer_social_url_2', //give it an ID
+      array(
+        'type' => 'theme_mod',
+        'default' => '', // Give it a default
+
+      )
+    );
+  $wp_customize->add_setting(
+     'cosmetic_footer_social_url_3', //give it an ID
+     array(
+       'type' => 'theme_mod',
+       'default' => '', // Give it a default
+
+     )
+   );
+   $wp_customize->add_setting(
+      'cosmetic_footer_social_icon_1', //give it an ID
+      array(
+        'type' => 'theme_mod',
+        'default' => '', // Give it a default
+
+      )
+    );
+    $wp_customize->add_setting(
+       'cosmetic_footer_social_icon_2', //give it an ID
        array(
-         'label' => __( '푸터 소셜 아이콘', 'cosmetic' ), //set the label to appear in the Customizer
-         'section' => 'title_tagline', //select the section for it to appear under
-         'settings' => 'cosmetic_footer_social', //pick the setting it applies to
+         'type' => 'theme_mod',
+         'default' => '', // Give it a default
+
+       )
+     );
+     $wp_customize->add_setting(
+        'cosmetic_footer_social_icon_3', //give it an ID
+        array(
+          'type' => 'theme_mod',
+          'default' => '', // Give it a default
+
+        )
+      );
+    $wp_customize->get_setting( 'logo_settings' )->transport = 'postMessage';
+    $wp_customize->get_setting( 'cosmetic_footer_social_icon_1' )->transport = 'postMessage';
+    $wp_customize->get_setting( 'cosmetic_footer_social_icon_2' )->transport = 'postMessage';
+    $wp_customize->get_setting( 'cosmetic_footer_social_icon_3' )->transport = 'postMessage';
+    $wp_customize->get_setting( 'cosmetic_footer_social_url_1' )->transport = 'postMessage';
+    $wp_customize->get_setting( 'cosmetic_footer_social_url_2' )->transport = 'postMessage';
+    $wp_customize->get_setting( 'cosmetic_footer_social_url_3' )->transport = 'postMessage';
+
+
+    $wp_customize->add_control( 'footer_social_icon_1',
+        array(
+          'label' => __( '푸터 소셜 아이콘 #1', 'cosmetic' ), //set the label to appear in the Customizer
+          'section' => 'footer', //select the section for it to appear under
+          'settings' => 'cosmetic_footer_social_icon_1', //pick the setting it applies to
+          'type' => 'text',
+          'priority' => 31,
+        )
+     );
+   $wp_customize->add_control( 'footer_social_url_1',
+       array(
+         'label' => __( '푸터 소셜 URL #1', 'cosmetic' ), //set the label to appear in the Customizer
+         'section' => 'footer', //select the section for it to appear under
+         'settings' => 'cosmetic_footer_social_url_1', //pick the setting it applies to
          'type' => 'text',
-         'priority' => 9999,
+         'priority' => 32,
        )
     );
+    $wp_customize->add_control( 'footer_social_icon_2',
+        array(
+          'label' => __( '푸터 소셜 아이콘 #2', 'cosmetic' ), //set the label to appear in the Customizer
+          'section' => 'footer', //select the section for it to appear under
+          'settings' => 'cosmetic_footer_social_icon_2', //pick the setting it applies to
+          'type' => 'text',
+          'priority' => 33,
+        )
+     );
+    $wp_customize->add_control( 'footer_social_url_2',
+        array(
+          'label' => __( '푸터 소셜 URL #2', 'cosmetic' ), //set the label to appear in the Customizer
+          'section' => 'footer', //select the section for it to appear under
+          'settings' => 'cosmetic_footer_social_url_2', //pick the setting it applies to
+          'type' => 'text',
+          'priority' => 34,
+        )
+     );
+     $wp_customize->add_control( 'footer_social_icon_3',
+         array(
+           'label' => __( '푸터 소셜 아이콘 #3', 'cosmetic' ), //set the label to appear in the Customizer
+           'section' => 'footer', //select the section for it to appear under
+           'settings' => 'cosmetic_footer_social_icon_3', //pick the setting it applies to
+           'type' => 'text',
+           'priority' => 35,
+         )
+      );
+     $wp_customize->add_control( 'footer_social_url_3',
+         array(
+           'label' => __( '푸터 소셜 URL #3', 'cosmetic' ), //set the label to appear in the Customizer
+           'section' => 'footer', //select the section for it to appear under
+           'settings' => 'cosmetic_footer_social_url_3', //pick the setting it applies to
+           'type' => 'text',
+           'priority' => 36,
+         )
+      );
 }
 add_action( 'customize_register', 'themeslug_customize_register' );
+
+// 사용자 정의하기 프리뷰 자바스크립트 파일 로드
+function cosmetic_customizer_live_preview()
+{
+	wp_enqueue_script(
+		  'cosmetic-themecustomizer',			//Give the script an ID
+		  get_template_directory_uri().'/js/theme-customizer.js',//Point to file
+		  array( 'jquery','customize-preview' ),	//Define dependencies
+		  '',						//Define a version (optional)
+		  true						//Put script in footer?
+	);
+}
+add_action( 'customize_preview_init', 'cosmetic_customizer_live_preview' );
 
 // 어드민 페이지 스타일 시트 적용
 add_action( 'admin_enqueue_scripts', 'load_admin_styles' );

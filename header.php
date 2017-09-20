@@ -12,10 +12,22 @@
             <header class="site-header">
 
                 <div class="title">
-                  <a href="<?php echo home_url(); ?>">
-                    <h2>This Is What She Got.</h2>
-                  </a>
-                  <h4>Real Korean Cosmetic</h4>
+                  <?php
+                
+                    if( get_theme_mod('logo_settings') !== '' ){
+                      $logo_id = get_theme_mod('logo_settings');
+                  ?>
+                      <a href="<?php echo home_url(); ?>">
+                        <?php echo wp_get_attachment_image( $logo_id, array( '270', '45' ) ); ?>
+                      </a>
+
+                  <?php  } else { ?>
+                      <a href="<?php echo home_url(); ?>">
+                        <h2>This Is What She Got.</h2>
+                      </a>
+                      <h4>Real Korean Cosmetic</h4>
+                <?php  } ?>
+
                 </div>
                 <nav class="navbar navbar-default top-menu">
                   <?php
