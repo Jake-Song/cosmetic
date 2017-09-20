@@ -2,7 +2,7 @@ jQuery(document).ready(function($){
 
   // 소셜 아이콘
   wp.customize( 'cosmetic_footer_social_icon_1', function( value ) {
-    if( value )    
+    if( value )
       value.bind( function( newval ) {
         $( '.social a' ).eq(0).find('i').removeClass().addClass( newval );
       } );
