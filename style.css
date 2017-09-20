@@ -247,6 +247,7 @@ article.post:last-of-type{
           align-items: center;
   color: #333;
   font-weight: bold;
+  text-align: center;
 }
 .arrow-down {
   position: absolute;
@@ -1354,5 +1355,61 @@ article.reset-page form{
   }
   .footer-content-box .social{
     margin-right: 0;
+  }
+  article.post .post-modified{
+    top: 20px;
+  }
+  .template-title{
+    margin-bottom: 0;
+  }
+  article.post .thumbnail{
+    height: 100%;
+  }
+  article.post.tips{
+    justify-content: center;
+  }
+  div.post-image{
+    float: none;
+    margin: 0;
+  }
+  .post-content{
+    flex-basis: 100%;
+  }
+  .read-more{
+    position: relative;
+    display: block;
+    padding: 0;
+    padding-bottom: 5px;
+  }
+  div.single-post-image{
+    margin: 0;
+    float: none;
+    border: 0;
+  }
+  .social-wrapper{
+    flex-wrap: wrap;
+  }
+  .jssocials{
+    margin-bottom: 2em;
+    order: 1;
+  }
+  .social-wrapper .text{
+    margin-bottom: 2em;
+    margin-left: 0;
+  }
+  .content-box{
+    margin-bottom: 3em;
+  }
+  article.post.favorite .thumbnail{
+    height: 100%;
+  }
+  article.post.single{
+    flex-direction: column;
+  }
+  article.post.single .image-wrapper{
+    flex-basis: 100%;
+  }
+  article.post.single .image-wrapper .single-post-images{
+    width: 100%;
   }
 }
