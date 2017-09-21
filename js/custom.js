@@ -1,5 +1,11 @@
 jQuery( document ).ready( function($){
 
+  // Mobile menu
+  $('.navbar-toggle').on('click', function(e){
+    e.stopImmediatePropagation();
+    $('.navbar.navbar-default').toggleClass('show-menu');
+  });
+  
   // Image slide for cosmetic single
   var singleImages = $('.single-post-images .single-image');
   var currentImage = singleImages[0];
@@ -78,7 +84,7 @@ jQuery( document ).ready( function($){
   // Load Contents with ajax
 
   var newLocation = '',
-  firstLoad = false;
+  firstLoad = false,
   isLoading = false;
 
   $('.filter').on('click', 'ul li a', function(e){
