@@ -1349,9 +1349,9 @@ article.reset-page form{
 }
 @media only screen and (max-width: 767px){
   .product > ul{
-    -webkit-box-pack: unset;
-        -ms-flex-pack: unset;
-            justify-content: unset;
+    -webkit-box-pack: initial;
+        -ms-flex-pack: initial;
+            justify-content: initial;
     overflow-x: auto;
   }
   .product > ul > li{
@@ -1420,7 +1420,7 @@ article.reset-page form{
   }
   .jssocials{
     margin-bottom: 2em;
-    -webkit-box-ordinal-group: 2;
+    -webkit-box-ordinal-group: 1;
         -ms-flex-order: 1;
             order: 1;
   }
@@ -1434,19 +1434,6 @@ article.reset-page form{
   article.post.favorite .thumbnail{
     height: 100%;
   }
-  article.post.single{
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  article.post.single .image-wrapper{
-    -ms-flex-preferred-size: 100%;
-        flex-basis: 100%;
-  }
-  article.post.single .image-wrapper .single-post-images{
-    width: 100%;
-  }
   .thumbnail-image > a > img{
     width: 65%;
   }
@@ -1459,7 +1446,9 @@ article.reset-page form{
   }
   .favorite-save-button{
     opacity: 1;
-    transform: none;
+    -webkit-transform: none;
+            transform: none;
+    -webkit-transition: none;
     transition: none;
     right: 20px;
   }
@@ -1531,5 +1520,94 @@ article.reset-page form{
   }
   .collapse{
     display: initial !important;
+  }
+  .modal-title h2{
+    margin: 0;
+  }
+  .modal-content{
+    width: 80%;
+    margin: 2% auto;
+    padding: 15px;
+  }
+  .my-theme .modal-content .modal-title{
+    margin-bottom: .5em;
+  }
+  .login-password{
+    margin-bottom: 1.5em;
+  }
+  #login{
+    width: 100%;
+  }
+  #registration{
+    width: 100%;
+    margin-bottom: 1em;
+  }
+  article.post .col-sm-12.col-md-4.col-lg-4{
+    width: 50%;
+    float: left;
+  }
+  .ajax-preloader{
+    margin-top: 0;
+    margin-bottom: 6em;
+  }
+  article.post.new .thumbnail, article.post.favorite .thumbnail{
+    height: 270px;
+  }
+  article.post.single h2{
+    font-size: 1.7rem;
+  }
+  .additional-image{
+    width: 21%;
+  }
+  article.post.single .image-wrapper .single-post-images{
+    min-height: 210px;
+  }
+}
+@media only screen and (max-width: 360px){
+  article.post.brand .post-modified{
+    top: -10px;
+    position: relative;
+  }
+  .show-menu #primary-menu, #primary-menu{
+    z-index: 1;
+  }
+  .navbar-default .navbar-toggle{
+    z-index: 2;
+  }
+  #menu-primary-menu-links{
+    margin-top: 3em;
+  }
+  .site-header nav ul li{
+    clear: both;
+  }
+  .modal-content{
+    width: 90%;
+    margin: 30% auto;
+    padding: 15px;
+  }
+  article.post .col-sm-12.col-md-4.col-lg-4{
+    width: 100%;
+    float: none;
+  }
+  #login{
+    width: 100%;
+  }
+  #registration{
+    width: 100%;
+    margin-bottom: 1em;
+  }
+  article.post.single{
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  article.post.single .image-wrapper .single-post-images{
+    width: 100%;
+    min-height: 376px;
+  }
+  .additional-image{
+    margin-top: -25px;
+    margin-left: 4px;
   }
 }
