@@ -97,7 +97,7 @@ function themeslug_customize_register( $wp_customize ) {
 
         )
       );
-  
+
     $wp_customize->get_setting( 'cosmetic_footer_social_icon_1' )->transport = 'postMessage';
     $wp_customize->get_setting( 'cosmetic_footer_social_icon_2' )->transport = 'postMessage';
     $wp_customize->get_setting( 'cosmetic_footer_social_icon_3' )->transport = 'postMessage';
@@ -260,6 +260,11 @@ function wti_loginout_menu_link( $items, $args ) {
    if ($args->theme_location == 'top') {
       if (is_user_logged_in()) {
          $items .= '<li class="right"><a href="'. wp_logout_url() .'">'. "Log Out" .'</a></li>';
+      }
+   }
+   if ($args->theme_location == 'primary') {
+      if (is_user_logged_in()) {
+         $items .= '<li class="right responsive"><a href="'. wp_logout_url() .'">'. "Log Out" .'</a></li>';
       }
    }
    return $items;

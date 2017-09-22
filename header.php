@@ -72,6 +72,8 @@
                              ?>
 
                             <?php wp_nav_menu( $args ); ?>
+                            
+                  <div class="mobile-close">X</div>
 
               </nav>
 

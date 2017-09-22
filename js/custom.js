@@ -4,8 +4,14 @@ jQuery( document ).ready( function($){
   $('.navbar-toggle').on('click', function(e){
     e.stopImmediatePropagation();
     $('.navbar.navbar-default').toggleClass('show-menu');
+
+    $('.mobile-close').on('click', function(e){
+      $('.navbar.navbar-default').removeClass('show-menu');
+      $(this).unbind();
+    });
+
   });
-  
+
   // Image slide for cosmetic single
   var singleImages = $('.single-post-images .single-image');
   var currentImage = singleImages[0];
@@ -42,10 +48,15 @@ jQuery( document ).ready( function($){
   navigate(0);
 
   // To login
-  $('.tologin a').click(function(e){
+  $('.toregister a').click(function(e){
     e.preventDefault();
     modal.style.display = "block";
     loginModal.style.display = "none";
+  });
+  $('.tologin a').click(function(e){
+    e.preventDefault();
+    modal.style.display = "none";
+    loginModal.style.display = "block";
   });
 
   // Social Buttons
