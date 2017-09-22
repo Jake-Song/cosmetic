@@ -50,12 +50,12 @@ jQuery( document ).ready( function($){
   // To login
   $('.toregister a').click(function(e){
     e.preventDefault();
-    modal.style.display = "block";
+    regiModal.style.display = "block";
     loginModal.style.display = "none";
   });
   $('.tologin a').click(function(e){
     e.preventDefault();
-    modal.style.display = "none";
+    regiModal.style.display = "none";
     loginModal.style.display = "block";
   });
 
@@ -304,55 +304,59 @@ function loadMoreAjax( target, template, action ){
 
 // Modal
 
-if( document.querySelector(".register-modal") ){
+var regiModal = document.getElementById('register');
+var loginModal = document.getElementById('signin');
 
-  // Get the modal
-  var modal = document.getElementById('register');
-  var loginModal = document.getElementById('signin');
-
-  // Get the button that opens the modal
-
-  var btn = document.querySelector(".register-modal");
-  var loginBtn = document.querySelector(".login-modal");
-
-  // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
-  var loginSpan = document.getElementsByClassName("close")[1];
-
-  // When the user clicks on the button, open the modal
-  btn.onclick = function(e) {
-      e.preventDefault();
-      modal.style.display = "block";
-  }
-  loginBtn.onclick = function(e) {
-      e.preventDefault();
-      loginModal.style.display = "block";
-  }
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-      modal.style.display = "none";
-      var errorMsg = document.getElementsByClassName('error')[0];
-      errorMsg.parentNode.removeChild(errorMsg);
-  }
-  loginSpan.onclick = function() {
-      loginModal.style.display = "none";
-      var errorMsg = document.getElementsByClassName('error')[0];
-      errorMsg.parentNode.removeChild(errorMsg);
-  }
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-          loginModal.style.display = "none";
+function delegate( delegateElem, eventName, targetElem, fn ){
+  var element = document.querySelector( delegateElem );
+  element.addEventListener( eventName, function(event){
+    var target = event.target;
+    var possibleElem = element.querySelectorAll( targetElem );
+    for(var i = 0; i < possibleElem.length; i++){
+      var p = possibleElem[i];
+      var el = target;
+      while( el && el !== element ){
+        if( p === el ){
+          return fn.call( p, event );
+        }
+        el = el.parentNode;
       }
-  }
+    }
+  } );
 }
+
+delegate( 'body', 'click', '.register-modal a', function(e){
+    e.preventDefault();
+    regiModal.style.display = 'block';
+} );
+delegate( 'body', 'click', '.login-modal a', function(e){
+    e.preventDefault();
+    loginModal.style.display = 'block';
+} );
+delegate( 'body', 'click', '#register .close', function(e){
+    e.preventDefault();
+    regiModal.style.display = 'none';
+    var errorMsg = document.querySelector('#register .error');
+    if( errorMsg )
+      errorMsg.parentNode.removeChild(errorMsg);
+} );
+delegate( 'body', 'click', '#signin .close', function(e){
+    e.preventDefault();
+    loginModal.style.display = 'none';
+    var errorMsg = document.querySelector('#signin .error');
+    if( errorMsg )
+      errorMsg.parentNode.removeChild(errorMsg);
+} );
+window.onclick = function(e){
+  if(e.target === regiModal || e.target === loginModal){
+    e.target.style.display = 'none';
+  }
+};
 // Registration and Login with Ajax
 var regiForm = $('#registration-form');
 var loginForm = $('#loginform');
 
 regiForm.on('submit', function( e ){
-
   e.preventDefault();
 
   var action = 'user_regi_validation';

@@ -6,7 +6,7 @@
 
       <div class="ajax-container">
 
-          <article class="post clearfix">
+          <article class="post search clearfix">
 
               <?php
 
