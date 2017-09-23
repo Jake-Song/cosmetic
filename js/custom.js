@@ -208,11 +208,11 @@ jQuery( document ).ready( function($){
         $('.favorite-count.post-id-' + favoritePostId).text( response.data.favorite_count +' Saves' );
         if( !$(".favorite-button[data-post-id='" + favoritePostId + "']").hasClass('saved') ){
           $(".favorite-button[data-post-id='" + favoritePostId +"']")
-          .text('SAVED')
+          .text('Saved')
           .addClass('saved');
         } else {
           $(".favorite-button[data-post-id='" + favoritePostId +"']")
-          .text('SAVE')
+          .text('Save')
           .removeClass('saved');
         }
         isLoading = false;
