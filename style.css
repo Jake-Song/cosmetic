@@ -699,6 +699,7 @@ article.post.single .image-wrapper .single-post-images{
   float: left;
   border: 1px solid #adadad;
   margin-right: 30px;
+  overflow-y: hidden;
 }
 article.post.single .image-wrapper .single-post-images img.single-image.current{
   opacity: 1;
