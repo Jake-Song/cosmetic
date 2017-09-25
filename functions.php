@@ -391,7 +391,8 @@ function process_favorite_callback(){
     wp_send_json_error( 'Security Check failed' );
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    $test = 0;
+    $current_favorite_posts = array();
     $current_favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
     $favorite_post = sanitize_text_field($_POST['favoritePostId']);
 
@@ -409,9 +410,10 @@ function process_favorite_callback(){
 
     } elseif( $_POST['favorite'] === 'add' ) {
 
-      $update_favorite_count = $current_favorite_count + 1;
+      $update_favorite_count = intval($current_favorite_count) + 1;
       $current_favorite_posts[] = $favorite_post;
       $current_favorite_posts = array_unique( $current_favorite_posts );
+      $test = 0;
       update_user_meta( $current_user->ID, 'user-favorite', $current_favorite_posts );
     }
 
