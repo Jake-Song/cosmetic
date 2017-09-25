@@ -93,7 +93,7 @@
 
                 endif;
               ?>
-              <?php if( $max_num_pages > 1) : ?>
+              <?php if( $max_num_pages > 1 && $max_num_pages ) : ?>
                  <div class="pagination-arrow-down"></div>
                  <a class="loadmore" name="loadmore" data-action="front_page_pagination" data-template="front-page">
                    More

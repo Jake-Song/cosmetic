@@ -173,9 +173,6 @@ div.container{
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: space-around;
-      -ms-flex-pack: space-around;
-          justify-content: space-around;
   background: #fff;
   -webkit-box-shadow: 8px 11px 15px #bbb;
           box-shadow: 8px 11px 15px #bbb;;
@@ -221,6 +218,10 @@ div.container{
 }
 .sub-product > ul > li.active a{
   color: #ffbc00;
+}
+.filter{
+  width: 65%;
+  margin: 0 auto;
 }
 .filter ul{
   list-style: none;
@@ -1216,6 +1217,17 @@ article.reset-page form{
           animation-delay: 500ms;
 }
 
+/* 리셋 페이지 */
+article.post.reset-page .content-box form fieldset p:nth-of-type(2){
+  margin-bottom: 1.5em;
+}
+article.post.reset-page .content-box form fieldset p:nth-of-type(2) label{
+  margin: 1em 2em 1em 0;
+}
+article.post.reset-page .content-box form fieldset p:nth-of-type(2) input{
+  width: 180px;
+}
+
 /* 반응형 디자인 */
 .nav > li.responsive{
   display: none;
@@ -1236,17 +1248,23 @@ article.reset-page form{
     margin: 0 auto;
   }
 }
-@media only screen and (min-width: 992px) {
-
-}
-@media only screen and (min-width: 768px) {
-
+@media only screen and (min-width: 768px) and (max-width: 1199px){
+  div.container{
+    width: 100%;
+  }
+  article.post .col-sm-12.col-md-4.col-lg-4{
+    width: 20%;
+  }
+  .filter{
+    width: 65%;
+    margin: 0 auto;
+  }
+  article.reset-page form{
+    width: 50%;
+  }
 }
 @media only screen and (max-width: 767px){
   .product > ul{
-    -webkit-box-pack: initial;
-        -ms-flex-pack: initial;
-            justify-content: initial;
     overflow-x: auto;
   }
   .product > ul > li{
@@ -1261,6 +1279,9 @@ article.reset-page form{
   }
   .product > ul > li > a > .product-name{
     font-size: .8rem;
+  }
+  .filter{
+    width: 100%;
   }
   .filter ul li{
     padding: 1.5em 0;
@@ -1523,6 +1544,9 @@ article.reset-page form{
     background: transparent;
     border-radius: 0;
   }
+  article.reset-page form{
+    width: 100%;
+  }
 }
 @media only screen and (max-width: 360px){
   article.post.brand .post-modified{
@@ -1537,8 +1561,7 @@ article.reset-page form{
   }
   .modal-content{
     width: 90%;
-    margin: 30% auto;
-    padding: 15px;
+    margin: 15% auto;
   }
   article.post .col-sm-12.col-md-4.col-lg-4{
     width: 100%;
@@ -1559,10 +1582,10 @@ article.reset-page form{
   }
   article.post.single .image-wrapper .single-post-images{
     width: 100%;
-    min-height: 376px;
+    min-height: 330px;
   }
   .additional-image{
-    margin-top: -25px;
+    margin-top: 20px;
     margin-left: 4px;
   }
   .pagination-arrow-down{
@@ -1570,5 +1593,10 @@ article.reset-page form{
   }
   .site-header .navbar-default .navbar-nav > li > a{
     font-size: 1.8rem;
+  }
+}
+@media only screen and (max-width: 320px){
+  article.post.single .image-wrapper .single-post-images{
+    min-height: 290px;
   }
 }
