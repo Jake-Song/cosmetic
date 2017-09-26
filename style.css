@@ -24,7 +24,7 @@ html.my-theme{
   font-size: 14px;
   height: 100%;
 }
-body{
+body, label{
   font-family: 'Roboto', sans-serif;
   height: 100%;
   background: url("./img/background-tile.jpg");
@@ -131,12 +131,12 @@ div.container{
   background: #fff;
 }
 .search-box .search-submit{
-  background: #fe1100;
+  background: #ffbc00;
   font-size: 1.5rem;
   border: 0;
 }
 .search-box .search-submit > i{
-  color: #fe875d;
+  color: #333;
 }
 .search-form-container{
   position: absolute;
@@ -197,11 +197,17 @@ div.container{
   color: #333;
   font-weight: bold;
   text-align: center;
+  -webkit-transition: .2s;
   transition: .2s;
 }
 .product > ul > li > a:hover,
 .product > ul > li > a:active,
 .product > ul > li > a:focus{
+  color: #ffbc00;
+}
+.sub-product.product > ul > li > a:hover,
+.sub-product.product > ul > li > a:active,
+.sub-product.product > ul > li > a:focus{
   color: #59c9ee;
 }
 .product > ul > li > a > .product-menu-item > i{
@@ -224,13 +230,13 @@ div.container{
   display: none;
 }
 .product > ul > li.active > a > .product-menu-item{
-  color: #59c9ee;
+  color: #ffbc00;
 }
 .product > ul > li.active .arrow-down{
   display: block;
 }
 .sub-product > ul > li.active a{
-  color: #ffbc00;
+  color: #59c9ee;
 }
 .filter{
   width: 65%;
@@ -265,11 +271,14 @@ div.container{
 .filter ul li a img{
   width: 55px;
   margin-bottom: .2em;
-  transform: translateY(0%);
+  -webkit-transform: translateY(0%);
+          transform: translateY(0%);
+  -webkit-transition: .2s;
   transition: .2s;
 }
 .filter ul li a img:hover{
-  transform: translateY(-10%);
+  -webkit-transform: translateY(-10%);
+          transform: translateY(-10%);
 }
 .template-title{
   margin-top: 2em;
@@ -1248,6 +1257,29 @@ article.post.reset-page .content-box form fieldset p:nth-of-type(2) input{
   width: 180px;
 }
 
+/* 유저 프로필 */
+#user-input-form{
+  width: 40%;
+  height: 140px;
+  margin: 2em 0;
+}
+#user-input-form > tbody > tr {
+  margin-bottom: 2em;
+}
+#user-input-form > tbody > tr > td > input{
+  width: 200px;
+  height: 30px;
+  padding-left: 5px;
+}
+#updateuser{
+  background: #ffbc00;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: 0;
+  padding: 10px 25px;
+  color: white;
+  border-radius: 2px;
+}
 /* 반응형 디자인 */
 .nav > li.responsive{
   display: none;
@@ -1556,8 +1588,13 @@ article.post.reset-page .content-box form fieldset p:nth-of-type(2) input{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     margin: 0;
   }
   .site-header nav ul li.active{
