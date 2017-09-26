@@ -26,6 +26,8 @@ html.my-theme{
 }
 body, label{
   font-family: 'Roboto', sans-serif;
+}
+body{
   height: 100%;
   background: url("./img/background-tile.jpg");
 }
@@ -1280,6 +1282,11 @@ article.post.reset-page .content-box form fieldset p:nth-of-type(2) input{
   color: white;
   border-radius: 2px;
 }
+.entry-content.entry{
+  padding-left: 2em;
+}
+
+
 /* 반응형 디자인 */
 .nav > li.responsive{
   display: none;

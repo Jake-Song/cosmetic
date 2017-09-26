@@ -393,7 +393,7 @@ function process_favorite_callback(){
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $test = 0;
     $current_favorite_posts = array();
-    $current_favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true );
+    $current_favorite_posts = get_user_meta( $current_user->ID, 'user-favorite', true ) === "" ? array() : get_user_meta( $current_user->ID, 'user-favorite', true );
     $favorite_post = sanitize_text_field($_POST['favoritePostId']);
 
     $current_favorite_count = get_post_meta( intval($favorite_post), 'favorite_count', true );
