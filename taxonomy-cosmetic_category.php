@@ -17,12 +17,13 @@
                <?php if($taxonomy_term->parent === 0) : ?>
                  <li>
                    <a href="<?php echo esc_url( home_url( '/' ) . $taxonomy_term->taxonomy . '/' . $taxonomy_term->slug); ?>">
-                     <div class="product-image">
-                       <img src="<?php echo esc_url( home_url( '/' ) . 'wp-content/themes/cosmetic/img/' . $taxonomy_term->slug . '.svg' ); ?>">
+                     <div class="product-menu-item">
+                       <i class="icon-<?php echo esc_attr( $taxonomy_term->slug ); ?>"></i>
+                       <div class="product-name">
+                         <?php echo $taxonomy_term->name; ?>
+                       </div>
                      </div>
-                     <div class="product-name">
-                       <?php echo $taxonomy_term->name; ?>
-                     </div>
+
                    </a>
                    <div class="arrow-down"></div>
                 </li>

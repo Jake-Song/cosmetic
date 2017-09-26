@@ -130,13 +130,13 @@ div.container{
   border: 0;
   background: #fff;
 }
-.search-box label{
-  padding-left: 5px;
-}
 .search-box .search-submit{
-  background: #ffbc00;
+  background: #fe1100;
   font-size: 1.5rem;
   border: 0;
+}
+.search-box .search-submit > i{
+  color: #fe875d;
 }
 .search-form-container{
   position: absolute;
@@ -153,6 +153,7 @@ div.container{
 .search-form-container fieldset.search-box .search-field{
   width: 160px;
   height: 30px;
+  padding-left: 5px;
 }
 .search-form-container fieldset.search-box .submit-button{
   position: absolute;
@@ -182,9 +183,6 @@ div.container{
   position: relative;
   padding: 15px;
 }
-.product > ul > li > a > .product-image{
-  width: 40px;
-}
 .product > ul > li > a{
   display: -webkit-box;
   display: -ms-flexbox;
@@ -199,6 +197,18 @@ div.container{
   color: #333;
   font-weight: bold;
   text-align: center;
+  transition: .2s;
+}
+.product > ul > li > a:hover,
+.product > ul > li > a:active,
+.product > ul > li > a:focus{
+  color: #59c9ee;
+}
+.product > ul > li > a > .product-menu-item > i{
+  font-size: 4rem;
+}
+.product > ul > li > a > .product-menu-item > .product-name{
+  margin-top: -1em;
 }
 .arrow-down {
   position: absolute;
@@ -212,6 +222,9 @@ div.container{
   border-right: 15px solid transparent;
   border-top: 15px solid #fff;
   display: none;
+}
+.product > ul > li.active > a > .product-menu-item{
+  color: #59c9ee;
 }
 .product > ul > li.active .arrow-down{
   display: block;
@@ -252,6 +265,11 @@ div.container{
 .filter ul li a img{
   width: 55px;
   margin-bottom: .2em;
+  transform: translateY(0%);
+  transition: .2s;
+}
+.filter ul li a img:hover{
+  transform: translateY(-10%);
 }
 .template-title{
   margin-top: 2em;
@@ -288,7 +306,7 @@ article.post .thumbnail::before{
   left: 0;
   width: 100%;
   height: 100%;
-  background: #000;
+  background: #ffbc00;
   opacity: 0;
   -webkit-transition: opacity .5s;
   transition: opacity .5s;
@@ -393,8 +411,10 @@ article.post .thumbnail .caption{
 .check-out-button{
   z-index: 1;
 }
-.check-out-button a{
+.check-out-button > a.btn-primary{
   border-radius: 0;
+  background-color: #59c9ee;
+  border-color: transparent;
 }
 article.post{
   position: relative;

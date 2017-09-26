@@ -14,18 +14,17 @@
 
         <li>
           <a href="<?php echo esc_url( home_url( '/' ) . $term->taxonomy . '/' . $term->slug); ?>">
-            <div class="product-image">
-
-                <img src="<?php echo esc_url( home_url( '/' ) . 'wp-content/themes/cosmetic/img/'. $term->slug . '.svg' ); ?>">
-
+            <div class="product-menu-item">
+                <i class="icon-<?php echo esc_attr( $term->slug ); ?>"></i>
+                <div class="product-name">
+                  <?php echo $term->name; ?>
+                </div>
             </div>
-            <div class="product-name">
-              <?php echo $term->name; ?>
-            </div>
+
           </a>
 
         </li>
-        
+
         <div class="arrow-down"></div>
       <?php endif; ?>
     <?php endforeach; ?>
