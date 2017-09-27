@@ -1,6 +1,6 @@
 <div class="post-modified">
   <?php
-  
+
     if( is_front_page() ) :
 
       $args = array(
@@ -14,7 +14,12 @@
               'terms' => $term->slug,
             ),
           ),
-          'orderby' => 'modified',
+          'meta_query' => array(
+            array(
+              'key' => 'ranking_update_date',
+            ),
+          ),
+          'orderby' => 'meta_value_date',
           'order' => 'DESC'
       );
 
@@ -31,8 +36,11 @@
             'key' => 'product_featured',
             'value' => 'featured',
           ),
+          array(
+              'key' => 'featured_update_date',
+            ),
         ),
-        'orderby'   => 'modified',
+        'orderby'   => 'meta_value_date',
         'order' => 'DESC',
       );
 
@@ -51,25 +59,6 @@
     endif;
 
     if( is_page_template( 'page-templates/template-brand.php' ) ) :
-
-      $args = array(
-        'post_type' => 'cosmetic',
-        'post_status' => 'publish',
-        'posts_per_page' => 1,
-        'tax_query' => array(
-          array(
-            'taxonomy' => 'cosmetic_brand',
-            'field' => 'slug',
-            'terms' => $term->slug,
-          ),
-        ),
-        'orderby'   => 'modified',
-        'order' => 'DESC',
-      );
-
-    endif;
-
-    if( is_page_template( 'page-templates/new.php' ) ) :
 
       $args = array(
         'post_type' => 'cosmetic',
@@ -109,10 +98,30 @@
 
     $latest = new WP_Query( $args );
 
-    if($latest->have_posts()){
-        $modified_date = get_the_modified_date(('m/d/Y'), $latest->post->ID);
-        echo 'Last updated: ' . $modified_date;
-    }
+    if($latest->have_posts()) :
+
+      if( is_front_page() ) :
+
+        $updated_time = get_post_meta( $latest->post->ID, 'ranking_update_date', true );
+
+      endif;
+
+      if( is_page_template( 'page-templates/template-top30.php' ) ) :
+
+        $updated_time = get_post_meta( $latest->post->ID, 'featured_update_date', true );
+
+      endif;
+
+      if( is_page_template( 'page-templates/template-new.php' ) ) :
+
+        $updated_time = get_the_modified_date( $latest->post->ID );
+
+      endif;
+
+      if( $updated_time )
+        echo 'Last updated: ' . $updated_time;
+
+    endif;
 
   ?>
 </div>
