@@ -763,6 +763,12 @@ article.post.single .text-wrapper{
 }
 .check-out-container .btn-primary{
   padding: 10px 25px;
+  background-color: #59c9ee;
+  border: 0;
+}
+.check-out-container .btn-primary:hover{
+  background-color: #59c9ee;
+  border: 0;
 }
 
 /* 카테고리 별 페이지 */
@@ -774,6 +780,11 @@ article.post.single .text-wrapper{
 /* 리셋 페이지 */
 article.reset-page form{
   width: 40%;
+}
+
+/* About Us */
+article.about-us{
+  padding-left: 2em;
 }
 
 /* Ajax */
