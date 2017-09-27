@@ -37,7 +37,7 @@
             'value' => 'featured',
           ),
           array(
-              'key' => 'featured_update_date',
+            'key' => 'featured_update_date',
             ),
         ),
         'orderby'   => 'meta_value_date',
@@ -71,7 +71,12 @@
             'terms' => $term->slug,
           ),
         ),
-        'orderby'   => 'modified',
+        'meta_query' => array(
+            array(
+              'key' => 'brand_update_date',
+            ),
+          ),
+        'orderby'   => 'meta_value_date',
         'order' => 'DESC',
       );
 
@@ -90,14 +95,23 @@
             'terms' => $term,
           ),
         ),
-        'orderby'   => 'modified',
+        'meta_query' => array(
+          'relation' => 'OR',
+            array(
+              'key' => 'descendant_update_date',
+            ),
+            array(
+              'key' => 'ranking_update_date',
+            ),
+          ),
+        'orderby'   => 'meta_value_date',
         'order' => 'DESC',
       );
 
     endif;
 
     $latest = new WP_Query( $args );
-
+    
     if($latest->have_posts()) :
 
       if( is_front_page() ) :
@@ -114,7 +128,24 @@
 
       if( is_page_template( 'page-templates/template-new.php' ) ) :
 
-        $updated_time = get_the_modified_date( $latest->post->ID );
+        $updated_time = get_the_modified_date( ('m/d/Y'), $latest->post->ID );
+
+      endif;
+
+      if( is_page_template( 'page-templates/template-brand.php' ) ) :
+
+        $updated_time = get_post_meta( $latest->post->ID, 'brand_update_date', true );
+
+      endif;
+
+      if( is_tax() ) :
+        $get_term = get_term_by( 'slug', $term, $taxonomy );
+        $test = 0;
+        if( $get_term->parent === 0 ){
+          $updated_time = get_post_meta( $latest->post->ID, 'ranking_update_date', true );
+        } else {
+          $updated_time = get_post_meta( $latest->post->ID, 'descendant_update_date', true );
+        }
 
       endif;
 
