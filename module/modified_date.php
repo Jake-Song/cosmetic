@@ -2,7 +2,7 @@
   <?php
 
     if( is_front_page() ) :
-
+      $test = 0;
       $args = array(
           'post_type' => 'cosmetic',
           'post_status' => 'publish',
@@ -17,30 +17,28 @@
           'meta_query' => array(
             array(
               'key' => 'ranking_update_date',
+              'type' => 'DATETIME',
             ),
           ),
-          'orderby' => 'meta_value_date',
+          'orderby' => 'meta_value',
           'order' => 'DESC'
       );
 
     endif;
 
     if( is_page_template( 'page-templates/template-top30.php' ) ) :
-
+      $test = 0;
       $args = array(
         'post_type' => 'cosmetic',
         'post_status' => 'publish',
         'posts_per_page' => 1,
         'meta_query' => array(
           array(
-            'key' => 'product_featured',
-            'value' => 'featured',
-          ),
-          array(
             'key' => 'featured_update_date',
+            'type' => 'DATETIME',
             ),
         ),
-        'orderby'   => 'meta_value_date',
+        'orderby'   => 'meta_value',
         'order' => 'DESC',
       );
 
@@ -74,44 +72,45 @@
         'meta_query' => array(
             array(
               'key' => 'brand_update_date',
+              'type' => 'DATETIME',
             ),
           ),
-        'orderby'   => 'meta_value_date',
+        'orderby'   => 'meta_value',
         'order' => 'DESC',
       );
 
     endif;
 
     if( is_tax() ) :
+      $test = 0;
 
-      $args = array(
-        'post_type' => 'cosmetic',
-        'post_status' => 'publish',
-        'posts_per_page' => 1,
-        'tax_query' => array(
-          array(
-            'taxonomy' => $taxonomy,
-            'field' => 'slug',
-            'terms' => $term,
-          ),
-        ),
-        'meta_query' => array(
-          'relation' => 'OR',
+      $current_term = get_term_by( 'slug', $term, $taxonomy );
+
+        $args = array(
+          'post_type' => 'cosmetic',
+          'post_status' => 'publish',
+          'posts_per_page' => 1,
+          'tax_query' => array(
             array(
-              'key' => 'descendant_update_date',
-            ),
-            array(
-              'key' => 'ranking_update_date',
+              'taxonomy' => $taxonomy,
+              'field' => 'slug',
+              'terms' => $term,
             ),
           ),
-        'orderby'   => 'meta_value_date',
-        'order' => 'DESC',
-      );
+          'meta_query' => array(
+              array(
+                'key' => ($current_term->parent === 0) ? 'ranking_update_date' : 'descendant_update_date',
+                'type' => 'DATETIME',
+              ),
+            ),
+          'orderby'   => 'meta_value',
+          'order' => 'DESC',
+        );
 
     endif;
 
     $latest = new WP_Query( $args );
-    
+    $test = 0;
     if($latest->have_posts()) :
 
       if( is_front_page() ) :
@@ -139,9 +138,9 @@
       endif;
 
       if( is_tax() ) :
-        $get_term = get_term_by( 'slug', $term, $taxonomy );
+        $current_term = get_term_by( 'slug', $term, $taxonomy );
         $test = 0;
-        if( $get_term->parent === 0 ){
+        if( $current_term->parent === 0 ){
           $updated_time = get_post_meta( $latest->post->ID, 'ranking_update_date', true );
         } else {
           $updated_time = get_post_meta( $latest->post->ID, 'descendant_update_date', true );
@@ -149,8 +148,10 @@
 
       endif;
 
-      if( $updated_time )
+      if( $updated_time ){
+        $updated_time = date('n/d/Y', strtotime($updated_time));
         echo 'Last updated: ' . $updated_time;
+      }
 
     endif;
 
