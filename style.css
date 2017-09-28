@@ -1297,6 +1297,13 @@ article.post.reset-page .content-box form fieldset p:nth-of-type(2) input{
   padding-left: 2em;
 }
 
+/* 404 페이지 */
+article.not-found{
+  padding-left: 2em;
+}
+article.not-found h3{
+  margin-bottom: 1em;
+}
 
 /* 반응형 디자인 */
 .nav > li.responsive{

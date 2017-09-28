@@ -13,7 +13,7 @@ Template Name: Archive Brand
     <?php get_template_part( '/module/ajax-navigation' ); ?>
 
     <div class="ajax-container">
-      
+
       <div class="wrapper-for-ajax">
 
         <div class="template-title">
@@ -91,7 +91,7 @@ Template Name: Archive Brand
               wp_reset_postdata();
 
               else :
-                  echo '포스트가 존재하지 않습니다.';
+                  echo 'There is no post here.';
               endif;
            ?>
 

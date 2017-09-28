@@ -211,7 +211,7 @@ add_action( 'after_setup_theme', 'my_theme_setup' );
 function custom_special_nav_class( $classes, $item ) {
   $test = 0;
     global $taxonomy, $post;
-
+    $test = 0;
     $front_page_id  = (int) get_option( 'page_on_front' );
 
     if( isset( $taxonomy ) && $taxonomy === "cosmetic_category" ){
@@ -240,7 +240,7 @@ function custom_special_nav_class( $classes, $item ) {
 
     }
 
-        return $classes;
+    return $classes;
 
 }
 add_filter( 'nav_menu_css_class' , 'custom_special_nav_class' , 10, 2 );

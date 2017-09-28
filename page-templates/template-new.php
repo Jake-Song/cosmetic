@@ -70,7 +70,7 @@ Template Name: Archive New Arrival
                 wp_reset_postdata();
 
                 else :
-                    echo '포스트가 존재하지 않습니다.';
+                    echo 'There is no post here.';
                 endif;
              ?>
 

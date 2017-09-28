@@ -29,7 +29,7 @@
                 </article>
       <?php endwhile;
         else :
-            echo '포스트가 존재하지 않습니다.';
+            echo 'There is no post here.';
         endif;
 
      ?>

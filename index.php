@@ -9,8 +9,6 @@
       if(have_posts()) :
           while(have_posts()) : the_post(); ?>
 
-
-
               <article class="post tips clearfix">
 
                   <div class="post-image">
@@ -53,7 +51,7 @@
               </article>
     <?php endwhile;
       else :
-          echo '포스트가 존재하지 않습니다.';
+          echo 'There is no post here.';
       endif;
    ?>
 
